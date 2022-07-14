@@ -3,10 +3,43 @@ import Swal from 'sweetalert2';
 import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import axios from "axios";
-import { BsCheckLg} from "react-icons/bs";
+import { useParams, useNavigate } from "react-router-dom";
 
 export default function TicketsManagmentInt() {
 
+    let history = useNavigate(); //The useHistory hook gives you access to the history instance that you may use to navigate.
+    const { idT } = useParams();  //The useParams() hook helps us to access the URL parameters from a current route. 
+    
+    const[ListeEmail,setListEmail] = useState([]);
+    const [user ,setUser] = useState({
+        
+        email:""
+    })
+   
+   
+    const {email } = user;
+   
+    const onInputChangeAff = e => {
+      setUser({ ...user,[e.target.idti]: e.target.value });
+    };
+   
+   
+  useEffect(() => {
+    const getEmail = async () => {
+        const res = await fetch('http://localhost:5000/ticket/AllEmailTech');
+        const getdata = await res.json();
+        setListEmail(getdata);
+    }
+    getEmail();
+  }, []);
+     
+    const onSubmit = async e => {
+      e.preventDefault();
+      await axios.post(`http://localhost:5000/ticket/affecterTicketTechnciens/${idT}`,user);
+    };
+
+
+/*-------------------------------------------------------------------------------------------*/ 
 
     const [search, setSearch] = useState('');
     const [record, setRecord] = useState([]);
@@ -164,14 +197,14 @@ export default function TicketsManagmentInt() {
                                 <td class="pt-3">{name.urgence}</td>
 
                                 <td class="pt-3">
-                                    <Link className=" mr-2" to={`/Affecter_Tech/editID/${name.idti}`}>
-                                        <BsCheckLg size={30} color='green'/>          
-                                    </Link>
+                                    
+                                        <i class="icon-check text-success" data-toggle="modal" data-target="#AffectTech"></i>        
+                                    
                                 </td>
 
                                 <td class="pt-3" >
                                     <Link className=" mr-2" to={`/Affecter_Sup/editID/${name.idti}`}>
-                                        <BsCheckLg size={30} color='green'/>
+                                        <i class="icon-check text-success"></i>
                                     </Link>
                                 </td>
 
@@ -299,6 +332,55 @@ export default function TicketsManagmentInt() {
         </div>
 
         {/* END CREATE TICKET POPUP */}
+
+
+        {/* AFFECTER TECHNICIEN POPUP */}   
+
+        <div className="modal fade" id="AffectTech" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div  className="modal-dialog" role="document">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title" id="exampleModalLabel">Affecter Technicien</h5>
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                <div className="modal-body">
+                    <form onSubmit={e => onSubmit(e)}>
+                    <div className="form-group">
+                        <label htmlFor="id" className="col-form-label">Ticket ID</label>
+                        <input  
+                         name=''
+                         onChange={e => onInputChangeAff(e)} 
+                         value={user}
+                         type="text" class="form-control"/>         
+                    </div>
+                    
+                    
+                    <div className="form-group">
+                        <label  htmlFor="matricule" className="col-form-label">Matricule:</label>
+                        <select name="email" class="form-control" value={email} onChange={e => onInputChange(e)}>
+                                    <option value="">---------- Choisir un Email ---------- </option>
+                                    {ListeEmail.map ((res)=>(
+                                      <option value={res.idti}>{res.email}</option>
+                                    ))}
+                                    
+
+                                </select>
+                    </div>
+                   
+                  <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" data-dismiss="modal" aria-label="Close">Quiter</button>
+                    <button type="submit" className="btn btn-primary">Crée</button>
+                </div>
+                    </form>
+                </div>
+                
+                </div>
+            </div>
+        </div>
+
+        {/* END AFFECTER TECHNICIEN POPUP */}
     </>
   )
 }

@@ -165,19 +165,20 @@ export default function TicketsManagmentInt() {
 
                                 <td class="pt-3">
                                     <Link className=" mr-2" to={`/Affecter_Tech/editID/${name.idti}`}>
-                                        <BsCheckLg size={30} color='green'/>          
+                                        <i class="icon-check text-success"></i>          
                                     </Link>
                                 </td>
 
                                 <td class="pt-3" >
                                     <Link className=" mr-2" to={`/Affecter_Sup/editID/${name.idti}`}>
-                                        <BsCheckLg size={30} color='green'/>
+                                        <i class="icon-check text-success"></i>
                                     </Link>
                                 </td>
 
                                <td>
-                                <a data-toggle="tooltip" data-placement="bottom" title="read"><i class="icon-user-female text-primary"></i></a>
-
+                               <Link data-toggle="tooltip" data-placement="bottom"title="read" className=" mr-2" to={`/dashSuperAdmin/view_ticketint/ticketID/${name.idti}`}>
+                                    <i class="icon-user-female text-primary"></i> 
+                                </Link>
                                 <Link style={{marginLeft : "8px"}} data-toggle="tooltip" data-placement="bottom" title="edit" className=" mr-2" to={`/dashSuperAdmin/Edit_ticket/editID/${name.idti}`}>
                                     <i class=" icon-cursor-move text-success"></i> 
                                 </Link>

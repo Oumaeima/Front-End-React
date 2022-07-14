@@ -109,50 +109,9 @@ export default function ClientManagment() {
                                 <th scope="col">Action</th>
                                 </tr>
                             </thead>
-                             <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Oumaima abidi</td>
-                                    <td>Varmeg</td>
-                                    <td>Commerce</td>
-                                    <td>97894763</td>
-                                    <td>oumaabidi40@gmail.com</td>
-                                    <td>
-                                        <button type="button" class="btn  btn-primary"><i class="icon-cursor-move"></i></button>
-                                        <button style={{marginLeft : "5px"}} type="button" class="btn  btn-danger"><i class=" icon-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                <th scope="row">2</th>
-                                    <td>Oumaima abidi</td>
-                                    <td>Varmeg</td>
-                                    <td>Commerce</td>
-                                    <td>97894763</td>
-                                    <td>oumaabidi40@gmail.com</td>
-                                    <td>
-                                        <button type="button" class="btn  btn-primary"><i class="icon-cursor-move"></i></button>
-                                        <button style={{marginLeft : "5px"}} type="button" class="btn  btn-danger"><i class=" icon-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                <th scope="row">3</th>
-                                    <td>Oumaima abidi</td>
-                                    <td>Varmeg</td>
-                                    <td>Commerce</td>
-                                    <td>97894763</td>
-                                    <td>oumaabidi40@gmail.com</td>
-                                    <td>
-                                        <button type="button" class="btn  btn-primary"><i class="icon-cursor-move"></i></button>
-                                        <button style={{marginLeft : "5px"}} type="button" class="btn  btn-danger"><i class=" icon-trash"></i></button>
-                                    </td>
-                                </tr>
-
-                                
-
-                            </tbody>
 
 
-{/*                         {record.map((name) =>
+                       {record.map((name) =>
                             <tbody>
                                 <tr class="bg-blue">
                                 <td class="pt-3">{name.idclt}</td>
@@ -190,7 +149,7 @@ export default function ClientManagment() {
                                     </td>
                                 </tr>    
                             </tbody>
-                        )} */}
+                        )} 
 
                         </table>
 

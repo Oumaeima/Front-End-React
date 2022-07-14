@@ -3,7 +3,7 @@ import axios from "axios";
 import Swal from 'sweetalert2';
 import {  useParams } from "react-router-dom";
 
-export default function ViewTicketIntAdmin() {
+export default function ViewTicketInt() {
 
     const { id } = useParams();
     const [Tache,setTache]=useState({
@@ -98,19 +98,19 @@ const updateEtatTicket= async (e) => {
                     <ul className="nav nav-pills nav-pills-vertical nav-pills-info" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                         <li className="nav-item">
                         <a className="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">
-                            <i style={{paddingRight : "10px"}} className="icon-tag" />
+                            <i style={{paddingRight : "10px"}} className="icon-tag"/>
                             Information
                         </a>                          
                         </li>
                         <li className="nav-item">
                         <a className="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">
-                            <i className="icon-layers text-success" style={{paddingRight : "10px"}} />
+                            <i className="icon-layers text-success" style={{paddingRight : "10px"}}/>
                             Taches Realisées
                         </a>                          
                         </li>
                         <li className="nav-item">
                         <a className="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">
-                            <i className="icon-direction text-warning" style={{paddingRight : "10px"}} />
+                            <i className="icon-direction text-warning" style={{paddingRight : "10px"}}/>
                             Signature
                         </a>                          
                         </li>

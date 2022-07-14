@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
+import ReactPaginate from "react-paginate";
 
 export default function ClientManagment() {
 
@@ -84,6 +85,27 @@ export default function ClientManagment() {
             }
         };
 
+        /**--------------------------- search record -------------------------- */
+        const [query, setQuery] = useState("")
+
+        const [posts, setPost] = useState(null);
+        useEffect(() => {
+            fetch('http://localhost:5000/client/AllClient')
+                .then(response => {
+                    console.log(response.ok)
+                    if (!response.ok) {
+                        throw Error('Can not connect to the server!.');
+                    }
+                    return response.json();
+                }).then(data => {
+                    console.log(data); 
+                    setPost(data)
+                }).catch(e => {
+                    console.log(e.message);
+                });
+        }, []);
+/**---------------------------------- PAGINATION -------------------------------------------- */
+
   return (
     <>
         
@@ -94,8 +116,7 @@ export default function ClientManagment() {
                         <button className="btn"  data-toggle="modal" data-target="#AddClient">+ Create new</button>
                         
                         <form style={{paddingBottom : "50px"}} className="form-inline my-2 my-lg-0">
-                            <input onChange={(e) => setSearch(e.target.value)} style={{marginLeft : "850px"}} className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-                            <button onClick={searchRecords} className="btn btn-outline-success my-2 my-sm-0" type="submit" data-bs-dismiss="modal">Search</button>
+                            <input onChange={event => setQuery(event.target.value)} style={{marginLeft : "950px"}} className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
                         </form>
 
                         <table class="table table-hover">
@@ -110,61 +131,26 @@ export default function ClientManagment() {
                                 <th scope="col">Action</th>
                                 </tr>
                             </thead>
-{/*                             <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Oumaima abidi</td>
-                                    <td>Varmeg</td>
-                                    <td>Commerce</td>
-                                    <td>97894763</td>
-                                    <td>oumaabidi40@gmail.com</td>
-                                    <td>
-                                        <button type="button" class="btn  btn-primary"><i class="icon-cursor-move"></i></button>
-                                        <button style={{marginLeft : "5px"}} type="button" class="btn  btn-danger"><i class=" icon-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                <th scope="row">2</th>
-                                    <td>Oumaima abidi</td>
-                                    <td>Varmeg</td>
-                                    <td>Commerce</td>
-                                    <td>97894763</td>
-                                    <td>oumaabidi40@gmail.com</td>
-                                    <td>
-                                        <button type="button" class="btn  btn-primary"><i class="icon-cursor-move"></i></button>
-                                        <button style={{marginLeft : "5px"}} type="button" class="btn  btn-danger"><i class=" icon-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                <th scope="row">3</th>
-                                    <td>Oumaima abidi</td>
-                                    <td>Varmeg</td>
-                                    <td>Commerce</td>
-                                    <td>97894763</td>
-                                    <td>oumaabidi40@gmail.com</td>
-                                    <td>
-                                        <button type="button" class="btn  btn-primary"><i class="icon-cursor-move"></i></button>
-                                        <button style={{marginLeft : "5px"}} type="button" class="btn  btn-danger"><i class=" icon-trash"></i></button>
-                                    </td>
-                                </tr>
 
-                                
-
-                            </tbody> */}
-
-
-                        {record.map((name) =>
-                            <tbody>
+            {posts &&
+                posts.filter(post => {
+                    if (query === '') {
+                        return post;
+                    } else if (post.nom.toLowerCase().includes(query.toLowerCase()) || post.prenom.toLowerCase().includes(query.toLowerCase()) ) {
+                        return post;
+                    }
+                }).map((post, index) => (
+                    <tbody>
                                 <tr class="bg-blue">
-                                <td class="pt-3">{name.idclt}</td>
-                                    <td class="pt-3">{name.nom}{name.prenom}</td>
-                                    <td class="pt-3">{name.nomsociete}</td>
-                                    <td class="pt-3">{name.activitesociete}</td>
-                                    <td class="pt-3">{name.tel}</td>
-                                    <td class="pt-3">{name.email}</td>
+                                <td class="pt-3">{post.idclt}</td>
+                                    <td class="pt-3">{post.nom} {post.prenom}</td>
+                                    <td class="pt-3">{post.nomsociete}</td>
+                                    <td class="pt-3">{post.activitesociete}</td>
+                                    <td class="pt-3">{post.tel}</td>
+                                    <td class="pt-3">{post.email}</td>
                                     <td>
                                 
-                                <Link style={{marginLeft : "8px"}} data-toggle="tooltip" data-placement="bottom" title="edit" className=" mr-2" to={`/dashAdmin/Edit_Client/editID/${name.idclt}`}>
+                                <Link style={{marginLeft : "8px"}} data-toggle="tooltip" data-placement="bottom" title="edit" className=" mr-2" to={`/dashAdmin/Edit_Client/editID/${post.idclt}`}>
                                     <i class=" icon-cursor-move text-success"></i> 
                                 </Link>
                                 
@@ -173,7 +159,7 @@ export default function ClientManagment() {
                                             
                                         Swal.fire({
                                             title: 'Vous été Sur ?',
-                                            text: "Sur Pour supprimer le Client : " + name.nom,
+                                            text: "Sur Pour supprimer le Client : " + post.nom,
                                              icon: 'warning',
                                              showCancelButton: true,
                                                  confirmButtonColor: '#3085d6',
@@ -182,7 +168,7 @@ export default function ClientManagment() {
                                             }).then((result) => {
                                                 if (result.isConfirmed) 
                                                 {
-                                                   deleteRecord(name.idclt)
+                                                   deleteRecord(post.idclt)
                                                  Swal.fire(
                                                         'Supprimer!',
                                                            'Votre Client a été Supprimer.',
@@ -195,7 +181,9 @@ export default function ClientManagment() {
                                </td>
                                 </tr>    
                             </tbody>
-                        )}
+
+                ))
+            }
 
                         </table>
 

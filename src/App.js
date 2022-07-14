@@ -1,7 +1,7 @@
 
 import React from 'react'
 import './App.css';
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import {Routes, Route} from 'react-router-dom'
 import Home from './pages/Home'
 import Connexion from './pages/Connexion'
 import DashSuperAdmin from './pages/SuperAdmin/DashSuperAdmin'
@@ -31,6 +31,8 @@ import EditDossierAdmin from './pages/Admin/dossier/EditDossierAdmin';
 import EditTicketIntAdmin from './pages/Admin/tickets/EditTicketIntAdmin';
 import EditEmployeeAdmin from './pages/Admin/user/EditEmployeeAdmin';
 import ViewTicketIntAdmin from './pages/Admin/tickets/ViewTicketIntAdmin';
+import ViewTicketInt from './pages/SuperAdmin/tickets/ViewTicketInt';
+
 
 function App() {
   return ( 
@@ -54,6 +56,7 @@ function App() {
           <Route path='/dashSuperAdmin/gerer_ticketint'  element={<TicketsManagmentInt/>}/>
           <Route path="/dashSuperAdmin/Edit_ticket/editID/:id"  element={<EditTicketsInt/>}/>
           <Route path="/dashSuperAdmin/Edit_Dossier/editID/:id" element={<EditDossier/>} />
+          <Route path='/dashSuperAdmin/view_ticketint/ticketID/:id' exact  element={<ViewTicketInt/>}/>
        </Route>
 
 
