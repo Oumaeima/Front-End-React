@@ -95,7 +95,7 @@ export default function CreeTicket() {
                         </div>
                         <div className="form-group">
                             <label htmlFor="owner" className ="col-form-label">Owner:</label>
-                            <input onChange={e => onInputChange(e)} id='owner' name='owner'  type="text" class="form-control"/>           
+                            <input value={email} onChange={e => onInputChange(e)} id='owner' name='owner'  type="text" class="form-control"/>           
                         </div>
                         <div className="form-group">
                             <label htmlFor="datedeb" className="col-form-label">Date Debut:</label>
