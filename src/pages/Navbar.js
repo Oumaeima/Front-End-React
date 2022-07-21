@@ -1,8 +1,16 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import favicon from '../assets/favicon.png'
+import prologic from '../assets/prologic.png'
 
 export default function Navbar() {
   
+  let history = useNavigate()
+  const logout = () =>{
+    localStorage.clear()
+    history("/connexion")
+  }
+
   return (
   
   <div>
@@ -11,7 +19,7 @@ export default function Navbar() {
 
       <nav className="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div className="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-
+          <a style={{marginLeft : "0px"}} class="navbar-brand brand-logo" href="index.html"><img src={prologic} alt="logo"/></a>
           <a className="navbar-brand brand-logo-mini" ><img src={favicon} alt="logo"/></a>
         </div>
         <div className="navbar-menu-wrapper d-flex align-items-center">
@@ -113,7 +121,7 @@ export default function Navbar() {
                 <a className="dropdown-item preview-item">
                  
                   <div className="preview-item-content flex-grow">
-                    <h6 className="preview-subject ellipsis font-weight-medium">LOGOUT </h6>
+                    <h6 onClick={logout} className="preview-subject ellipsis font-weight-medium">Logout </h6>
                   </div>
                 </a>
                 

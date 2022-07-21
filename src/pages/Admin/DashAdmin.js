@@ -1,9 +1,59 @@
-import React from 'react'
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import Footer from '../Footer'
 import Navbar from '../Navbar'
 import { Outlet } from 'react-router-dom'
 
 export default function DashAdmin() {
+    
+
+    const id = JSON.parse(localStorage.getItem('id'));
+  let history = useNavigate();
+
+  const[record,setRecord]=useState([]);
+
+  const [client, setClient] = useState({
+      nom: "",
+      prenom: "",
+      email: "",
+      password: "",
+    
+  })
+
+  const { nom, prenom,email, password } = client;
+
+  const onInputChange = e => {
+      setClient({ ...client, [e.target.name]: e.target.value });
+  };
+
+  useEffect(() => {
+      loadClient();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const loadClient = () => {
+      fetch(`http://localhost:5000/admin/AllAdmin/${id}`, {
+          method: "GET",
+      })
+          .then((response) => response.json())
+          .then((result) => {
+              console.log(result);
+              setClient({
+                  id: id,
+                  update: true,
+                  nom: result.response[0].nom,
+                  prenom: result.response[0].prenom,
+                  
+                  email: result.response[0].email,
+                  
+                  password: result.response[0].password,
+
+              });
+          })
+          .catch((error) => console.log("error", error));
+  };
+
   return (
     <>
         <>
@@ -32,16 +82,14 @@ export default function DashAdmin() {
            <li className="nav-item nav-profile">
                <div className="nav-link">
                <div className="profile-image">
-                  <a href='dashAdmin/profileA'> <img src="../../images/faces/face10.jpg" alt=""/></a>
+                  <a href='/dashAdmin/profileA'> <img src="../../images/faces/face10.jpg" alt=""/></a>
                    <span className="online-status online"></span>
                </div>
                <div className="profile-name">
                    <p className="name">
-                   Marina Michel
+                   {nom} , {prenom}
                    </p>
-                   <p className="designation">
-                   Super Admin
-                   </p>
+                   
                </div>
                </div>
            </li>
@@ -63,9 +111,9 @@ export default function DashAdmin() {
                    <li className="nav-item"> <a className="nav-link" href="/dashAdmin/gerer_client">Gestion Client</a></li>
                    <li className="nav-item"> <a className="nav-link" href="/dashAdmin/gerer_employee">Gestion Employer</a></li>
                    <li className="nav-item"> <a className="nav-link" href="/dashAdmin/gerer_dossier">Gestion Dossier</a></li>
-                   <li className="nav-item"> <a className="nav-link" href="/dashAdmin/gerer_ticketint">Gestion Ticket Intervention</a></li>
-                   <li className="nav-item"> <a className="nav-link" href="pages/tables/js-grid.html">Gestion Ticket Offsite</a></li>
-                   <li className="nav-item"> <a className="nav-link" href="pages/tables/js-grid.html">Gestion Ticket Par Order</a></li>
+                   <li className="nav-item"> <a className="nav-link" href="/dashAdmin/gerer_ticketint">Ticket Intervention</a></li>
+                   <li className="nav-item"> <a className="nav-link" href="pages/tables/js-grid.html">Ticket Offsite</a></li>
+                   <li className="nav-item"> <a className="nav-link" href="pages/tables/js-grid.html">Ticket Par Order</a></li>
                </ul>
                </div>
            </li>

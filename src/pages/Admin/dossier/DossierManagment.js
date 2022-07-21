@@ -3,11 +3,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
+import ReactPaginate from "react-paginate";
+
 
 export default function DossierManagment() {
 
     const [search, setSearch] = useState('');
     const [record, setRecord] = useState([]);
+   
 
     const [ListeSociete, setListNomsociete] = useState([]);
   
@@ -99,6 +102,47 @@ export default function DossierManagment() {
             });
     };
 
+            /**--------------------------- search record -------------------------- */
+            const [query, setQuery] = useState("")
+
+            const [posts, setPost] = useState(null);
+            useEffect(() => {
+                fetch('http://localhost:5000/dossier/getDossierList')
+                    .then(response => {
+                        console.log(response.ok)
+                        if (!response.ok) {
+                            throw Error('Can not connect to the server!.');
+                        }
+                        return response.json();
+                    }).then(data => {
+                        console.log(data); 
+                        setPost(data)
+                    }).catch(e => {
+                        console.log(e.message);
+                    });
+            }, []);
+    /**---------------------------------- PAGINATION -------------------------------------------- */
+    
+            const PER_PAGE = 5
+            const [currentPage, setCurrentPage] = useState(0)
+            const [data, setData] = useState([])
+    
+            useEffect(()=>{
+                fetch('http://localhost:5000/dossier/getDossierList')
+                .then((res) => res.json())
+                .then((data) => {
+                    setData(data)
+                })
+            }, [])
+    
+            const hundelPageClick= ({selected : selectedPage}) => {
+                console.log("selectedPage", selectedPage)
+                setCurrentPage(selectedPage)
+            };
+    
+            const offset = currentPage * PER_PAGE
+            const pageCount = Math.ceil(data.length / PER_PAGE)
+    
   return (
     <>
         
@@ -115,22 +159,26 @@ export default function DossierManagment() {
         <link rel="stylesheet" href="../../../../vendors/datatables.net-bs4/dataTables.bootstrap4.css" />
     </div>
 
-    <div class="row grid-margin">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-
-                    <button className="btn"  data-toggle="modal" data-target="#AddDossier">+ Create new</button>
-                    
-                    <form style={{paddingBottom : "50px"}} className="form-inline my-2 my-lg-0">
-                        
-                        <input onChange={(e) => setSearch(e.target.value)} style={{marginLeft : "850px"}} className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button onClick={searchRecords} className="btn btn-outline-success my-2 my-sm-0" type="submit" data-bs-dismiss="modal">Search</button>
-                    </form>
-
-                    <table class="table table-hover">
+    <div className="col-lg-12 side-right stretch-card">
+        <div className="card shadow p-5">
+            <div className="card-body">
+            <div className="wrapper d-block d-sm-flex align-items-center justify-content-between">
+                <h4 className="card-title mb-0">Details</h4>
+                
+                <form className="form-inline my-2 my-lg-0">
+                            <input onChange={event => setQuery(event.target.value)}  className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+                        </form>
+            </div>
+            <div className="wrapper">
+                <hr />
+                <div className="tab-content" id="myTabContent">
+                <div className="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info">
+               
+                <button data-toggle="modal" data-target="#AddDossier" type="button" class="btn btn-inverse-info btn-fw"><i class="icon-plus text-success"></i></button>
+                <table style={{marginTop : "15px"}} class="table table-hover">
                         <thead>
                             <tr>
+                            <th scope="col">#</th>
                             <th scope="col">Nom Societe</th>
                             <th scope="col">Categorie</th>
                             <th scope="col">Type</th>
@@ -138,59 +186,28 @@ export default function DossierManagment() {
                             <th scope="col">Action</th>
                             </tr>
                         </thead>
-{/*                             <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Oumaima abidi</td>
-                                <td>Varmeg</td>
-                                <td>Commerce</td>
-                                <td>97894763</td>
-                                <td>oumaabidi40@gmail.com</td>
-                                <td>
-                                    <button type="button" class="btn  btn-primary"><i class="icon-cursor-move"></i></button>
-                                    <button style={{marginLeft : "5px"}} type="button" class="btn  btn-danger"><i class=" icon-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                            <th scope="row">2</th>
-                                <td>Oumaima abidi</td>
-                                <td>Varmeg</td>
-                                <td>Commerce</td>
-                                <td>97894763</td>
-                                <td>oumaabidi40@gmail.com</td>
-                                <td>
-                                    <button type="button" class="btn  btn-primary"><i class="icon-cursor-move"></i></button>
-                                    <button style={{marginLeft : "5px"}} type="button" class="btn  btn-danger"><i class=" icon-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                            <th scope="row">3</th>
-                                <td>Oumaima abidi</td>
-                                <td>Varmeg</td>
-                                <td>Commerce</td>
-                                <td>97894763</td>
-                                <td>oumaabidi40@gmail.com</td>
-                                <td>
-                                    <button type="button" class="btn  btn-primary"><i class="icon-cursor-move"></i></button>
-                                    <button style={{marginLeft : "5px"}} type="button" class="btn  btn-danger"><i class=" icon-trash"></i></button>
-                                </td>
-                            </tr>
-
-                            
-
-                        </tbody> */}
-
-
-                    {record.map((name) =>
-                        <tbody>
-                            <tr class="bg-blue">
-                                <td class="pt-3">{name.nomsociete}</td>
-                                <td class="pt-3">{name.categorie}</td>
-                                <td class="pt-3">{name.type}</td>
-                                <td class="pt-3">{name.matricule}</td>
+                        
+            { data &&
+                data.filter(post => {
+                    if (query === '') {
+                        return post;
+                    } else if (post.nomsociete.toLowerCase().includes(query.toLowerCase()) ) {
+                        return post;
+                    }
+                }).slice(offset, offset+PER_PAGE).map((post, index) => (
+                    <tbody>
+                                <tr class="bg-blue">
+                                <td class="pt-3">{post.idd}</td>
+                                <td class="pt-3">{post.nomsociete}</td>
+                                <td class="pt-3">{post.categorie}</td>
+                                <td class="pt-3">{post.type}</td>
+                                <td class="pt-3">{post.matricule}</td>
                                 <td>
                                 
-                                <Link style={{marginLeft : "8px"}} data-toggle="tooltip" data-placement="bottom" title="edit" className=" mr-2" to={`/dashAdmin/Edit_Dossier/editID/${name.idd}`}>
+                                <Link style={{marginLeft : "8px"}} data-toggle="tooltip" data-placement="bottom" title="read" className=" mr-2" to={`/dashAdmin/view_dossier/${post.idd}`}>
+                                    <i class="icon-user-female text-primary"></i> 
+                                </Link>
+                                <Link style={{marginLeft : "8px"}} data-toggle="tooltip" data-placement="bottom" title="edit" className=" mr-2" to={`/dashAdmin/Edit_Dossier/editID/${post.idd}`}>
                                     <i class=" icon-cursor-move text-success"></i> 
                                 </Link>
                                 
@@ -199,7 +216,7 @@ export default function DossierManagment() {
                                         
                                         Swal.fire({
                                             title: 'Vous été Sur ?',
-                                            text: "Sur Pour supprimer ce dossier : " + name.nomsociete,
+                                            text: "Sur Pour supprimer ce dossier : " + post.nomsociete,
                                              icon: 'warning',
                                              showCancelButton: true,
                                                  confirmButtonColor: '#3085d6',
@@ -208,7 +225,7 @@ export default function DossierManagment() {
                                             }).then((result) => {
                                                 if (result.isConfirmed) 
                                                 {
-                                                   deleteRecord(name.idd)
+                                                   deleteRecord(post.idd)
                                                  Swal.fire(
                                                         'Supprimer!',
                                                            'Dossier a été Supprimer.',
@@ -219,34 +236,35 @@ export default function DossierManagment() {
                                     }
                                 ><i class="icon-trash text-danger"></i></a>
                                </td>
-                            </tr>    
-                        </tbody>
-                    )}
+                            </tr>     
+                            </tbody>
+
+                ) )
+            }
 
                     </table>
 
-                    <div className="col-md-4 col-sm-6 grid-margin stretch-card">
-                        <div className="card">
-                            <div className="card-body">
-                                <nav>
-                                <ul className="pagination rounded-flat pagination-success">
-                                    <li className="page-item"><a className="page-link" href="#"><i className="mdi mdi-chevron-left" /></a></li>
-                                    <li className="page-item active"><a className="page-link" href="#">1</a></li>
-                                    <li className="page-item"><a className="page-link" href="#">2</a></li>
-                                    <li className="page-item"><a className="page-link" href="#">3</a></li>
-                                    <li className="page-item"><a className="page-link" href="#">4</a></li>
-                                    <li className="page-item"><a className="page-link" href="#"><i className="mdi mdi-chevron-right" /></a></li>
-                                </ul>
-                                </nav>
-                            </div>
-                        </div>
+                    <ReactPaginate
+                                previousLabel={"Previous"}
+                                nextLabel={"Next"}
+                                pageCount={pageCount}
+                                onPageChange={hundelPageClick}
+                                containerClassName={"pagination"}
+                                previousLinkClassName={"pagination__link"}
+                                
+                                disabledClassName = {"pagination__link--disabled"}
+                                activeClassName={"pagination__link--active"}
+                                
+                        ></ReactPaginate>
 
-                    </div>
-
+                </div>{/* tab content ends */}
+               
+                
                 </div>
             </div>
+            </div>
         </div>
-    </div>
+        </div>
 
         {/* CREATE ADMIN ACCOUNT POPUP */}   
 
@@ -295,12 +313,13 @@ export default function DossierManagment() {
                         <label htmlFor="matricule" className="col-form-label">Matricule:</label>
                         <input id='matricule' type="text" class="form-control" name="matricule" value={matricule} onChange={e => onInputChange(e)}  minlength='3'pattern='[a-zA-Z0-9]*'required/>
                     </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal" aria-label="Close">Quiter</button>
+                        <button type="submit" className="btn btn-primary">Valider</button>
+                    </div>
                     </form>
                 </div>
-                <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" data-dismiss="modal" aria-label="Close">Quiter</button>
-                    <button type="submit" className="btn btn-primary">Valider</button>
-                </div>
+                
                 </div>
             </div>
         </div>

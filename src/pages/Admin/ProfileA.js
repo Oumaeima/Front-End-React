@@ -1,8 +1,68 @@
-import React from 'react'
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../Navbar'
 
 
 export default function Profile() {
+
+  const id = JSON.parse(localStorage.getItem('id'));
+  let history = useNavigate();
+
+  const[record,setRecord]=useState([]);
+
+  const [client, setClient] = useState({
+      nom: "",
+      prenom: "",
+      email: "",
+      password: "",
+    
+  })
+
+  const { nom, prenom,email, password } = client;
+
+  const onInputChange = e => {
+      setClient({ ...client, [e.target.name]: e.target.value });
+  };
+
+  useEffect(() => {
+      loadClient();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const updateClient = async e => {
+      e.preventDefault();
+      await axios.put(`http://localhost:5000/admin/${id}`, client);
+      history("/dashAdmin");
+  };
+
+  const updateClientPass = async e => {
+    e.preventDefault();
+    await axios.put(`http://localhost:5000/admin/updatePassAdmin/${id}`, client);
+    history("/dashAdmin");
+};
+
+  const loadClient = () => {
+      fetch(`http://localhost:5000/admin/AllAdmin/${id}`, {
+          method: "GET",
+      })
+          .then((response) => response.json())
+          .then((result) => {
+              console.log(result);
+              setClient({
+                  id: id,
+                  update: true,
+                  nom: result.response[0].nom,
+                  prenom: result.response[0].prenom,
+                  
+                  email: result.response[0].email,
+                  
+                  password: result.response[0].password,
+
+              });
+          })
+          .catch((error) => console.log("error", error));
+  };
+  
   return (
     <>
    
@@ -30,10 +90,10 @@ export default function Profile() {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card">
                     <div className="card-body avatar">
-                      <h4 className="card-title">Info</h4>
-                      <img src="../../../../images/faces/face6.jpg" alt="" />
-                      <p className="name">John Doe</p>
-                      <p className="designation">-  UI/UX  -</p>
+                     
+                      <img src="../../images/faces/face10.jpg" alt="" />
+                      <p className="name"> {nom} {prenom} </p>
+                      <p className="designation">-  Admin  -</p>
                 
                     </div>
                   </div>
@@ -43,25 +103,12 @@ export default function Profile() {
                     <div className="card-body overview">
                       
                       <div className="wrapper about-user">
-                        <h4 className="card-title mt-4 mb-3">About</h4>
-                        <h6>Téléphone: </h6>
-                        <h6>Email: </h6>
-                        <h6>Adresse: </h6>
+                        <h3 className="card-title mt-4 mb-3">About</h3>
+                        <h6>Email : {email} </h6>
+                        <h6>Nom : {nom} </h6>
+                        <h6>Prenom : {prenom} </h6>
                       </div>
-                      <div className="info-links">
-                        <a className="website" href="http://bootstrapdash.com/">
-                          <i className="mdi mdi-earth text-gray" />
-                          <span>http://bootstrapdash.com/</span>
-                        </a>
-                        <a className="social-link" href="#">
-                          <i className="mdi mdi-facebook text-gray" />
-                          <span>https://www.facebook.com/johndoe</span>
-                        </a>
-                        <a className="social-link" href="#">
-                          <i className="mdi mdi-linkedin text-gray" />
-                          <span>https://www.linkedin.com/johndoe</span>
-                        </a>
-                      </div>
+                      
                     </div>
                   </div>
                 </div>
@@ -77,9 +124,6 @@ export default function Profile() {
                         <a className="nav-link active" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-expanded="true">Info</a>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" id="avatar-tab" data-toggle="tab" href="#avatar" role="tab" aria-controls="avatar">Avatar</a>
-                      </li>
-                      <li className="nav-item">
                         <a className="nav-link" id="security-tab" data-toggle="tab" href="#security" role="tab" aria-controls="security">Security</a>
                       </li>
                     </ul>
@@ -88,31 +132,35 @@ export default function Profile() {
                     <hr />
                     <div className="tab-content" id="myTabContent">
                       <div className="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info">
-                        <form action="#">
+                        <form onSubmit={updateClient}>
                           <div className="form-group">
-                            <label htmlFor="name">Name</label>
-                            <input type="text" className="form-control" id="name" placeholder="Change user name" />
+                            <label htmlFor="nom">Nom</label>
+                            <input  name="nom"
+                                    value={nom}
+                                    onChange={e => onInputChange(e)} 
+                                    type="text" 
+                                    className="form-control" 
+                                    id="nom" />
                           </div>
                           <div className="form-group">
-                            <label htmlFor="designation">Designation</label>
-                            <input type="text" className="form-control" id="designation" placeholder="Change designation" />
-                          </div>
-                          <div className="form-group">
-                            <label htmlFor="mobile">Mobile Number</label>
-                            <input type="text" className="form-control" id="mobile" placeholder="Change mobile number" />
+                            <label htmlFor="prenom">Prénom</label>
+                            <input  name="prenom"
+                                    value={prenom}
+                                    onChange={e => onInputChange(e)} 
+                                    type="text" 
+                                    className="form-control" 
+                                    id="prenom"/>
                           </div>
                           <div className="form-group">
                             <label htmlFor="email">Email</label>
-                            <input type="email" className="form-control" id="email" placeholder="Change email address" />
+                            <input  name="email"
+                                    value={email}
+                                    onChange={e => onInputChange(e)}
+                                    type="email" 
+                                    className="form-control" 
+                                    id="email"/>
                           </div>
-                          <div className="form-group">
-                            <label htmlFor="address">Address</label>
-                            <textarea name="address" id="address" rows={6} className="form-control" placeholder="Change address" defaultValue={""} />
-                          </div>
-                          <div className="form-group">
-                            <label htmlFor="website">Website URL</label>
-                            <input type="text" className="form-control" id="website" placeholder="Change website url" />
-                          </div>
+                         
                           <div className="form-group mt-5">
                             <button type="submit" className="btn btn-success mr-2">Update</button>
                             <button className="btn btn-outline-danger">Cancel</button>
@@ -133,13 +181,18 @@ export default function Profile() {
                         </form>
                       </div>
                       <div className="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
-                        <form action="#">
+                        <form onSubmit={updateClientPass}>
                           <div className="form-group">
                             <label htmlFor="change-password">Change password</label>
                             <input type="password" className="form-control" id="change-password" placeholder="Enter you current password" />
                           </div>
                           <div className="form-group">
-                            <input type="password" className="form-control" id="new-password" placeholder="Enter you new password" />
+                            <input  name="password"
+                                    onChange={e => onInputChange(e)} 
+                                    type="password" 
+                                    className="form-control" 
+                                    id="password" 
+                                    placeholder="Enter you new password" />
                           </div>
                           <div className="form-group mt-5">
                             <button type="submit" className="btn btn-success mr-2">Update</button>

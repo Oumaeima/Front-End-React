@@ -3,6 +3,7 @@ import axios from "axios";
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 import ReactPaginate from "react-paginate";
+import style from "./style.css"
 
 export default function ClientManagment() {
 
@@ -106,20 +107,46 @@ export default function ClientManagment() {
         }, []);
 /**---------------------------------- PAGINATION -------------------------------------------- */
 
+        const PER_PAGE = 5
+        const [currentPage, setCurrentPage] = useState(0)
+        const [data, setData] = useState([])
+
+        useEffect(()=>{
+            fetch('http://localhost:5000/client/AllClient')
+            .then((res) => res.json())
+            .then((data) => {
+                setData(data)
+            })
+        }, [])
+
+        const hundelPageClick= ({selected : selectedPage}) => {
+            console.log("selectedPage", selectedPage)
+            setCurrentPage(selectedPage)
+        };
+
+        const offset = currentPage * PER_PAGE
+        const pageCount = Math.ceil(data.length / PER_PAGE)
+
   return (
     <>
         
-        <div class="row grid-margin">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <button className="btn"  data-toggle="modal" data-target="#AddClient">+ Create new</button>
-                        
-                        <form style={{paddingBottom : "50px"}} className="form-inline my-2 my-lg-0">
-                            <input onChange={event => setQuery(event.target.value)} style={{marginLeft : "950px"}} className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+    <div className="col-lg-12 side-right stretch-card">
+        <div className="card shadow p-5">
+            <div className="card-body">
+            <div className="wrapper d-block d-sm-flex align-items-center justify-content-between">
+                <h4 className="card-title mb-0">Details</h4>
+                
+                <form className="form-inline my-2 my-lg-0">
+                            <input onChange={event => setQuery(event.target.value)}  className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
                         </form>
-
-                        <table class="table table-hover">
+            </div>
+            <div className="wrapper">
+                <hr />
+                <div className="tab-content" id="myTabContent">
+                <div className="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info">
+               
+                <button data-toggle="modal" data-target="#AddClient" type="button" class="btn btn-inverse-info btn-fw"><i class="icon-plus text-success"></i></button>
+                <table style={{marginTop : "15px"}} class="table table-hover">
                             <thead>
                                 <tr>
                                 <th scope="col">#</th>
@@ -132,14 +159,14 @@ export default function ClientManagment() {
                                 </tr>
                             </thead>
 
-            {posts &&
-                posts.filter(post => {
+            {data &&
+                data.filter(post => {
                     if (query === '') {
                         return post;
                     } else if (post.nom.toLowerCase().includes(query.toLowerCase()) || post.prenom.toLowerCase().includes(query.toLowerCase()) ) {
                         return post;
                     }
-                }).map((post, index) => (
+                }).slice(offset, offset+PER_PAGE).map((post, index) => (
                     <tbody>
                                 <tr class="bg-blue">
                                 <td class="pt-3">{post.idclt}</td>
@@ -182,31 +209,30 @@ export default function ClientManagment() {
                                 </tr>    
                             </tbody>
 
-                ))
+                ) )
             }
 
                         </table>
+                    
+                        <ReactPaginate
+                                previousLabel={"Previous"}
+                                nextLabel={"Next"}
+                                pageCount={pageCount}
+                                onPageChange={hundelPageClick}
+                                containerClassName={"pagination"}
+                                previousLinkClassName={"pagination__link"}
+                                disabledClassName = {"pagination__link--disabled"}
+                                activeClassName={"pagination__link--active"}
+                                
+                        ></ReactPaginate>
 
-                        <div className="col-md-4 col-sm-6 grid-margin stretch-card">
-                            <div className="card">
-                                <div className="card-body">
-                                    <nav>
-                                    <ul className="pagination rounded-flat pagination-success">
-                                        <li className="page-item"><a className="page-link" href="#"><i className="mdi mdi-chevron-left" /></a></li>
-                                        <li className="page-item active"><a className="page-link" href="#">1</a></li>
-                                        <li className="page-item"><a className="page-link" href="#">2</a></li>
-                                        <li className="page-item"><a className="page-link" href="#">3</a></li>
-                                        <li className="page-item"><a className="page-link" href="#">4</a></li>
-                                        <li className="page-item"><a className="page-link" href="#"><i className="mdi mdi-chevron-right" /></a></li>
-                                    </ul>
-                                    </nav>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
+                </div>{/* tab content ends */}
+               
+                
                 </div>
             </div>
+            </div>
+        </div>
         </div>
 
             {/* CREATE CLIENT ACCOUNT POPUP */}   

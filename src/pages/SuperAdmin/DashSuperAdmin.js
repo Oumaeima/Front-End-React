@@ -40,9 +40,7 @@ export default function DashSuperAdmin() {
                         <p className="name">
                         Marina Michel
                         </p>
-                        <p className="designation">
-                        Super Admin
-                        </p>
+                        
                     </div>
                     </div>
                 </li>

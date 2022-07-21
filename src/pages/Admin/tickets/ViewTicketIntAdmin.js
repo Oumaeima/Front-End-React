@@ -89,65 +89,64 @@ const updateEtatTicket= async (e) => {
   return (
     <>
         <div className="col-md-12 grid-margin stretch-card d-none d-md-flex">
-            <div className="card">
-                <div className="card-body">
-                <h4 className="card-title">Information Ticket Intervention</h4>
+        <div className="card shadow p-5">
+            <div className="card-body">
+            <h4 className="card-title">Information Ticket Intervention</h4>
             
-                <div className="row">
-                    <div className="col-4">
-                    <ul className="nav nav-pills nav-pills-vertical nav-pills-info" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                        <li className="nav-item">
-                        <a className="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">
-                            <i style={{paddingRight : "10px"}} className="icon-tag" />
-                            Information
-                        </a>                          
-                        </li>
-                        <li className="nav-item">
-                        <a className="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">
-                            <i className="icon-layers text-success" style={{paddingRight : "10px"}} />
-                            Taches Realisées
-                        </a>                          
-                        </li>
-                        <li className="nav-item">
-                        <a className="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">
-                            <i className="icon-direction text-warning" style={{paddingRight : "10px"}} />
-                            Signature
-                        </a>                          
-                        </li>
-                    </ul>
-                    </div>
-                    <div className="col-8">
-                    <div className="tab-content tab-content-vertical" id="v-pills-tabContent">
-                        <div className="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-                        <div className="card">
-                        <form className="forms-sample">
+            <div className="row">
+                <div className="col-4">
+                <ul className="nav nav-pills nav-pills-vertical nav-pills-info" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <li className="nav-item">
+                    <a style={{fontSize : "15px"}} className="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">
+                        <i style={{paddingRight : "10px"}} className="icon-tag" />
+                        Information Ticket
+                    </a>                          
+                    </li>
+                    <li className="nav-item">
+                    <a style={{fontSize : "15px"}} className="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">
+                        <i className="icon-layers text-success" style={{paddingRight : "10px"}} />
+                        Les Taches  Realisées 
+                    </a>                          
+                    </li>
+                    <li className="nav-item">
+                    <a style={{fontSize : "15px"}} className="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">
+                        <i className="icon-direction text-warning" style={{paddingRight : "10px"}} />
+                        Signature Numerique
+                    </a>                          
+                    </li>
+                </ul>
+                </div>
+                <div className="col-8">
+                <div className="tab-content tab-content-vertical" id="v-pills-tabContent">
+                    <div className="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                    <div className="media">
+                    <form className="forms-sample col-lg-12">
                             <div className="form-group">
-                                <label htmlFor="exampleInputEmail1">Email address</label>
-                                <input style={{color : "white",  backgroundColor : "#2b2e4c"}} name="sla" value={sla} onChange={e => onInputChange(e)} placeholder="Enter date" disabled={true} className="form-control" id="exampleInputEmail1"/>
+                                <label style={{fontSize : "15px"}} htmlFor="exampleInputEmail1">Email address</label>
+                                <input  name="sla" value={sla} onChange={e => onInputChange(e)} placeholder="Enter date" disabled={true} className="form-control" id="exampleInputEmail1"/>
                             </div>
                             
                             <div class="form-group">
-                                <label>Date Debut :</label>
-                                <input style={{color : "white",  backgroundColor : "#2b2e4c"}} type="text"  class="form-control" name="datedeb" value={datedeb} onChange={e => onInputChange(e)} placeholder="Enter date" required="" readOnly={true} />
+                                <label style={{fontSize : "15px"}}>Date Debut :</label>
+                                <input type="text"  class="form-control" name="datedeb" value={datedeb} onChange={e => onInputChange(e)} placeholder="Enter date" required="" readOnly={true} />
                             </div>
                             <div class="form-group">
-                                <label>Urgence </label>  
-                                <input style={{color : "white",  backgroundColor : "#2b2e4c"}} type="text"  class="form-control"  name="email" value={urgence} onChange={e => onInputChange(e)} placeholder="Enter date" required=""  readOnly={true}/>
+                                <label style={{fontSize : "15px"}}>Urgence </label>  
+                                <input type="text"  class="form-control"  name="email" value={urgence} onChange={e => onInputChange(e)} placeholder="Enter date" required=""  readOnly={true}/>
                             </div>
                             <div class="form-group">
-                                <label for="" >Tache demander</label>
-                                <textarea style={{color : "white",  backgroundColor : "#2b2e4c"}} type="textarea" class="form-control"  name="taches" value={taches} onChange={x => onInputChange(x)} placeholder="Saisir les Taches" required="" readOnly={true} />              
+                                <label style={{fontSize : "15px"}} >Tache demander</label>
+                                <textarea type="textarea" class="form-control"  name="taches" value={taches} onChange={x => onInputChange(x)} placeholder="Saisir les Taches" required="" readOnly={true} />              
                             </div>
                         </form>
-
-                        </div>
-                        </div>
-                        <div className="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                        <div className="card">
-                        <form className="forms-sample">
+                    </div>
+                    </div>
+                    <div className="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                    <div className="media">
+                    <form className="forms-sample col-lg-12">
                             <div class="form-group">
-                                <label for="" >Tache Saisie</label>
-                                <textarea style={{color : "white",  backgroundColor : "#2b2e4c"}} 
+                                <label style={{fontSize : "15px"}} >Tache Saisie</label>
+                                <textarea 
                                 type="textarea" class="form-control"  
                                 name="tache" 
                                 value={tache} 
@@ -155,33 +154,31 @@ const updateEtatTicket= async (e) => {
                                 placeholder="Saisir les Taches" 
                                 readOnly={true} />   
                                  <input style={{marginTop : "20px"}} type="checkbox" className="checkbox disable-team team_values" value="1" disabled={true}/> 
-                                 <label style={{marginTop : "20px"}} for="" >Tache fini</label>         
+                                 <label style={{marginTop : "20px", fontSize : "15px"}} for="" >Tache fini</label>         
                             </div>
                         </form>
-                        </div>
-                        </div>
-                        <div className="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-                        <div className="card">
-                        <form onsubmit={updateEtatTicket} className="forms-sample">
+                    </div>
+                    </div>
+                    <div className="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                    <div className="media">
+                    <form onsubmit={updateEtatTicket} className="forms-sample col-lg-12">
                             <div class="form-group">
-                                <label for="" >Signature Numerique</label>
+                                <label style={{fontSize : "15px"}} >Signature Numerique</label>
                                 <textarea 
                                 type="textarea" class="form-control"  
-                                name="tache" 
-                                value={tache} 
-                                onChange={e => onInputChangeT(e)}  
+                                name="tache"   
                                 placeholder="Signature Numerique"/>   
                                     
                             </div>
                             <button type="submit" class="btn btn-success mr-2">Valider</button>
                         </form>
-                        </div>
-                        </div>
                     </div>
                     </div>
                 </div>
                 </div>
             </div>
+            </div>
+        </div>
         </div>
 
     </>

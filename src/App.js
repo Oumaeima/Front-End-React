@@ -32,6 +32,9 @@ import EditTicketIntAdmin from './pages/Admin/tickets/EditTicketIntAdmin';
 import EditEmployeeAdmin from './pages/Admin/user/EditEmployeeAdmin';
 import ViewTicketIntAdmin from './pages/Admin/tickets/ViewTicketIntAdmin';
 import ViewTicketInt from './pages/SuperAdmin/tickets/ViewTicketInt';
+import ViewDossier from './pages/Admin/dossier/ViewDossier';
+import IntManagement from './pages/Client/TicketInt/IntManagement';
+import CreeTicket from './pages/Client/TicketInt/CreeTicket';
 
 
 function App() {
@@ -62,7 +65,8 @@ function App() {
 
        ## dashboard client
        <Route path='/dashClient' exact element={<DashClient/>}>
-        <Route path='/dashClient/intervention' exact element={<ListIntTickets/>} />
+         <Route path='/dashClient/intervention' exact element={<IntManagement/>} />
+         <Route path='/dashClient/cree_int' exact element={<CreeTicket/>} />
        </Route>
 
        ## dashboard admin
@@ -74,6 +78,7 @@ function App() {
           <Route path='/dashAdmin/gerer_dossier' exact element={<DossierManagmentA/>}/>
           <Route path='/dashAdmin/gerer_ticketint' exact  element={<TicketsManagmentIntA/>}/>
           <Route path='/dashAdmin/Edit_Client/editID/:id' exact element={<EditClient/>}/>
+          <Route path='/dashAdmin/view_dossier/:id' exact element={<ViewDossier/>}/>
           <Route path="/dashAdmin/Edit_Dossier/editID/:id" element={<EditDossierAdmin/>} />
           <Route path="/dashAdmin/Edit_ticket/editID/:id"  element={<EditTicketIntAdmin/>}/>
           <Route path="/dashAdmin/Edit_User/editID/:id"  element={<EditEmployeeAdmin/>}/>

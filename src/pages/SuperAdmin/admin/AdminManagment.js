@@ -6,12 +6,13 @@ export default function AdminManagment() {
 
     const [search, setSearch] = useState('');
     const [record, setRecord] = useState([]);
+   
 
     const [admin, setAdmin] = useState({
         nom:"",
         prenom:"",
         email: "",
-        password: ""
+        password: "" 
     });
 
     //  Object Destructuring 
@@ -105,47 +106,6 @@ export default function AdminManagment() {
                                 <th scope="col">Action</th>
                                 </tr>
                             </thead>
-{/*                             <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Oumaima abidi</td>
-                                    <td>Varmeg</td>
-                                    <td>Commerce</td>
-                                    <td>97894763</td>
-                                    <td>oumaabidi40@gmail.com</td>
-                                    <td>
-                                        <button type="button" class="btn  btn-primary"><i class="icon-cursor-move"></i></button>
-                                        <button style={{marginLeft : "5px"}} type="button" class="btn  btn-danger"><i class=" icon-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                <th scope="row">2</th>
-                                    <td>Oumaima abidi</td>
-                                    <td>Varmeg</td>
-                                    <td>Commerce</td>
-                                    <td>97894763</td>
-                                    <td>oumaabidi40@gmail.com</td>
-                                    <td>
-                                        <button type="button" class="btn  btn-primary"><i class="icon-cursor-move"></i></button>
-                                        <button style={{marginLeft : "5px"}} type="button" class="btn  btn-danger"><i class=" icon-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                <th scope="row">3</th>
-                                    <td>Oumaima abidi</td>
-                                    <td>Varmeg</td>
-                                    <td>Commerce</td>
-                                    <td>97894763</td>
-                                    <td>oumaabidi40@gmail.com</td>
-                                    <td>
-                                        <button type="button" class="btn  btn-primary"><i class="icon-cursor-move"></i></button>
-                                        <button style={{marginLeft : "5px"}} type="button" class="btn  btn-danger"><i class=" icon-trash"></i></button>
-                                    </td>
-                                </tr>
-
-                                
-
-                            </tbody> */}
 
 
                         {record.map((name) =>

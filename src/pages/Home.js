@@ -1,5 +1,5 @@
 import React from 'react'
-
+import prologic from '../assets/prologic.png'
 
 export default function Home() {
   return (
@@ -8,7 +8,7 @@ export default function Home() {
         <header id="header" className="d-flex align-items-center">
         <div className="container d-flex align-items-center">
             <div className="logo me-auto">
-            <h1><a href="index.html"><img src='assets/img/prologic.png' alt='prologic'></img></a></h1>
+            <h1><a href="index.html"><img src={prologic} alt='prologic'></img></a></h1>
             {/* Uncomment below if you prefer to use an image logo */}
             {/* <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>*/}
             </div>
