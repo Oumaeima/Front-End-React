@@ -227,9 +227,11 @@ export default function TicketsManagmentInt() {
                             <tr>
                             <th scope="col">#</th>
                             <th scope="col">SLA</th>
+                            <th scope="col">Owner</th>
                             <th scope="col">Date-début</th>
+                            <th scope="col">Date-cloture</th>
                             <th scope="col">Tache</th>
-                            <th scope="col">Etat</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Technicien</th>
                             <th scope="col">Superviseur</th>
                             <th scope="col">Action</th>
@@ -248,14 +250,14 @@ export default function TicketsManagmentInt() {
                                 <tr class="bg-blue">
                                 <td class="pt-3">{post.idti}</td>
                                 <td class="pt-3">{post.sla}</td>
+                                <td class="pt-3">{post.owner}</td>
                                 <td class="pt-3">{post.datedeb}</td>
+                                <td class="pt-3">{post.dateClos}</td>
                                 <td class="pt-3">{post.taches}</td>
-                                <td class="pt-3">{post.urgence}</td>
+                                <td class="pt-3">{post.status}</td>
 
                                 <td class="pt-3">
-                                    
-                                        <i class="icon-check text-success" data-toggle="modal" data-target="#AffectTech"></i>        
-                                    
+                                        <i class="icon-check text-success" data-toggle="modal" data-target="#AffectTech"></i>          
                                 </td>
 
                                 <td class="pt-3" >

@@ -41,15 +41,6 @@ export default function ClientManagment() {
         loadClientDetail();
     }, []);
 
-    // Search Records here 
-    const searchRecords = () => {
-        alert(search)
-        axios.get(`http://localhost:5000/client/searchRecord/${search}`)
-            .then(response => {
-                setRecord(response.data);
-            });
-    };
-
     // Delete Client Record
     const deleteRecord = (Id) => {
         axios.delete(`http://localhost:5000/client/${Id}`)

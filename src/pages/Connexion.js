@@ -50,7 +50,7 @@ export default function Connexion() {
                             
                             <h5 className="mb-3 "> Employe</h5>
                             <img src={employee} />
-                            <a href="login">
+                            <a href="LoginUser">
                                 <button type="submit" className="btn btn-primary btn-block mt-4" >Connecter</button>
                             </a>
                               

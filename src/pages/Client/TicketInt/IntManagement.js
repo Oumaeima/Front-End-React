@@ -7,15 +7,28 @@ import ReactPaginate from "react-paginate";
 
 export default function IntManagement() {
 
-    const navigate = useNavigate()
     const id = JSON.parse(localStorage.getItem('id'));
-
-    const [search, setSearch] = useState('');
+    let navigate = useNavigate()
     const [record, setRecord] = useState([]);
+    const [ticket, setTicket] = useState({
+
+        sla: "",
+        owner: "",
+        datedeb: "",
+        dateClos: "",
+        taches: "",
+        status: "",
+        matricule: ""
+        
+    });
+  
+    const { sla , datedeb, dateClos, taches, status } = ticket;
     
-   const addTicket = () =>{
-    navigate('/dashClient/cree_int')
-   }
+    const onInputChange = e => {
+        setTicket({ ...ticket, [e.target.name]: e.target.value });
+    };
+    
+
 
     // On Page load display all records 
     const loadTicketDetail = async () => {
@@ -27,12 +40,33 @@ export default function IntManagement() {
             .then(function (myJson) {
                 setRecord(myJson);
             });
+            
     }
-    useEffect(() => {
-        loadTicketDetail();
-    }, []);
-
-
+   
+        // Insert ticket 
+        const submitTicket = async (e) => {
+            e.preventDefault();
+            e.target.reset();
+            try{
+            await axios.post(`http://localhost:5000/ticket/createNewTicket/${id}`, ticket);
+            Swal.fire(
+                'Good job!',
+                'ticket inserted!',
+                'success'
+              )
+              loadTicketDetail()
+            }
+                catch (err) {
+                    Swal.fire({
+                        title: "Error",
+                        text: err.response.data.msg,
+                        icon: "error",
+                        button: "OK",
+        
+                    });
+            }
+            
+        };
 
  
     // Delete Employee Record
@@ -121,7 +155,7 @@ export default function IntManagement() {
                 <div className="tab-content" id="myTabContent">
                 <div className="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info">
                
-                <button onClick={addTicket} type="button" class="btn btn-inverse-info btn-fw"><i class="icon-plus text-success"></i></button>
+                <button type="button" class="btn btn-inverse-info btn-fw" data-toggle="modal" data-target="#AddTicket"><i class="icon-plus text-success"></i></button>
                 <table style={{marginTop : "15px"}} class="table table-hover">
                         <thead>
                             <tr>
@@ -182,6 +216,7 @@ export default function IntManagement() {
                                                                 'success'
                                                             )
                                                             }
+                                                            
                                                     })
                                         }
                                     >
@@ -222,6 +257,52 @@ export default function IntManagement() {
 
 {/* END INFO TICKET INTERVENTION */}  
 
+
+{/* POPUP ADD TICKET INTERVENTION */}
+
+
+<div className="modal fade" id="AddTicket" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div  className="modal-dialog" role="document">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title" id="exampleModalLabel">Ajouter Ticket d'Intervention</h5>
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                <div className="modal-body">
+                    <form onSubmit={submitTicket}>
+                    <div className="form-group">
+                        <label htmlFor="sla" className="col-form-label">SLA:</label>
+                        <input id='sla' name='sla' onChange={e => onInputChange(e)} type="text" class="form-control"/>           
+                    </div>
+                    
+                    <div className="form-group">
+                        <label htmlFor="datedeb" className="col-form-label">Date Debut:</label>
+                        <input  id='datedeb' name="datedeb" onChange={e => onInputChange(e)} type="date" class="form-control" placeholder="dd/mm/yyyy"/>           
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="dateClos" className="col-form-label">Date Cloture:</label>
+                        <input id='dateClos' name="dateClos" onChange={e => onInputChange(e)} type="date" class="form-control" placeholder="dd/mm/yyyy"/>           
+                    </div>
+                    
+                    <div className="form-group">
+                        <label htmlFor="taches">Tache demander</label>
+                        <textarea name="taches" id='taches' onChange={e => onInputChange(e)} className="form-control"  rows={2} defaultValue={""} />
+                  </div>
+                  <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" data-dismiss="modal" aria-label="Close">Quiter</button>
+                    <button type="submit" className="btn btn-primary">Crée</button>
+                </div>
+                    </form>
+                </div>
+                
+                </div>
+            </div>
+        </div>
+
+
+{/* END POPUP ADD TICKET INTERVENTION */}
     
     </>
   )

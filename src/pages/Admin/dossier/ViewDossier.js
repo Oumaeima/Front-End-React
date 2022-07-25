@@ -11,6 +11,7 @@ export default function ViewDossier() {
 
     const [search, setSearch] = useState('');
     const [record, setRecord] = useState([]);
+    const[ListeEmail,setListEmail] = useState([]);
     
    const[ListeMat,setListMat] = useState([]);
    
@@ -40,7 +41,14 @@ export default function ViewDossier() {
         getMatricule();
     }, []);
     
-
+    useEffect(() => {
+        const getEmail = async () => {
+            const res = await fetch('http://localhost:5000/ticket/AllEmailTech');
+            const getdata = await res.json();
+            setListEmail(getdata);
+        }
+        getEmail();
+      }, []);
 
     // On Page load display all records 
     const loadTicketDetail = async () => {
@@ -82,27 +90,17 @@ export default function ViewDossier() {
         }
     };
 
- 
-  const submitTechnicien=async()=>{
-     
-      
-      await axios.post(`http://localhost:5000/ticket/affecterTicketTechnciens`)
-      .then((result) => {
-        loadTicketDetail();
-    })
-    .catch(() => {
-        alert('Error in the Code');
-    });
-      
-  }
-    // Search Records here 
-    const searchRecords = () => {
-        alert(search)
-        axios.get(`http://localhost:5000/ticket/searchRecord/${search}`)
-            .then(response => {
-                setRecord(response.data);
-            });
-    };
+    const affectTechnicien = (Id) => {
+        axios.put(`http://localhost:5000/ticket/affecteTech/${Id}`)
+        .then((result) => {
+            loadTicketDetail();
+        })
+        .catch(() => {
+            alert('Error in the Code');
+        });
+      };
+
+
     // Delete Employee Record
     const deleteRecord = (ticketId) => {
         
@@ -190,92 +188,88 @@ export default function ViewDossier() {
                 <div className="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info">
                
                 <button data-toggle="modal" data-target="#AddDTicket" type="button" class="btn btn-inverse-info btn-fw"><i class="icon-plus text-success"></i></button>
-                <table style={{marginTop : "15px"}} class="table table-hover">
-                        <thead>
-                            <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">SLA</th>
-                            <th scope="col">Date-début</th>
-                            <th scope="col">Tache</th>
-                            <th scope="col">Etat</th>
-                            <th scope="col">Technicien</th>
-                            <th scope="col">Superviseur</th>
-                            <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                    
-                        {data &&
-                data.filter(post => {
-                    if (query === '') {
-                        return post;
-                    } else if (post.taches.toLowerCase().includes(query.toLowerCase()) ) {
-                        return post;
-                    }
-                }).map((post, index) => (
-                    <tbody>
-                                <tr class="bg-blue">
-                                <td class="pt-3">{post.idti}</td>
-                                <td class="pt-3">{post.sla}</td>
-                                <td class="pt-3">{post.datedeb}</td>
-                                <td class="pt-3">{post.taches}</td>
-                                <td class="pt-3">{post.urgence}</td>
+                <div class="table-responsive">
+                    <table style={{marginTop : "15px"}} class="table table-hover">
+                            <thead className='thead-light'>
+                                <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">SLA</th>
+                                <th scope="col">Owner</th>
+                                <th class="col-6 col-sm-2">Date-début</th>
+                                <th class="col-6 col-sm-2">Date-cloture</th>
+                                <th scope="col">Tache</th>
+                                <th scope="col">Status</th>
+                                <th class="col-6 col-sm-2">Action</th>
+                                </tr>
+                            </thead>
+                        
+                            {data &&
+                    data.filter(post => {
+                        if (query === '') {
+                            return post;
+                        } else if (post.taches.toLowerCase().includes(query.toLowerCase()) ) {
+                            return post;
+                        }
+                    }).map((post, index) => (
+                        <tbody>
+                                    <tr class="bg-blue">
+                                    <td class="pt-3">{post.idti}</td>
+                                    <td class="pt-3">{post.sla}</td>
+                                    <td class="pt-3">{post.owner}</td>
+                                    <td class="pt-3">{post.datedeb}</td>
+                                    <td class="pt-3">{post.dateClos}</td>
+                                    <td class="pt-3">{post.taches}</td>
+                                    <td class="pt-3">{post.status}</td>
 
-                                <td class="pt-3">
-                                    
-                                        <i class="icon-check text-success" data-toggle="modal" data-target="#AffectTech"></i>        
-                                    
-                                </td>
-
-                                <td class="pt-3" >
-                                    <Link className=" mr-2" to={`/Affecter_Sup/editID/${post.idti}`}>
-                                        <i class="icon-check text-success"></i>
+                                <td>
+        
+                                    <Link data-toggle="tooltip" data-placement="bottom"title="read" className=" mr-2" to={`/dashAdmin/view_ticketint/ticketID/${post.idti}`}>
+                                    <i class="icon-user-female text-primary"></i> 
                                     </Link>
+                                    <Link data-toggle="tooltip" data-placement="bottom" title="edit" className=" mr-2" to={`/dashAdmin/Edit_ticket/editID/${post.idti}`}>
+                                        <i class=" icon-cursor-move text-success"></i> 
+                                    </Link>
+                                    
+                                    <a  data-toggle="tooltip" data-placement="bottom" title="delete"
+                                        onClick={() =>
+                                            
+                                            Swal.fire({
+                                                title: 'Vous été Sur ?',
+                                                text: "Sur Pour supprimer ticket : " + post.idti,
+                                                icon: 'warning',
+                                                showCancelButton: true,
+                                                    confirmButtonColor: '#3085d6',
+                                                    cancelButtonColor: '#d33',
+                                                    confirmButtonText: 'Oui, Supprimer!'
+                                                }).then((result) => {
+                                                    if (result.isConfirmed) 
+                                                    {
+                                                    deleteRecord(post.idti)
+                                                    Swal.fire(
+                                                            'Supprimer!',
+                                                            'ticket a été Supprimer.',
+                                                                'success'
+                                                            )
+                                                            }
+                                                    })
+                                        }
+                                    ><i class="icon-trash text-danger"></i></a>
                                 </td>
+                                    
+                                </tr>   
 
-                               <td>
-    
-                                <Link data-toggle="tooltip" data-placement="bottom"title="read" className=" mr-2" to={`/dashAdmin/view_ticketint/ticketID/${post.idti}`}>
-                                <i class="icon-user-female text-primary"></i> 
-                                </Link>
-                                <Link data-toggle="tooltip" data-placement="bottom" title="edit" className=" mr-2" to={`/dashAdmin/Edit_ticket/editID/${post.idti}`}>
-                                    <i class=" icon-cursor-move text-success"></i> 
-                                </Link>
+           
+                                </tbody>
+
                                 
-                                <a  data-toggle="tooltip" data-placement="bottom" title="delete"
-                                    onClick={() =>
-                                        
-                                        Swal.fire({
-                                            title: 'Vous été Sur ?',
-                                            text: "Sur Pour supprimer ticket : " + post.idti,
-                                             icon: 'warning',
-                                             showCancelButton: true,
-                                                 confirmButtonColor: '#3085d6',
-                                                cancelButtonColor: '#d33',
-                                                 confirmButtonText: 'Oui, Supprimer!'
-                                            }).then((result) => {
-                                                if (result.isConfirmed) 
-                                                {
-                                                   deleteRecord(post.idti)
-                                                 Swal.fire(
-                                                        'Supprimer!',
-                                                           'ticket a été Supprimer.',
-                                                              'success'
-                                                          )
-                                                        }
-                                                })
-                                    }
-                                ><i class="icon-trash text-danger"></i></a>
-                               </td>
-                                
-                            </tr>        
-                            </tbody>
 
-                ) ).slice(offset, offset+PER_PAGE)
-            }
+                    ) ).slice(offset, offset+PER_PAGE)
+                }
 
 
+                        
                     </table>
-
+                </div>
                     <ReactPaginate
                                 previousLabel={"Previous"}
                                 nextLabel={"Next"}
@@ -324,9 +318,11 @@ export default function ViewDossier() {
                             <tr>
                             <th scope="col">#</th>
                             <th scope="col">SLA</th>
+                            <th scope="col">Owner</th>
                             <th scope="col">Date-début</th>
+                            <th scope="col">Date-cloture</th>
                             <th scope="col">Tache</th>
-                            <th scope="col">Etat</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Technicien</th>
                             <th scope="col">Superviseur</th>
                             <th scope="col">Action</th>
@@ -345,9 +341,11 @@ export default function ViewDossier() {
                                 <tr class="bg-blue">
                                 <td class="pt-3">{post.idti}</td>
                                 <td class="pt-3">{post.sla}</td>
+                                <td class="pt-3">{post.owner}</td>
                                 <td class="pt-3">{post.datedeb}</td>
+                                <td class="pt-3">{post.dateClos}</td>
                                 <td class="pt-3">{post.taches}</td>
-                                <td class="pt-3">{post.urgence}</td>
+                                <td class="pt-3">{post.status}</td>
 
                                 <td class="pt-3">
                                     

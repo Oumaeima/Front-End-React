@@ -11,12 +11,12 @@ export default function CreeTicket() {
     //console.log("id "+id)
     let navigate = useNavigate()
    
-    const [email, setEmail] = useState(null);
-    const[ListeMat,setListMat] = useState([]);
+    const [email, setEmail] = useState("");
+    const[ListeMat,setListMat] = useState("");
     const [ticket, setTicket] = useState({
 
         sla: "",
-        owner: email,
+        owner: "",
         datedeb: "",
         dateClos: "",
         taches: "",
@@ -24,12 +24,13 @@ export default function CreeTicket() {
         matricule: ""
         
     });
+  
+    const { sla ,owner=email, datedeb, dateClos, taches, status,matricule } = ticket;
     
-    const { sla ,owner, datedeb, dateClos, taches, status,matricule } = ticket;
     const onInputChange = e => {
         setTicket({ ...ticket, [e.target.name]: e.target.value });
     };
-
+    
     useEffect(() => {
         const getEmail = async () => {
             const res = await fetch(`http://localhost:5000/client/getClient/${id}`);
@@ -42,12 +43,12 @@ export default function CreeTicket() {
 
     useEffect(() => {
         const getMatricule = async () => {
-            const res = await fetch('http://localhost:5000/dossier/findAllMatricules');
+            const res = await fetch(`http://localhost:5000/client/getMatClient/${id}`);
             const getdata = await res.json();
-            setListMat(getdata);
+            setListMat(getdata[0].matricule);
         }
         getMatricule();
-    }, []);
+    });
 
     
     
@@ -93,10 +94,7 @@ export default function CreeTicket() {
                             <label htmlFor="sla" className="col-form-label">SLA:</label>
                             <input id='sla' name='sla' onChange={e => onInputChange(e)} type="text" class="form-control"/>           
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="owner" className ="col-form-label">Owner:</label>
-                            <input value={email} onChange={e => onInputChange(e)} id='owner' name='owner'  type="text" class="form-control"/>           
-                        </div>
+                        
                         <div className="form-group">
                             <label htmlFor="datedeb" className="col-form-label">Date Debut:</label>
                             <input  id='datedeb' name="datedeb" onChange={e => onInputChange(e)} type="date" class="form-control" placeholder="dd/mm/yyyy"/>           
@@ -107,14 +105,7 @@ export default function CreeTicket() {
                         </div>
                         <div className="form-group">
                             <label  htmlFor="matricule" className="col-form-label">Matricule:</label>
-                            <select name="matricule" onChange={e => onInputChange(e)} class="form-control" required>
-                                <option value="">---------- Matricule ---------- </option>
-                                    {ListeMat.map((res) => (
-
-                                        <option value={res.idd}>{res.matricule}</option>
-                                        )
-                                        )}
-                            </select> 
+                            <input value={ListeMat} onChange={e => onInputChange(e)} id='matricule' name='matricule'  type="text" class="form-control"/>
                         </div>
                         <div className="form-group">
                             <label htmlFor="taches">Tache demander</label>

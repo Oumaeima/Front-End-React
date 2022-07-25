@@ -1,11 +1,12 @@
 import React, { useState ,useEffect} from "react";
 import axios from "axios";
 import Swal from 'sweetalert2';
-import {  useParams } from "react-router-dom";
+import {  useNavigate, useParams } from "react-router-dom";
 
 export default function ViewTicketIntAdmin() {
-
+    let history = useNavigate();
     const { id } = useParams();
+    const[ListeEmail,setListEmail] = useState([]);
     const [Tache,setTache]=useState({
         tache:""
     })
@@ -13,13 +14,15 @@ export default function ViewTicketIntAdmin() {
     const [ticket, setTicket] = useState({
 
         sla: "",
+        owner: "",
         datedeb: "",
-        datefin: "",
+        dateClos: "",
         taches: "",
-        urgence: ""
+        status: "",
+        matricule: ""
     });
     //  Object Destructuring 
-    const { sla, datedeb, datefin, taches, urgence } = ticket;
+    const { sla ,owner, datedeb, dateClos, taches, status } = ticket;
     const {tache}=Tache;
     const onInputChange = e => {
         setTicket({ ...ticket, [e.target.name]: e.target.value });
@@ -44,15 +47,36 @@ export default function ViewTicketIntAdmin() {
                     id: id,
                     update: true,
                     sla: result.response[0].sla,
+                    owner: result.response[0].owner,
                     datedeb: result.response[0].datedeb,
+                    dateClos: result.response[0].dateClos,
                     taches : result.response[0].taches,
-                    urgence: result.response[0].urgence,
+                    status: result.response[0].status,
                    
                 });
             })
             .catch((error) => console.log("error", error));
             
   };
+
+  const affectTechnicien = async e => {
+    e.preventDefault();
+    await axios.put(`http://localhost:5000/ticket/affecteTech/${id}`, ticket);
+    Swal.fire(
+        'Good job!',
+        'ticket Updated!',
+        'success'
+      )
+  };
+  useEffect(() => {
+    const getEmail = async () => {
+        const res = await fetch('http://localhost:5000/ticket/AllEmailTech');
+        const getdata = await res.json();
+        setListEmail(getdata);
+    }
+    getEmail();
+  }, []);
+
   useEffect(() =>{  
     loadTache();
   },[]);
@@ -105,13 +129,13 @@ const updateEtatTicket= async (e) => {
                     <li className="nav-item">
                     <a style={{fontSize : "15px"}} className="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">
                         <i className="icon-layers text-success" style={{paddingRight : "10px"}} />
-                        Les Taches  Realisées 
+                        Affecter Technicien
                     </a>                          
                     </li>
                     <li className="nav-item">
                     <a style={{fontSize : "15px"}} className="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">
                         <i className="icon-direction text-warning" style={{paddingRight : "10px"}} />
-                        Signature Numerique
+                        Affecter Superviseur
                     </a>                          
                     </li>
                 </ul>
@@ -122,40 +146,46 @@ const updateEtatTicket= async (e) => {
                     <div className="media">
                     <form className="forms-sample col-lg-12">
                             <div className="form-group">
-                                <label style={{fontSize : "15px"}} htmlFor="exampleInputEmail1">Email address</label>
+                                <label style={{fontSize : "15px"}} htmlFor="exampleInputEmail1">SLA</label>
                                 <input  name="sla" value={sla} onChange={e => onInputChange(e)} placeholder="Enter date" disabled={true} className="form-control" id="exampleInputEmail1"/>
                             </div>
                             
                             <div class="form-group">
-                                <label style={{fontSize : "15px"}}>Date Debut :</label>
-                                <input type="text"  class="form-control" name="datedeb" value={datedeb} onChange={e => onInputChange(e)} placeholder="Enter date" required="" readOnly={true} />
+                                <label style={{fontSize : "15px"}}>Owner :</label>
+                                <input type="text"  class="form-control" name="owner" value={owner} onChange={e => onInputChange(e)} readOnly={true} />
                             </div>
                             <div class="form-group">
-                                <label style={{fontSize : "15px"}}>Urgence </label>  
-                                <input type="text"  class="form-control"  name="email" value={urgence} onChange={e => onInputChange(e)} placeholder="Enter date" required=""  readOnly={true}/>
+                                <label style={{fontSize : "15px"}}>Date Debut</label>  
+                                <input type="text"  class="form-control"  name="email" value={datedeb} onChange={e => onInputChange(e)} readOnly={true}/>
+                            </div>
+                            <div class="form-group">
+                                <label style={{fontSize : "15px"}}>Date Cloture</label>  
+                                <input type="text"  class="form-control"  name="email" value={dateClos} onChange={e => onInputChange(e)} readOnly={true}/>
+                            </div>
+                            <div class="form-group">
+                                <label style={{fontSize : "15px"}}>Status</label>  
+                                <input type="text"  class="form-control"  name="status" value={status} onChange={e => onInputChange(e)} readOnly={true}/>
                             </div>
                             <div class="form-group">
                                 <label style={{fontSize : "15px"}} >Tache demander</label>
-                                <textarea type="textarea" class="form-control"  name="taches" value={taches} onChange={x => onInputChange(x)} placeholder="Saisir les Taches" required="" readOnly={true} />              
+                                <textarea type="textarea" class="form-control"  name="taches" value={taches} onChange={x => onInputChange(x)} readOnly={true} />              
                             </div>
                         </form>
                     </div>
                     </div>
                     <div className="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                     <div className="media">
-                    <form className="forms-sample col-lg-12">
+                    <form onSubmit={affectTechnicien}>
                             <div class="form-group">
-                                <label style={{fontSize : "15px"}} >Tache Saisie</label>
-                                <textarea 
-                                type="textarea" class="form-control"  
-                                name="tache" 
-                                value={tache} 
-                                onChange={e => onInputChangeT(e)}  
-                                placeholder="Saisir les Taches" 
-                                readOnly={true} />   
-                                 <input style={{marginTop : "20px"}} type="checkbox" className="checkbox disable-team team_values" value="1" disabled={true}/> 
-                                 <label style={{marginTop : "20px", fontSize : "15px"}} for="" >Tache fini</label>         
+                                <label style={{fontSize : "15px"}} >Technicien</label>
+                                <select name="owner" class="form-control" value={owner} onChange={e => onInputChange(e)}>
+                                    <option value="">---------- Choisir un Email ---------- </option>
+                                    {ListeEmail.map ((res)=>(
+                                      <option value={res.idti}>{res.email}</option>
+                                    ))}
+                                </select> 
                             </div>
+                            <button type="submit" class="btn btn-success mr-2">Valider</button>
                         </form>
                     </div>
                     </div>

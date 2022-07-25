@@ -35,6 +35,8 @@ import ViewTicketInt from './pages/SuperAdmin/tickets/ViewTicketInt';
 import ViewDossier from './pages/Admin/dossier/ViewDossier';
 import IntManagement from './pages/Client/TicketInt/IntManagement';
 import CreeTicket from './pages/Client/TicketInt/CreeTicket';
+import DashTech from './pages/Employe/DashTech';
+import Login from './pages/Employe/Login';
 
 
 function App() {
@@ -46,6 +48,7 @@ function App() {
        <Route path='/LoginSuperAdmin' exact element={<LoginSuperAdmin/>}/>
        <Route path='/LoginAdmin' exact element={<LoginAdmin/>}/>
        <Route path='/LoginClient' exact element={<LoginClient/>}/>
+       <Route path='/LoginUser' exact element={<Login/>}/>
 
 
        ## dashboard SuperAdmin
@@ -63,12 +66,6 @@ function App() {
        </Route>
 
 
-       ## dashboard client
-       <Route path='/dashClient' exact element={<DashClient/>}>
-         <Route path='/dashClient/intervention' exact element={<IntManagement/>} />
-         <Route path='/dashClient/cree_int' exact element={<CreeTicket/>} />
-       </Route>
-
        ## dashboard admin
        <Route path='/dashAdmin' exact element={<DashAdmin/>}>
           <Route index element={<StatisticsAdmin/>}/>
@@ -82,7 +79,20 @@ function App() {
           <Route path="/dashAdmin/Edit_Dossier/editID/:id" element={<EditDossierAdmin/>} />
           <Route path="/dashAdmin/Edit_ticket/editID/:id"  element={<EditTicketIntAdmin/>}/>
           <Route path="/dashAdmin/Edit_User/editID/:id"  element={<EditEmployeeAdmin/>}/>
-          <Route path='/dashAdmin/view_ticketint/ticketID/:id' exact  element={<ViewTicketIntAdmin/>}/>
+          <Route path='/dashAdmin/view_ticketint/ticketID/:id' element={<ViewTicketIntAdmin/>}/>
+       </Route>
+
+
+       ## dashboard client
+       <Route path='/dashClient' exact element={<DashClient/>}>
+         <Route path='/dashClient/intervention' exact element={<IntManagement/>} />
+         <Route path='/dashClient/cree_int' exact element={<CreeTicket/>} />
+       </Route>
+
+
+       ## dashboard Technicen
+       <Route path='/dashTech' exact element={<DashTech/>}>
+         
        </Route>
 
        
