@@ -1,11 +1,23 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState ,useEffect, useRef} from "react";
 import axios from "axios";
 import Swal from 'sweetalert2';
 import {  useNavigate, useParams } from "react-router-dom";
 
-export default function ViewTicketIntAdmin() {
+export default function ViewTicketClient() {
+
+   const inputRef = useRef([])
+   const [sign,setSign]=useState({
+    signClient:""
+})
+const {signClient}=sign;
+const onInputChangeT = x => {
+    setSign({ ...sign, [x.target.name]: x.target.value });
+};
+
     let history = useNavigate();
     const { id } = useParams();
+    const idC = JSON.parse(localStorage.getItem('id'));
+    const[signature,setSignature] = useState([]);
     const[ListeEmail,setListEmail] = useState([]);
     const [Tache,setTache]=useState({
         tache:""
@@ -27,12 +39,9 @@ export default function ViewTicketIntAdmin() {
     const onInputChange = e => {
         setTicket({ ...ticket, [e.target.name]: e.target.value });
     };
-    const onInputChangeT = x => {
-        setTache({ ...Tache, [x.target.name]: x.target.value });
-    };
+  
 
       useEffect(() =>{
-      
         loadUser();
       },[]);
 
@@ -59,55 +68,36 @@ export default function ViewTicketIntAdmin() {
             
   };
 
-  const affectTechnicien = async e => {
-    e.preventDefault();
-    await axios.put(`http://localhost:5000/ticket/affecteTech/${id}`, ticket);
-    Swal.fire(
-        'Good job!',
-        'ticket Updated!',
-        'success'
-      )
-  };
+
   useEffect(() => {
     const getEmail = async () => {
         const res = await fetch('http://localhost:5000/ticket/AllEmailTech');
         const getdata = await res.json();
         setListEmail(getdata);
     }
+    getSignature()
+    
     getEmail();
   }, []);
 
-  useEffect(() =>{  
-    loadTache();
-  },[]);
-  const loadTache =  () => {
-    fetch(`http://localhost:5000/ticket/TicketTaches/${id}`,{
-        method: "GET",
-      })
-       .then((response) => response.json())
-         .then((result) => {
-            console.log(result);
-    setTache({
-                id: id,
-                update: true,
-                tache : result.response[0].tache,
-            
-               
-            });
-        })
-        .catch((error) => console.log("error", error));
-};
-const updateEtatTicket= async (e) => {
-        
-   
-    
-    await axios.put(`http://localhost:5000/ticket/updateToClos/${id}`);
+
+const updateEtatTicket = async e => {
+    e.preventDefault();
+    await axios.put(`http://localhost:5000/ticket/updateStat/${id}`,ticket);
     Swal.fire(
         'Good job!',
-        'ticket validée!',
+        'ticket Updated!',
         'success'
       )
+    history("/dashClient/intervention");
+};
 
+const getSignature= async () => {
+    const res = await fetch(`http://localhost:5000/client/getSignature/${idC}`)
+    const getdata = await res.json();
+        setSignature(getdata[0].signature)
+       
+        //console.log("signature : "+signature);
 };
 
   return (
@@ -118,23 +108,8 @@ const updateEtatTicket= async (e) => {
             <h4 className="card-title">Information Ticket Intervention</h4>
             
             <div className="row">
-                <div className="col-4">
-                <ul className="nav nav-pills nav-pills-vertical nav-pills-info" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <li className="nav-item">
-                    <a style={{fontSize : "15px"}} className="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">
-                        <i style={{paddingRight : "10px"}} className="icon-tag" />
-                        Information Ticket
-                    </a>                          
-                    </li>
-                    <li className="nav-item">
-                    <a style={{fontSize : "15px"}} className="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">
-                        <i className="icon-layers text-success" style={{paddingRight : "10px"}} />
-                        Affecter Technicien
-                    </a>                          
-                    </li>
-                </ul>
-                </div>
-                <div className="col-8">
+
+                <div className="col-12">
                 <div className="tab-content tab-content-vertical" id="v-pills-tabContent">
                     <div className="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                     <div className="media">
@@ -164,38 +139,28 @@ const updateEtatTicket= async (e) => {
                                 <label style={{fontSize : "15px"}} >Tache demander</label>
                                 <textarea type="textarea" class="form-control"  name="taches" value={taches} onChange={x => onInputChange(x)} readOnly={true} />              
                             </div>
+                            <button data-toggle="pill" href="#v-pills-messages" class="btn btn-success col-12">Fermer ticket</button>
                         </form>
                     </div>
                     </div>
-                    <div className="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                    <div className="media">
-                    <form onSubmit={affectTechnicien}>
-                            <div class="form-group">
-                                <label style={{fontSize : "15px"}} >Technicien</label>
-                                <select name="owner" class="form-control" value={owner} onChange={e => onInputChange(e)}>
-                                    <option value="">---------- Choisir un Email ---------- </option>
-                                    {ListeEmail.map ((res)=>(
-                                      <option value={res.idti}>{res.email}</option>
-                                    ))}
-                                </select> 
-                            </div>
-                            <button type="submit" class="btn btn-success mr-2">Valider</button>
-                        </form>
-                    </div>
-                    </div>
+                  
                     <div className="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
                     <div className="media">
-                    <form onsubmit={updateEtatTicket} className="forms-sample col-lg-12">
+                    <div className="forms-sample col-lg-12">
                             <div class="form-group">
                                 <label style={{fontSize : "15px"}} >Signature Numerique</label>
-                                <textarea 
+                                <input ref={inputRef}
                                 type="textarea" class="form-control"  
-                                name="tache"   
-                                placeholder="Signature Numerique"/>   
-                                    
+                                id="signature"
+                                name="signature"
+                                placeholder="Taper votre signature numerique"
+                                onChange={e => onInputChangeT(e)}
+                                />   
+                                   
                             </div>
-                            <button type="submit" class="btn btn-success mr-2">Valider</button>
-                        </form>
+                            <button disabled={inputRef.current.value === signature ? false : true} onClick={updateEtatTicket} class="btn btn-success mr-2">Valider</button>
+                        </div>
+                       
                     </div>
                     </div>
                 </div>

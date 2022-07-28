@@ -4,6 +4,8 @@ import Navbar from '../Navbar'
 import { Outlet } from 'react-router-dom'
 
 export default function DashClient() {
+    const nom = JSON.parse(localStorage.getItem('nom'));
+    const prenom = JSON.parse(localStorage.getItem('prenom'));
   return (
     <>
         <>
@@ -37,11 +39,9 @@ export default function DashClient() {
                </div>
                <div className="profile-name">
                    <p className="name">
-                   Marina Michel
+                        {nom } {prenom}
                    </p>
-                   <p className="designation">
-                   Super Admin
-                   </p>
+                   
                </div>
                </div>
            </li>

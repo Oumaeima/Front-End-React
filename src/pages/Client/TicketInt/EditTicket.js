@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 
-export default function EditTicketIntAdmin() {
+export default function EditTicket() {
     let history = useNavigate();
     const { id } = useParams();  //The useParams() hook helps us to access the URL parameters from a current route. 
 
@@ -57,7 +57,7 @@ export default function EditTicketIntAdmin() {
             'ticket Updated!',
             'success'
           )
-        history(`/dashAdmin/gerer_dossier`);
+        history("/dashClient/intervention");
     };
 
     const loadTicket = () => {

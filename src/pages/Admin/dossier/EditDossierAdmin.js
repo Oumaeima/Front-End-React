@@ -23,6 +23,7 @@ export default function EditDossierAdmin() {
 
     useEffect(() => {
         loadDossier();
+        console.log("id : "+id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -48,10 +49,10 @@ export default function EditDossierAdmin() {
                 setDossier({
                     id: id,
                     update: true,
-                    nomsociete: result.response[0].nomsociete,
-                    categorie: result.response[0].categorie,
-                    type: result.response[0].type,
-                    matricule:result.response[0].matricule
+                    nomsociete: result[0].nomsociete,
+                    categorie: result[0].categorie,
+                    type: result[0].type,
+                    matricule:result[0].matricule
 
                 });
             })

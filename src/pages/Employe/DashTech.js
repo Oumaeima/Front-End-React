@@ -4,6 +4,8 @@ import Navbar from '../Navbar'
 import { Outlet } from 'react-router-dom'
 
 export default function DashTech() {
+    const nom = JSON.parse(localStorage.getItem('nom'));
+    const prenom = JSON.parse(localStorage.getItem('prenom'));
   return (
     <>
     <>
@@ -37,16 +39,14 @@ export default function DashTech() {
            </div>
            <div className="profile-name">
                <p className="name">
-               Marina Michel
+               {nom} {prenom}
                </p>
-               <p className="designation">
-               Super Admin
-               </p>
+               
            </div>
            </div>
        </li>
        <li className="nav-item">
-           <a className="nav-link" href="/dashAdmin">
+           <a className="nav-link" href="/dashTech">
            <i className="icon-menu menu-icon"></i>
            <span className="menu-title">Dashboard</span>
 
@@ -54,7 +54,7 @@ export default function DashTech() {
        </li>
       
         <li className="nav-item">
-           <a className="nav-link"  href="/dashClient/intervention" >
+           <a className="nav-link"  href="/dashTech/intervention" >
            <i className="icon-grid menu-icon"></i>
            <span className="menu-title">Ticket d'Intervention</span>
            </a>

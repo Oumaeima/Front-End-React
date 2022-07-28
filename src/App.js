@@ -34,9 +34,13 @@ import ViewTicketIntAdmin from './pages/Admin/tickets/ViewTicketIntAdmin';
 import ViewTicketInt from './pages/SuperAdmin/tickets/ViewTicketInt';
 import ViewDossier from './pages/Admin/dossier/ViewDossier';
 import IntManagement from './pages/Client/TicketInt/IntManagement';
-import CreeTicket from './pages/Client/TicketInt/CreeTicket';
+import CreeTicket from './pages/Client/TicketInt/ViewTicketClient';
 import DashTech from './pages/Employe/DashTech';
 import Login from './pages/Employe/Login';
+import TicketManagement from './pages/Employe/IntTechnicien/TicketManagement';
+import ViewTicket from './pages/Employe/IntTechnicien/ViewTicket';
+import EditTicket from './pages/Client/TicketInt/EditTicket';
+import ViewTicketClient from './pages/Client/TicketInt/ViewTicketClient';
 
 
 function App() {
@@ -86,13 +90,15 @@ function App() {
        ## dashboard client
        <Route path='/dashClient' exact element={<DashClient/>}>
          <Route path='/dashClient/intervention' exact element={<IntManagement/>} />
-         <Route path='/dashClient/cree_int' exact element={<CreeTicket/>} />
+         <Route path='/dashClient/view/:id' exact element={<ViewTicketClient/>} />
+         <Route path='/dashClient/edit/:id' exact element={<EditTicket/>} />
        </Route>
 
 
        ## dashboard Technicen
        <Route path='/dashTech' exact element={<DashTech/>}>
-         
+        <Route path='/dashTech/intervention' exact element={<TicketManagement/>} />
+        <Route path='/dashTech/view/:id' exact element={<ViewTicket/>} />
        </Route>
 
        

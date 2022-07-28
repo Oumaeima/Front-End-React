@@ -111,9 +111,7 @@ export default function DashAdmin() {
                    <li className="nav-item"> <a className="nav-link" href="/dashAdmin/gerer_client">Gestion Client</a></li>
                    <li className="nav-item"> <a className="nav-link" href="/dashAdmin/gerer_employee">Gestion Employer</a></li>
                    <li className="nav-item"> <a className="nav-link" href="/dashAdmin/gerer_dossier">Gestion Dossier</a></li>
-                   <li className="nav-item"> <a className="nav-link" href="/dashAdmin/gerer_ticketint">Ticket Intervention</a></li>
-                   <li className="nav-item"> <a className="nav-link" href="pages/tables/js-grid.html">Ticket Offsite</a></li>
-                   <li className="nav-item"> <a className="nav-link" href="pages/tables/js-grid.html">Ticket Par Order</a></li>
+
                </ul>
                </div>
            </li>

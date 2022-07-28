@@ -86,36 +86,37 @@ export default function Login() {
                        
                         <form onSubmit={handleSubmit} className="pt-3">
                         
-                        <div className="form-group">
-                            <input type="email" 
-                            className="form-control form-control-lg" 
-                            id="exampleInputEmail1" 
-                            placeholder="Username"
-                            value={user.name}
-                            onChange={handleChange}
-                            required />
-                        </div>
-                        <div className="form-group">
-                            <input type="password" 
-                            className="form-control form-control-lg" 
-                            id="exampleInputPassword1" 
-                            placeholder="Password"
-                            value={user.password}
-                            onChange={handleChange}
-                            required />
-                        </div>
-                        <div className="mt-3">
-                            <a type="submit" className="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="../../index.html">SIGN IN</a>
-                        </div>
-                        <div className="my-2 d-flex justify-content-between align-items-center">
-                            <div className="form-check">
-                            <label className="form-check-label text-muted">
-                                <input  type="checkbox" className="form-check-input" />
-                                Keep me signed in
-                            </label>
+                            <div className="form-group">
+                                <input type="email" 
+                                className="form-control form-control-lg" 
+                                id="email"
+                                name="email"
+                                placeholder="Username"
+                                onChange={handleChange}
+                                required />
                             </div>
-                            <a href="#" className="auth-link text-black">Forgot password?</a>
-                        </div>
+                            <div className="form-group">
+                                <input type="password" 
+                                className="form-control form-control-lg" 
+                                id="password"
+                                name="password"
+                                placeholder="Password"
+                               
+                                onChange={handleChange}
+                                required />
+                            </div>
+                            <div className="mt-3">
+                                <button type="submit" className="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
+                            </div>
+                            <div className="my-2 d-flex justify-content-between align-items-center">
+                                <div className="form-check">
+                                <label className="form-check-label text-muted">
+                                    <input  type="checkbox" className="form-check-input" />
+                                    Keep me signed in
+                                </label>
+                                </div>
+                                <a href="#" className="auth-link text-black">Forgot password?</a>
+                            </div>
                         
                         </form>
                     </div>

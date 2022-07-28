@@ -194,12 +194,12 @@ export default function ViewDossier() {
                                 <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">SLA</th>
-                                <th scope="col">Owner</th>
+                                <th className="col-6 col-sm-2">Owner</th>
                                 <th class="col-6 col-sm-2">Date-début</th>
                                 <th class="col-6 col-sm-2">Date-cloture</th>
-                                <th scope="col">Tache</th>
-                                <th scope="col">Status</th>
-                                <th class="col-6 col-sm-2">Action</th>
+                                <th className="col-6 col-sm-2">Tache</th>
+                                <th className="col-6 col-sm-2">Status</th>
+                                <th className="col-6 col-sm-2">Action</th>
                                 </tr>
                             </thead>
                         

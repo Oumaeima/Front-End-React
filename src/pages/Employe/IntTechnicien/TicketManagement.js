@@ -5,8 +5,7 @@ import axios from "axios";
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import ReactPaginate from "react-paginate";
 
-export default function IntManagement() {
-
+export default function TicketManagement() {
     const id = JSON.parse(localStorage.getItem('id'));
     let navigate = useNavigate()
     const [record, setRecord] = useState([]);
@@ -33,7 +32,7 @@ export default function IntManagement() {
     // On Page load display all records 
     const loadTicketDetail = async () => {
         // eslint-disable-next-line no-unused-vars
-        var response = fetch(`http://localhost:5000/client/AllIntervention/${id}`)
+        var response = fetch(`http://localhost:5000/ticket/getIntByTech/${id}`)
             .then(function (response) {
                 return response.json();
             })
@@ -43,31 +42,7 @@ export default function IntManagement() {
             
     }
    
-        // Insert ticket 
-        const submitTicket = async (e) => {
-            e.preventDefault();
-            e.target.reset();
-            try{
-            await axios.post(`http://localhost:5000/ticket/createNewTicket/${id}`, ticket);
-            Swal.fire(
-                'Good job!',
-                'ticket inserted!',
-                'success'
-              )
-              loadTicketDetail()
-            }
-                catch (err) {
-                    Swal.fire({
-                        title: "Error",
-                        text: err.response.data.msg,
-                        icon: "error",
-                        button: "OK",
-        
-                    });
-            }
-            
-        };
-
+     
  
     // Delete Employee Record
     const deleteRecord = (ticketId) => {
@@ -85,7 +60,7 @@ export default function IntManagement() {
 
      const [posts, setPost] = useState(null);
      useEffect(() => {
-         fetch(`http://localhost:5000/client/AllIntervention/${id}`)
+         fetch(`http://localhost:5000/ticket/getIntByTech/${id}`)
              .then(response => {
                  console.log(response.ok)
                  if (!response.ok) {
@@ -94,7 +69,7 @@ export default function IntManagement() {
                  return response.json();
              }).then(data => {
                  console.log(data); 
-                 setPost(data)
+                 setPost(data.response)
              }).catch(e => {
                  console.log(e.message);
              });
@@ -106,10 +81,10 @@ export default function IntManagement() {
      const [data, setData] = useState([])
 
      useEffect(()=>{
-         fetch(`http://localhost:5000/client/AllIntervention/${id}`)
+         fetch(`http://localhost:5000/ticket/getIntByTech/${id}`)
          .then((res) => res.json())
          .then((data) => {
-             setData(data)
+             setData(data.response)
          })
      }, [])
 
@@ -154,99 +129,96 @@ export default function IntManagement() {
                 <hr />
                 <div className="tab-content" id="myTabContent">
                 <div className="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info">
-               
-                <button type="button" class="btn btn-inverse-info btn-fw" data-toggle="modal" data-target="#AddTicket"><i class="icon-plus text-success"></i></button>
-                <div className='table-responsive'>
-                <table style={{marginTop : "15px"}} class="table table-hover">
-                        <thead>
-                            <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">SLA</th>
-                            <th scope="col">Owner</th>
-                            <th scope="col">Date-début</th>
-                            <th scope="col">Date-cloture</th>
-                            <th scope="col">Tache</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                    
-                        {data &&
-                data.filter(post => {
-                    if (query === '') {
-                        return post;
-                    } else if (post.taches.toLowerCase().includes(query.toLowerCase()) ) {
-                        return post;
-                    }
-                }).map((post, index) => (
-                    <tbody>
-                                <tr class="bg-blue">
-                                <td class="pt-3">{post.idti}</td>
-                                <td class="pt-3">{post.sla}</td>
-                                <td class="pt-3">{post.owner}</td>
-                                <td class="pt-3">{post.datedeb}</td>
-                                <td class="pt-3">{post.dateClos}</td>
-                                <td class="pt-3">{post.taches}</td>
-                                <td class="pt-3">{post.status}</td>
-                                <td>
-                                    <Link data-toggle="tooltip" data-placement="bottom"title="read" className=" mr-2" to={`/dashClient/view/${post.idti}`}>
-                                        <i class="icon-user-female text-primary"></i> 
-                                    </Link>
-                                    <Link data-toggle="tooltip" data-placement="bottom" title="edit" className=" mr-2" to={`/dashClient/edit/${post.idti}`}>
-                                        <i class=" icon-cursor-move text-success"></i> 
-                                    </Link>
+            
+                    <div className='table-responsive'>
+                    <table style={{marginTop : "15px"}} class="table table-hover">
+                            <thead>
+                                <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">SLA</th>
+                                <th scope="col">Owner</th>
+                                <th scope="col">Date-début</th>
+                                <th scope="col">Date-cloture</th>
+                                <th scope="col">Tache</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                        
+                            {data &&
+                    data.filter(post => {
+                        if (query === '') {
+                            return post;
+                        } else if (post.taches.toLowerCase().includes(query.toLowerCase()) ) {
+                            return post;
+                        }
+                    }).map((post, index) => (
+                        <tbody>
+                                    <tr class="bg-blue">
+                                    <td class="pt-3">{post.idti}</td>
+                                    <td class="pt-3">{post.sla}</td>
+                                    <td class="pt-3">{post.owner}</td>
+                                    <td class="pt-3">{post.datedeb}</td>
+                                    <td class="pt-3">{post.dateClos}</td>
+                                    <td class="pt-3">{post.taches}</td>
+                                    <td class="pt-3">{post.status}</td>
+                                    <td>
+                                        <Link data-toggle="tooltip" data-placement="bottom"title="read" className=" mr-2" to={`/dashTech/view/${post.idti}`}>
+                                            <i class="icon-user-female text-primary"></i> 
+                                        </Link>
+                                        
+                                        <a  data-toggle="tooltip" data-placement="bottom" title="delete"
+                                            onClick={() =>
+                                                
+                                                Swal.fire({
+                                                    title: 'Vous été Sur ?',
+                                                    text: "Sur Pour supprimer ticket : " + post.idti,
+                                                    icon: 'warning',
+                                                    showCancelButton: true,
+                                                        confirmButtonColor: '#3085d6',
+                                                        cancelButtonColor: '#d33',
+                                                        confirmButtonText: 'Oui, Supprimer!'
+                                                    }).then((result) => {
+                                                        if (result.isConfirmed) 
+                                                        {
+                                                        deleteRecord(post.idti)
+                                                        Swal.fire(
+                                                                'Supprimer!',
+                                                                'ticket a été Supprimer.',
+                                                                    'success'
+                                                                )
+                                                                }
+                                                                
+                                                        })
+                                            }
+                                        >
+                                            <i class="icon-trash text-danger"></i>
+                                        </a>
+                                    </td>
                                     
-                                    <a  data-toggle="tooltip" data-placement="bottom" title="delete"
-                                        onClick={() =>
-                                            
-                                            Swal.fire({
-                                                title: 'Vous été Sur ?',
-                                                text: "Sur Pour supprimer ticket : " + post.idti,
-                                                icon: 'warning',
-                                                showCancelButton: true,
-                                                    confirmButtonColor: '#3085d6',
-                                                    cancelButtonColor: '#d33',
-                                                    confirmButtonText: 'Oui, Supprimer!'
-                                                }).then((result) => {
-                                                    if (result.isConfirmed) 
-                                                    {
-                                                    deleteRecord(post.idti)
-                                                    Swal.fire(
-                                                            'Supprimer!',
-                                                            'ticket a été Supprimer.',
-                                                                'success'
-                                                            )
-                                                            }
-                                                            
-                                                    })
-                                        }
-                                    >
-                                        <i class="icon-trash text-danger"></i>
-                                    </a>
-                                </td>
-                                
-                            </tr>        
-                            </tbody>
+                                </tr>        
+                                </tbody>
 
-                ) ).slice(offset, offset+PER_PAGE)
-            }
+                    ) ).slice(offset, offset+PER_PAGE)
+                }
 
 
-                    </table>
-                </div>
+                        </table>
+                    </div>
+                
 
-                    <ReactPaginate
-                                previousLabel={"Previous"}
-                                nextLabel={"Next"}
-                                pageCount={pageCount}
-                                onPageChange={hundelPageClick}
-                                containerClassName={"pagination"}
-                                previousLinkClassName={"pagination__link"}
-                                
-                                disabledClassName = {"pagination__link--disabled"}
-                                activeClassName={"pagination__link--active"}
-                                
-                        ></ReactPaginate>
+                        <ReactPaginate
+                                    previousLabel={"Previous"}
+                                    nextLabel={"Next"}
+                                    pageCount={pageCount}
+                                    onPageChange={hundelPageClick}
+                                    containerClassName={"pagination"}
+                                    previousLinkClassName={"pagination__link"}
+                                    
+                                    disabledClassName = {"pagination__link--disabled"}
+                                    activeClassName={"pagination__link--active"}
+                                    
+                            ></ReactPaginate>
 
                 </div>{/* tab content ends */}
                
@@ -273,7 +245,7 @@ export default function IntManagement() {
                         </button>
                     </div>
                 <div className="modal-body">
-                    <form onSubmit={submitTicket}>
+                    <form >
                     <div className="form-group">
                         <label htmlFor="sla" className="col-form-label">SLA:</label>
                         <input id='sla' name='sla' onChange={e => onInputChange(e)} type="text" class="form-control"/>           

@@ -52,7 +52,7 @@ export default function EditClient() {
                     id: id,
                     update: true,
                     nom: result.response[0].nom,
-                    prenom: result.response[0]. prenom,
+                    prenom: result.response[0].prenom,
                     activitesociete: result.response[0].activitesociete,
                     tel: result.response[0].tel,
                     email: result.response[0].email,
@@ -69,7 +69,7 @@ export default function EditClient() {
         <div class="col-12">
               <div class="card shadow p-5">
                 <div class="card-body">
-                  <h4 class="card-title">Modifier ticket</h4>
+                  <h4 class="card-title">Modifier Client</h4>
                   <h5 className="text-success">Client ID : {client.id}</h5>
                     <form onSubmit={updateClient}>
                     <div className="form-group mb-3">
