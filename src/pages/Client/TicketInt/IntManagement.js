@@ -80,6 +80,38 @@ export default function IntManagement() {
                 alert('Error in the Code');
             });
     };
+    const [mail, setMail] = useState({
+        userMail: "",
+        userMessage: "",
+        object: "",
+    })
+
+    const { userMail, userMessage, object} = mail
+
+    const onInputChangeMail = e =>{
+        setMail({...mail, [e.target.name]: e.target.value})
+    }
+
+    const sendmail = async (e) => {
+        e.preventDefault();
+        try{
+        await axios.post("http://localhost:5000/mailing/sendmail", mail);
+        Swal.fire(
+            'Good job!',
+            'mail sent!',
+            'success'
+          )
+        }catch(err){
+            Swal.fire({
+                title: "Error",
+                text: err.response.data.msg,
+                icon: "error",
+                button: "OK",
+
+            });
+
+        }
+    };
      /**--------------------------- search record -------------------------- */
      const [query, setQuery] = useState("")
 
@@ -156,6 +188,7 @@ export default function IntManagement() {
                 <div className="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info">
                
                 <button type="button" class="btn btn-inverse-info btn-fw" data-toggle="modal" data-target="#AddTicket"><i class="icon-plus text-success"></i></button>
+                <button style={{marginLeft : "15px"}} type="button" class="btn btn-inverse-info btn-fw" data-toggle="modal" data-target="#SendEmail"><i class="icon-user-follow text-success"></i></button>
                 <div className='table-responsive'>
                 <table style={{marginTop : "15px"}} class="table table-hover">
                         <thead>
@@ -305,6 +338,49 @@ export default function IntManagement() {
 
 
 {/* END POPUP ADD TICKET INTERVENTION */}
+
+
+{/* POPUP SEND EMAIL */}
+
+
+<div className="modal fade" id="SendEmail" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div  className="modal-dialog" role="document">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title" id="exampleModalLabel">Nouveau message</h5>
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                <div className="modal-body">
+                    <form onSubmit={sendmail}>
+                    <div className="form-group">
+                        
+                        <input id='userMail' name='userMail' onChange={e => onInputChangeMail(e)} type="text" class="form-control" placeholder='À'/>           
+                    </div>
+                    
+                    <div className="form-group">
+                        
+                        <input  id='userMessage' name="userMessage" onChange={e => onInputChangeMail(e)} type="text" class="form-control" placeholder="Objet"/>           
+                    </div>
+                   
+                    <div className="form-group">
+                        
+                        <textarea name="object" id='object' onChange={e => onInputChangeMail(e)} className="form-control"  rows={5} placeholder='Message' />
+                  </div>
+                  <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" data-dismiss="modal" aria-label="Close">Quiter</button>
+                    <button type="submit" className="btn btn-primary">Envoyer</button>
+                </div>
+                    </form>
+                </div>
+                
+                </div>
+            </div>
+        </div>
+
+
+{/* END POPUP SEND EMAIL */}
     
     </>
   )

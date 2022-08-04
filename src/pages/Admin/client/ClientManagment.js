@@ -168,6 +168,11 @@ export default function ClientManagment() {
                                     <td class="pt-3">{post.email}</td>
                                     <td>
                                 
+                                
+                                <Link style={{marginLeft : "8px"}} data-toggle="tooltip" data-placement="bottom" title="mail" className=" mr-2" to={`/dashAdmin/view_client/${post.idclt}`}>
+                                    <i class="icon-eye text-primary"></i> 
+                                </Link>
+
                                 <Link style={{marginLeft : "8px"}} data-toggle="tooltip" data-placement="bottom" title="edit" className=" mr-2" to={`/dashAdmin/Edit_Client/editID/${post.idclt}`}>
                                     <i class=" icon-cursor-move text-success"></i> 
                                 </Link>

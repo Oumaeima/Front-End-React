@@ -69,6 +69,18 @@ export default function ViewTicket() {
   useEffect(() =>{  
     loadTache();
   },[]);
+
+  const updateEtatTicket = async e => {
+        e.preventDefault();
+        await axios.put(`http://localhost:5000/ticket/updateStateResolu/${id}`,ticket);
+        Swal.fire(
+            'Good job!',
+            'ticket Updated!',
+            'success'
+        )
+        history("/dashTech/intervention");
+    };
+
   const loadTache =  () => {
     fetch(`http://localhost:5000/ticket/TicketTaches/${id}`,{
         method: "GET",
@@ -87,16 +99,7 @@ export default function ViewTicket() {
         .catch((error) => console.log("error", error));
 };
 
-const updateEtatTicket = async e => {
-    e.preventDefault();
-    await axios.put(`http://localhost:5000/ticket/updateStateResolu/${id}`,ticket);
-    Swal.fire(
-        'Good job!',
-        'ticket Updated!',
-        'success'
-      )
-    history("/dashTech/intervention");
-};
+
 
   return (
     <>

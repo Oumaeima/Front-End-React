@@ -41,6 +41,7 @@ import TicketManagement from './pages/Employe/IntTechnicien/TicketManagement';
 import ViewTicket from './pages/Employe/IntTechnicien/ViewTicket';
 import EditTicket from './pages/Client/TicketInt/EditTicket';
 import ViewTicketClient from './pages/Client/TicketInt/ViewTicketClient';
+import ViewClient from './pages/Admin/client/ViewClient';
 
 
 function App() {
@@ -84,6 +85,7 @@ function App() {
           <Route path="/dashAdmin/Edit_ticket/editID/:id"  element={<EditTicketIntAdmin/>}/>
           <Route path="/dashAdmin/Edit_User/editID/:id"  element={<EditEmployeeAdmin/>}/>
           <Route path='/dashAdmin/view_ticketint/ticketID/:id' element={<ViewTicketIntAdmin/>}/>
+          <Route path='/dashAdmin/view_client/:id' element={<ViewClient/>}/>
        </Route>
 
 
@@ -97,7 +99,7 @@ function App() {
 
        ## dashboard Technicen
        <Route path='/dashTech' exact element={<DashTech/>}>
-        <Route path='/dashTech/intervention' exact element={<TicketManagement/>} />
+        <Route path="/dashTech/intervention" exact element={<TicketManagement/>} />
         <Route path='/dashTech/view/:id' exact element={<ViewTicket/>} />
        </Route>
 
