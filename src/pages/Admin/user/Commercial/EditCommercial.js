@@ -3,24 +3,21 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 
-
-export default function EditEmployeeAdmin() {
-
+export default function EditCommercial() {
     let history = useNavigate();
     const { id } = useParams();
 
+    const[ListeDossier,setListDossier] = useState([]);
     const [user ,setUser] = useState({
         nom:"",
         prenom:"",
-        poste:"",
-       
         tel:"",
         email:"",
-        password:""
+        nomsociete:""
     })
    
    
-    const { nom,prenom,poste,tel,email,password } = user;
+    const { nom,prenom,tel,email,nomsociete} = user;
    
     const onInputChange = e => {
       setUser({ ...user,[e.target.name]: e.target.value });
@@ -33,13 +30,13 @@ export default function EditEmployeeAdmin() {
      
     const onSubmit = async e => {
       e.preventDefault();
-      await axios.put(`http://localhost:5000/api/${id}`, user);
+      await axios.put(`http://localhost:5000/api/updateCommercial/${id}`, user);
       Swal.fire(
         'Good job!',
         'User Updated!',
         'success'
       )
-      history("/dashAdmin/gerer_employee");
+      history("/dashAdmin/gerer_commercial");
     };
    
     const loadUser =  () => {
@@ -54,15 +51,22 @@ export default function EditEmployeeAdmin() {
                       update: true,
                       nom: result.response[0].nom,
                       prenom: result.response[0].prenom,
+                      nomsociete: result.response[0].nomsociete,
                       tel:result.response[0].tel,
-                      poste: result.response[0].poste,
                       email: result.response[0].email,
-                      password: result.response[0].password,
-   
                   });
               })
               .catch((error) => console.log("error", error));
     };
+
+    useEffect(() => {
+        const getDossier = async () => {
+            const res = await fetch('http://localhost:5000/dossier/getDossier');
+            const getdata = await res.json();
+            setListDossier(getdata);
+        }
+        getDossier();
+      }, []);
 
   return (
     <>
@@ -93,16 +97,16 @@ export default function EditEmployeeAdmin() {
             onChange={e => onInputChange(e)}
           />
         </div>
+
         <div className="form-group mb-3">
-          <input
-            type="text"
-            className="form-control form-control-lg"
-            placeholder="Entrer poste"
-            name="poste"
-            value={poste}
-            onChange={e => onInputChange(e)}
-          />
+            <select id="nomsociete" name="nomsociete" class="form-control" value={nomsociete} onChange={e => onInputChange(e)}>
+                <option value={nomsociete}> {nomsociete} </option>
+                    {ListeDossier.map ((res)=>(
+                        <option value={res.idd}>{res.nomsociete}</option>
+                    ))}
+            </select>
         </div>
+        
         <div className="form-group mb-3">
           <input
             type="text"
@@ -124,17 +128,7 @@ export default function EditEmployeeAdmin() {
             onChange={e => onInputChange(e)}
           />
         </div>
-        <div className="form-group mb-3">
-          <input
-            type="password"
-            className="form-control form-control-lg"
-            placeholder="******"
-            name="password"
-          
-            onChange={e => onInputChange(e)}
-          />
-        </div>
-        <button type="submit" className="btn btn-secondary btn-block">Modifier Employer</button>
+        <button type="submit" className="btn btn-secondary btn-block">Modifier</button>
      </form>
               
             </div>

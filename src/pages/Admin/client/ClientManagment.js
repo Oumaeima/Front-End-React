@@ -26,6 +26,18 @@ export default function ClientManagment() {
           setClient({ ...client, [e.target.name]: e.target.value });
       };
 
+      const [mail, setMail] = useState({
+        userMail: "",
+        userMessage: "",
+        object: "",
+    })
+
+    const { userMail, userMessage, object} = mail
+
+    const onInputChangeMail = e =>{
+        setMail({...mail, [e.target.name]: e.target.value})
+    }
+
        // On Page load display all records 
        const loadClientDetail = async () => {
         // eslint-disable-next-line no-unused-vars
@@ -50,6 +62,27 @@ export default function ClientManagment() {
             .catch(() => {
                 alert('Error in the Code');
             });
+    };
+
+    const sendmail =  (e) => {
+        e.preventDefault();
+        try{
+         axios.post("http://localhost:5000/mailing/sendmail", mail);
+        Swal.fire(
+            'Good job!',
+            'mail sent!',
+            'success'
+          )
+        }catch(err){
+            Swal.fire({
+                title: "Error",
+                text: err.response.data.msg,
+                icon: "error",
+                button: "OK",
+
+            });
+
+        }
     };
 
         // Insert Client Records 
@@ -137,6 +170,7 @@ export default function ClientManagment() {
                 <div className="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info">
                
                 <button data-toggle="modal" data-target="#AddClient" type="button" class="btn btn-inverse-info btn-fw"><i class="icon-plus text-success"></i></button>
+                <button style={{marginLeft : "15px"}} data-toggle="modal" data-target="#SendEmail" type="button" class="btn btn-inverse-info btn-fw"><i class="icon-user-follow text-success"></i></button>
                 <table style={{marginTop : "15px"}} class="table table-hover">
                             <thead>
                                 <tr>
@@ -285,6 +319,40 @@ export default function ClientManagment() {
 
             {/* END CREATE CLIENT ACCOUNT POPUP */}
 
+            {/* CREATE CLIENT ACCOUNT POPUP */}   
+
+            <div className="modal fade" id="SendEmail" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div  className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">Ajouter Client</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                    <div className="modal-body">
+                    <form onSubmit={sendmail} className="forms-sample col-lg-12">
+                            <div class="form-group">
+                                <label style={{fontSize : "15px"}} >À</label>
+                                <input  onChange={e => onInputChangeMail(e)} class="form-control"  name="userMail" />              
+                            </div>
+                            <div class="form-group">
+                                <label style={{fontSize : "15px"}}>Objet</label>  
+                                <input onChange={e => onInputChangeMail(e)} type="text"  class="form-control"  name="object" required/>
+                            </div>
+                            <div class="form-group">
+                                <label style={{fontSize : "15px"}}>Message</label>  
+                                <textarea onChange={e => onInputChangeMail(e)} type="text"  class="form-control"  name="userMessage" required/>
+                            </div>
+                            <button type="submit" class="btn btn-inverse-success btn-fw col-12">Envoyer</button>
+                        </form>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+
+            {/* END CREATE CLIENT ACCOUNT POPUP */}
     </>
   )
 }

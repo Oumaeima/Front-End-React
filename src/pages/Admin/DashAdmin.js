@@ -109,8 +109,9 @@ export default function DashAdmin() {
                <div className="collapse" id="tables">
                <ul className="nav flex-column sub-menu">
                    <li className="nav-item"> <a className="nav-link" href="/dashAdmin/gerer_client">Gestion Client</a></li>
-                   <li className="nav-item"> <a className="nav-link" href="/dashAdmin/gerer_employee">Gestion Employer</a></li>
+                   <li className="nav-item"> <a className="nav-link" href="/dashAdmin/gerer_technicien">Gestion Technicen</a></li>
                    <li className="nav-item"> <a className="nav-link" href="/dashAdmin/gerer_dossier">Gestion Dossier</a></li>
+                   <li className="nav-item"> <a className="nav-link" href="/dashAdmin/gerer_commercial">Gestion Commercial</a></li>
 
                </ul>
                </div>

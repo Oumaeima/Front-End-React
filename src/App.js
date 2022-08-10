@@ -16,11 +16,10 @@ import DashClient from './pages/Client/DashClient';
 import DashAdmin from './pages/Admin/DashAdmin';
 import StatisticsAdmin from './pages/Admin/Statistics'
 import ClientManagmentA from './pages/Admin/client/ClientManagment'
-import EmployeeManagmentA from './pages/Admin/user/EmployeeManagment'
+import EmployeeManagmentA from './pages/Admin/user/Technicien/EmployeeManagment'
 import DossierManagmentA from './pages/Admin/dossier/DossierManagment'
 import TicketsManagmentIntA from './pages/Admin/tickets/TicketsManagmentInt'
 import ProfileA from './pages/Admin/ProfileA'
-import ListIntTickets from './pages/Client/ListIntTickets';
 import LoginSuperAdmin from './pages/SuperAdmin/LoginSuperAdmin'
 import LoginAdmin from './pages/Admin/LoginAdmin';
 import LoginClient from './pages/Client/LoginClient';
@@ -29,19 +28,26 @@ import EditDossier from './pages/SuperAdmin/dossier/EditDossier';
 import EditClient from './pages/Admin/client/EditClient';
 import EditDossierAdmin from './pages/Admin/dossier/EditDossierAdmin';
 import EditTicketIntAdmin from './pages/Admin/tickets/EditTicketIntAdmin';
-import EditEmployeeAdmin from './pages/Admin/user/EditEmployeeAdmin';
+import EditEmployeeAdmin from './pages/Admin/user/Technicien/EditEmployeeAdmin';
 import ViewTicketIntAdmin from './pages/Admin/tickets/ViewTicketIntAdmin';
 import ViewTicketInt from './pages/SuperAdmin/tickets/ViewTicketInt';
 import ViewDossier from './pages/Admin/dossier/ViewDossier';
 import IntManagement from './pages/Client/TicketInt/IntManagement';
-import CreeTicket from './pages/Client/TicketInt/ViewTicketClient';
-import DashTech from './pages/Employe/DashTech';
+import DashTech from './pages/Employe/Technicien/DashTech';
 import Login from './pages/Employe/Login';
-import TicketManagement from './pages/Employe/IntTechnicien/TicketManagement';
-import ViewTicket from './pages/Employe/IntTechnicien/ViewTicket';
+import TicketManagement from './pages/Employe/Technicien/TicketManagement';
+import ViewTicket from './pages/Employe/Technicien/ViewTicket';
 import EditTicket from './pages/Client/TicketInt/EditTicket';
 import ViewTicketClient from './pages/Client/TicketInt/ViewTicketClient';
 import ViewClient from './pages/Admin/client/ViewClient';
+import POManagement from './pages/Client/TicketPO/POManagement';
+import CommercialManagment from './pages/Admin/user/Commercial/CommercialManagment';
+import EditCommercial from './pages/Admin/user/Commercial/EditCommercial';
+import ViewPO from './pages/Client/TicketPO/ViewPO';
+import EditPO from './pages/Client/TicketPO/EditPO';
+import DashCom from './pages/Employe/Commercial/DashCom';
+import POManagementCom from './pages/Employe/Commercial/POManagementCom';
+import ViewPOComm from './pages/Employe/Commercial/ViewPOComm';
 
 
 function App() {
@@ -62,7 +68,7 @@ function App() {
           <Route path='/dashSuperAdmin/profile'  element={<Profile/>}/>
           <Route path='/dashSuperAdmin/gerer_client'  element={<ClientManagment/>}/>
           <Route path='/dashSuperAdmin/gerer_admin'  element={<AdminManagment/>}/>
-          <Route path='/dashSuperAdmin/gerer_employee'  element={<EmployeeManagment/>}/>
+          <Route path='/dashSuperAdmin/gerer_technicien'  element={<EmployeeManagment/>}/>
           <Route path='/dashSuperAdmin/gerer_dossier'  element={<DossierManagment/>}/>
           <Route path='/dashSuperAdmin/gerer_ticketint'  element={<TicketsManagmentInt/>}/>
           <Route path="/dashSuperAdmin/Edit_ticket/editID/:id"  element={<EditTicketsInt/>}/>
@@ -76,7 +82,8 @@ function App() {
           <Route index element={<StatisticsAdmin/>}/>
           <Route path='/dashAdmin/profileA' exact element={<ProfileA/>}/>
           <Route path='/dashAdmin/gerer_client' exact element={<ClientManagmentA/>}/>
-          <Route path='/dashAdmin/gerer_employee' exact element={<EmployeeManagmentA/>}/>
+          <Route path='/dashAdmin/gerer_technicien' exact element={<EmployeeManagmentA/>}/>
+          <Route path='/dashAdmin/gerer_commercial' exact element={<CommercialManagment/>}/>
           <Route path='/dashAdmin/gerer_dossier' exact element={<DossierManagmentA/>}/>
           <Route path='/dashAdmin/gerer_ticketint' exact  element={<TicketsManagmentIntA/>}/>
           <Route path='/dashAdmin/Edit_Client/editID/:id' exact element={<EditClient/>}/>
@@ -84,6 +91,7 @@ function App() {
           <Route path="/dashAdmin/Edit_Dossier/editID/:id" element={<EditDossierAdmin/>} />
           <Route path="/dashAdmin/Edit_ticket/editID/:id"  element={<EditTicketIntAdmin/>}/>
           <Route path="/dashAdmin/Edit_User/editID/:id"  element={<EditEmployeeAdmin/>}/>
+          <Route path="/dashAdmin/Edit_commercial/:id"  element={<EditCommercial/>}/>
           <Route path='/dashAdmin/view_ticketint/ticketID/:id' element={<ViewTicketIntAdmin/>}/>
           <Route path='/dashAdmin/view_client/:id' element={<ViewClient/>}/>
        </Route>
@@ -92,15 +100,25 @@ function App() {
        ## dashboard client
        <Route path='/dashClient' exact element={<DashClient/>}>
          <Route path='/dashClient/intervention' exact element={<IntManagement/>} />
+         <Route path='/dashClient/partOrder' exact element={<POManagement/>} />
          <Route path='/dashClient/view/:id' exact element={<ViewTicketClient/>} />
+         <Route path='/dashClient/view-po/:id' exact element={<ViewPO/>} />
          <Route path='/dashClient/edit/:id' exact element={<EditTicket/>} />
+         <Route path='/dashClient/edit-po/:id' exact element={<EditPO/>} />
        </Route>
 
 
-       ## dashboard Technicen
+       ## dashboard Technicien
        <Route path='/dashTech' exact element={<DashTech/>}>
         <Route path="/dashTech/intervention" exact element={<TicketManagement/>} />
         <Route path='/dashTech/view/:id' exact element={<ViewTicket/>} />
+       </Route>
+
+
+       ## dashboard Commercial
+       <Route path='/dashCommercial' exact element={<DashCom/>}>
+        <Route path="/dashCommercial/partOrder" exact element={<POManagementCom/>} />
+        <Route path='/dashCommercial/view-po/:id' exact element={<ViewPOComm/>} />
        </Route>
 
        

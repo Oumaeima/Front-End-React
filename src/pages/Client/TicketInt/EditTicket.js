@@ -88,10 +88,12 @@ export default function EditTicket() {
               <div class="card shadow p-5">
                 <div class="card-body">
                   <h4 class="card-title">Modifier ticket</h4>
-                  <h5 className="text-success">Ticket ID : {ticket.id} </h5>
+                  
                     <form onSubmit={updateTicket}>
                     <div className="form-group mb-3">
+                    <label htmlFor="sla" className="col-form-label">SLA</label>
                         <input
+                            id='sla'
                             type="text"
                             className="form-control form-control-lg"
                             placeholder="SLA"
@@ -101,7 +103,9 @@ export default function EditTicket() {
                         />
                     </div>
                     <div className="form-group mb-3">
+                        <label htmlFor="owner" className="col-form-label">Owner</label>
                         <input
+                            id='owner'
                             type="text"
                             className="form-control form-control-lg"
                             name="owner"
@@ -110,7 +114,9 @@ export default function EditTicket() {
                         />
                     </div>
                     <div className="form-group mb-3">
+                        <label htmlFor="datedb" className="col-form-label">Date Début</label>
                         <input
+                            id='datedb'
                             type="text"
                             className="form-control form-control-lg"
                             placeholder="date debut"
@@ -120,7 +126,9 @@ export default function EditTicket() {
                         />
                     </div>
                     <div className="form-group mb-3">
+                        <label htmlFor="dateClos" className="col-form-label">Date Clos</label>
                         <input
+                            id='dateClos'
                             type="text"
                             className="form-control form-control-lg"
                             placeholder="date debut"
@@ -130,18 +138,22 @@ export default function EditTicket() {
                         />
                     </div>
                     <div className="form-group mb-3">
-                    <input
+                        <label htmlFor="status" className="col-form-label">Status</label>
+                        <input
+                            id='status'
                             type="text"
                             className="form-control form-control-lg"
                             placeholder="date debut"
-                            name="dateClos"
+                            name="status"
                             value={status}
                             onChange={e => onInputChange(e)}
-                        />
+                            />
                         
                     </div>
                     <div className="form-group mb-3">
+                        <label htmlFor="tache" className="col-form-label">Tache</label>
                         <input
+                            id='tache'
                             type="text"
                             className="form-control form-control-lg"
                             placeholder="taches"
@@ -151,9 +163,6 @@ export default function EditTicket() {
                         />
                     </div> 
                    
-
-
-
                     <button type="submit" className="btn btn-secondary btn-block">Modifier Ticket</button>
                     </form>
                   

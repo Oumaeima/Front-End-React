@@ -12,15 +12,13 @@ export default function EmployeeManagment() {
     const [user, setUser] = useState({
         nom: "",
         prenom: "",
-        poste: "",
-        photo:"",
         tel: "",
         email: "",
         password: ""
     });
 
     //  Object Destructuring 
-    const { nom, prenom, poste,photo, tel, email, password } = user;
+    const { nom, prenom, tel, email, password } = user;
     const onInputChange = e => {
         setUser({ ...user, [e.target.name]: e.target.value });
     };
@@ -152,7 +150,6 @@ export default function EmployeeManagment() {
                                     <th scope="col">#</th>
                                     <th scope="col">FirstName</th>
                                     <th scope="col">LastName</th>
-                                    <th scope="col">Post</th>
                                     <th scope="col">Tel</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Action</th>
@@ -173,7 +170,6 @@ export default function EmployeeManagment() {
                                     <td class="pt-3">{post.idu}</td>
                                         <td class="pt-3">{post.nom}</td>
                                         <td class="pt-3">{post.prenom}</td>
-                                        <td class="pt-3">{post.poste}</td>
                                         <td class="pt-3">{post.tel}</td>
                                         <td class="pt-3">{post.email}</td>
                                         <td>
@@ -258,18 +254,7 @@ export default function EmployeeManagment() {
                             <label htmlFor="prenom" className="col-form-label">Prenom:</label>
                             <input type="text" className="form-control" id="prenom" name="prenom" value={prenom} onChange={e => onInputChange(e)}  minlength='3'pattern='[a-zA-Z]*'required/>
                         </div>
-                        <div className="form-group">
-                            <label  className="col-form-label">Post:</label>
-                                <select name="poste" class="form-control" value={poste} onChange={e => onInputChange(e)}>
-                                    <option value="">---------- Choisir Poste ---------- </option>
-                                    <option value="Technicien">Technicien</option>
-                                    <option value="Superviseur">Superviseur</option>
-                                    <option value="Commerciale">Commerciale</option>
-                                </select>
-                        </div>
-                        <div className="form-group">
-                            <label className="col-form-label">Photo:</label>
-                            <input type="file" class="form-control" name="photo" value={photo} onChange={e => onInputChange(e)} accept="image/*" multiple />                        </div>
+                      
                         <div className="form-group">
                             <label htmlFor="telephone" className="col-form-label">Telephone:</label>
                             <input type="number" className="form-control" id="telephone" name="tel" value={tel}  onChange={e => onInputChange(e)} minlength='8' required  pattern='[0-9]*'/>

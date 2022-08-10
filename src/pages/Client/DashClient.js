@@ -62,11 +62,10 @@ export default function DashClient() {
            </li>
            
            <li className="nav-item">
-               <a className="nav-link"  href="index.html" >
+               <a className="nav-link"  href="/dashClient/partOrder" >
                <i className="icon-location-pin menu-icon"></i>
-               <span className="menu-title">Traking</span>
-               </a>
-              
+               <span className="menu-title">Ticket Part Order</span>
+               </a> 
            </li>
          
            <li className="nav-item">
