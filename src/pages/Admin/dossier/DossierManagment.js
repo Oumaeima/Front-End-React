@@ -175,8 +175,9 @@ export default function DossierManagment() {
                 <div className="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info">
                
                 <button data-toggle="modal" data-target="#AddDossier" type="button" class="btn btn-inverse-info btn-fw"><i class="icon-plus text-success"></i></button>
-                <table style={{marginTop : "15px"}} class="table table-hover">
-                        <thead>
+                <div class="table-responsive">
+                    <table style={{marginTop : "15px"}} class="table table-hover">
+                        <thead className='thead-light'>
                             <tr>
                             <th scope="col">#</th>
                             <th scope="col">Nom Societe</th>
@@ -243,6 +244,8 @@ export default function DossierManagment() {
             }
 
                     </table>
+                </div>
+                
 
                     <ReactPaginate
                                 previousLabel={"Previous"}

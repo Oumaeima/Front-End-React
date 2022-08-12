@@ -1,33 +1,10 @@
-import React, { useState ,useEffect, useRef} from "react";
-import axios from "axios";
-import Swal from 'sweetalert2';
-import {  useNavigate, useParams } from "react-router-dom";
-import style from './style.css'
+import React, { useState ,useEffect} from "react";
+import { useParams } from "react-router-dom";
+import  './style.css'
 
-export default function ViewPO() {
+export default function ViewTicketPOAdmin() {
 
-    const Ref1 = useRef([])
-    const Ref2 = useRef([])
-    const Ref3 = useRef([])
-    const Ref4 = useRef([])
-
-    const inputRef = useRef([])
-    const [sign,setSign]=useState({
-     signClient:""
-    })
-    const {signClient}=sign;
-    const onInputChangeT = x => {
-        setSign({ ...sign, [x.target.name]: x.target.value });
-    };
- 
-     let history = useNavigate();
      const { id } = useParams();
-     const idC = JSON.parse(localStorage.getItem('id'));
-     const[signature,setSignature] = useState([]);
-     const[ListeEmail,setListEmail] = useState([]);
-     const [Tache,setTache]=useState({
-         tache:""
-     })
      
      const [ticket, setTicket] = useState({
  
@@ -49,7 +26,6 @@ export default function ViewPO() {
    
  
        useEffect(() =>{
-        getSignature()
          loadUser();
        },[]);
  
@@ -77,24 +53,6 @@ export default function ViewPO() {
              
    };
  
-   const getSignature= async () => {
-    const res = await fetch(`http://localhost:5000/client/getSignature/${idC}`)
-    const getdata = await res.json();
-        setSignature(getdata[0].signature)
-       
-        //console.log("signature : "+signature);
-};
-
-const updateEtatTicket = async e => {
-    e.preventDefault();
-    await axios.put(`http://localhost:5000/ticket/fermerTicketPO/${id}`,ticket);
-    Swal.fire(
-        'Good job!',
-        'ticket Updated!',
-        'success'
-      )
-    history("/dashClient/partOrder");
-};
 
    return (
      <>
@@ -128,7 +86,7 @@ const updateEtatTicket = async e => {
                                  <label style={{fontSize : "15px"}}>Status</label>  
                                  <input type="text"  class="form-control"  name="status" value={status} onChange={e => onInputChange(e)} readOnly={true}/>
                              </div>
-          
+                            
                             <div className="container">
                             <article className="card">
                                 <header className="card-header"> My Orders / Tracking </header>
@@ -143,10 +101,10 @@ const updateEtatTicket = async e => {
                                     </div>
                                 </article>
                                 <div className="track">
-                                    <div ref={Ref1} className={etatpiece === "Commande confirmée"? "step active" : "step"}> <span className="icon"> <i className="icon-check" /> </span> <span className="text">Commande confirmée</span> </div>
-                                    <div ref={Ref2} className={etatpiece === "Chez l'expéditeur"? "step active" : "step"}> <span className="icon"> <i className="icon-control-end" /> </span> <span className="text">Chez l'expéditeur</span> </div>
-                                    <div ref={Ref3} className={etatpiece === "En route"? "step active" : "step"}> <span className="icon"> <i className="icon-map" /> </span> <span className="text"> En route </span> </div>
-                                    <div ref={Ref4} className={etatpiece === "Livrée"? "step active" : "step"}> <span className="icon"> <i className="icon-user-unfollow" /> </span> <span className="text">Livrée</span> </div>
+                                    <div className="step"> <span className="icon"> <i className="icon-check" /> </span> <span className="text">Commande confirmée</span> </div>
+                                    <div className="step"> <span className="icon"> <i className="icon-control-end" /> </span> <span className="text">Chez l'expéditeur</span> </div>
+                                    <div className="step"> <span className="icon"> <i className="icon-map" /> </span> <span className="text"> En route </span> </div>
+                                    <div className="step"> <span className="icon"> <i className="icon-user-unfollow" /> </span> <span className="text">Livrée</span> </div>
                                 </div>
                                 
                             
@@ -154,30 +112,11 @@ const updateEtatTicket = async e => {
                             </article>
                             </div>
 
-                             <button data-toggle="pill" href="#v-pills-messages" class="btn btn-success col-12">Fermer ticket</button>
+                             
                          </form>
                      </div>
                      </div>
-                
-                     <div className="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-                    <div className="media">
-                    <div className="forms-sample col-lg-12">
-                            <div class="form-group">
-                                <label style={{fontSize : "15px"}} >Signature Numerique</label>
-                                <input ref={inputRef}
-                                type="textarea" class="form-control"  
-                                id="signature"
-                                name="signature"
-                                placeholder="Taper votre signature numerique"
-                                onChange={e => onInputChangeT(e)}
-                                />   
-                                   
-                            </div>
-                            <button disabled={inputRef.current.value === signature ? false : true} onClick={updateEtatTicket} class="btn btn-success mr-2">Valider</button>
-                        </div>
-                       
-                    </div>
-                    </div>
+               
 
 
                  </div>

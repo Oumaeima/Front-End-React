@@ -149,7 +149,7 @@ export default function CommercialManagment() {
                
                 <button data-toggle="modal" data-target="#AddEmployee" type="button" class="btn btn-inverse-info btn-fw"><i class="icon-plus text-success"></i></button>
                 <table style={{marginTop : "15px"}} class="table table-hover">
-                                <thead>
+                                <thead className='thead-light'>
                                     <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">FirstName</th>

@@ -223,7 +223,7 @@ export default function TicketsManagmentInt() {
                
                 <button data-toggle="modal" data-target="#AddDTicket" type="button" class="btn btn-inverse-info btn-fw"><i class="icon-plus text-success"></i></button>
                 <table style={{marginTop : "15px"}} class="table table-hover">
-                        <thead>
+                        <thead className='thead-light'>
                             <tr>
                             <th scope="col">#</th>
                             <th scope="col">SLA</th>

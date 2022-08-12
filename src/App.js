@@ -48,6 +48,7 @@ import EditPO from './pages/Client/TicketPO/EditPO';
 import DashCom from './pages/Employe/Commercial/DashCom';
 import POManagementCom from './pages/Employe/Commercial/POManagementCom';
 import ViewPOComm from './pages/Employe/Commercial/ViewPOComm';
+import ViewTicketPOAdmin from './pages/Admin/tickets/ViewTicketPOAdmin';
 
 
 function App() {
@@ -94,6 +95,7 @@ function App() {
           <Route path="/dashAdmin/Edit_commercial/:id"  element={<EditCommercial/>}/>
           <Route path='/dashAdmin/view_ticketint/ticketID/:id' element={<ViewTicketIntAdmin/>}/>
           <Route path='/dashAdmin/view_client/:id' element={<ViewClient/>}/>
+          <Route path='/dashAdmin/view_ticketPO/:id' element={<ViewTicketPOAdmin/>}/>
        </Route>
 
 

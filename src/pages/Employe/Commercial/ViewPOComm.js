@@ -1,22 +1,23 @@
 import React, { useState ,useEffect, useRef} from "react";
 import axios from "axios";
 import Swal from 'sweetalert2';
-import {  useNavigate, useParams } from "react-router-dom";
-import style from './style.css'
+import { useParams } from "react-router-dom";
+import  './style.css'
+import "react-step-progress-bar/styles.css";
+
 
 export default function ViewPOComm() {
- 
-     let history = useNavigate();
-     const { id } = useParams();
-     const idC = JSON.parse(localStorage.getItem('id'));
-     const[signature,setSignature] = useState([]);
-     const[ListeEmail,setListEmail] = useState([]);
-     const [Tache,setTache]=useState({
-         tache:""
-     })
+        
+        
+    const { id } = useParams();
+
+    const Ref1 = useRef([])
+    const Ref2 = useRef([])
+    const Ref3 = useRef([])
+    const Ref4 = useRef([])
+
      
      const [ticket, setTicket] = useState({
- 
         nomCommande: "",
         description : "",
         owner : "",
@@ -25,17 +26,17 @@ export default function ViewPOComm() {
         etatpiece: "",
         trackingNumber: "",
         commercial: "",
-        offre: "",
      });
+
      //  Object Destructuring 
      const { nomCommande ,description, owner, date, status, etatpiece, trackingNumber, commercial} = ticket;
-     const {offre}=ticket;
+     
      const onInputChange = e => {
          setTicket({ ...ticket, [e.target.name]: e.target.value });
      };
-   
- 
+
        useEffect(() =>{
+        console.log(id);
          loadUser();
        },[]);
  
@@ -57,7 +58,6 @@ export default function ViewPOComm() {
                      status: result.response[0].status,
                      trackingNumber: result.response[0].trackingNumber,
                      commercial: result.response[0].commercial,
-                     offre: result.response[0].offre,
                  });
              })
              .catch((error) => console.log("error", error));
@@ -68,47 +68,67 @@ export default function ViewPOComm() {
 const updateState1 = async e => {
     e.preventDefault();
     await axios.put(`http://localhost:5000/ticket/updateEtatTicket/${id}`,ticket);
-    Swal.fire(
-        'Good job!',
-        'ticket Updated!',
-        'success'
-      )
+    
       loadUser()
+      //Ref1.current.className = "step active"    
 }
 
 const updateState2 = async e => {
     e.preventDefault();
     await axios.put(`http://localhost:5000/ticket/updateState2TicketPO/${id}`,ticket);
-    Swal.fire(
-        'Good job!',
-        'ticket Updated!',
-        'success'
-      )
+   
       loadUser()
+      //Ref2.current.className = "step active"
+      
 }
 
 const updateState3 = async e => {
     e.preventDefault();
     await axios.put(`http://localhost:5000/ticket/updateState3TicketPO/${id}`,ticket);
-    Swal.fire(
-        'Good job!',
-        'ticket Updated!',
-        'success'
-      )
+    
       loadUser()
+      //Ref3.current.className = "step active"
 }
 
 const updateState4 = async e => {
     e.preventDefault();
     await axios.put(`http://localhost:5000/ticket/updateState4TicketPO/${id}`,ticket);
-    Swal.fire(
-        'Good job!',
-        'ticket Updated!',
-        'success'
-      )
+    
       loadUser()
+      //Ref4.current.className = "step active"
 }
 
+/**------------------------------------------------------------------------- */
+    const [uploaded_pdf, setOffre] = useState('')
+
+            // Insert offre 
+            const submitOffre = async (e) => {
+                e.preventDefault();
+                e.target.reset();
+                try{
+                    const data = new FormData()
+                    data.append('uploaded_pdf', uploaded_pdf)
+                    await axios.post(`http://localhost:5000/offre/addOffre/${id}`, data);
+                    loadUser()
+                    Swal.fire(
+                        'Good job!',
+                        'ticket inserted!',
+                        'success'
+                    )
+                    
+                    }
+                        catch (err) {
+                            Swal.fire({
+                                title: "Error",
+                                text: err.response.data.msg,
+                                icon: "error",
+                                button: "OK",
+                
+                            });
+                    }
+                    
+            };
+/**------------------------------------------------------------------------- */
    return (
      <>
          <div className="col-md-12 grid-margin stretch-card d-none d-md-flex">
@@ -142,13 +162,6 @@ const updateState4 = async e => {
                                  <input type="text"  class="form-control"  name="status" value={status} onChange={e => onInputChange(e)} readOnly={true}/>
                              </div>
                              
-                             
-                             <div class="form-group">
-                                 <label style={{fontSize : "15px"}} >offre</label>
-                                 <input type="text" class="form-control"  name="offre" value={offre} onChange={x => onInputChange(x)} readOnly={true} />              
-                             </div>
-                             
-
                             <div className="container">
                             <article className="card">
                                 <header className="card-header"> My Orders / Tracking </header>
@@ -163,10 +176,10 @@ const updateState4 = async e => {
                                     </div>
                                 </article>
                                 <div className="track">
-                                    <div onClick={updateState1} className="step"> <span className="icon"> <i className="icon-check" /> </span> <span className="text">Commande confirmée</span> </div>
-                                    <div onClick={updateState2} className="step"> <span className="icon"> <i className="icon-control-end" /> </span> <span className="text">Chez l'expéditeur</span> </div>
-                                    <div onClick={updateState3} className="step"> <span className="icon"> <i className="icon-map" /> </span> <span className="text"> En route </span> </div>
-                                    <div onClick={updateState4} className="step"> <span className="icon"> <i className="icon-user-unfollow" /> </span> <span className="text">Livrée</span> </div>
+                                    <div ref={Ref1} onClick={updateState1} className={etatpiece === "Commande confirmée"? "step active" : "step"}> <span className="icon"> <i className="icon-check" /> </span> <span className="text">Commande confirmée</span> </div>
+                                    <div ref={Ref2} onClick={updateState2} className={etatpiece === "Chez l'expéditeur"? "step active" : "step"}> <span className="icon"> <i className="icon-control-end" /> </span> <span className="text">Chez l'expéditeur</span> </div>
+                                    <div ref={Ref3} onClick={updateState3} className={etatpiece === "En route"? "step active" : "step"}> <span className="icon"> <i className="icon-map" /> </span> <span className="text"> En route </span> </div>
+                                    <div ref={Ref4} onClick={updateState4} className={etatpiece === "Livrée"? "step active" : "step"}> <span className="icon"> <i className="icon-user-unfollow" /> </span> <span className="text">Livrée</span> </div>
                                 </div>
                                 
                             
@@ -174,20 +187,20 @@ const updateState4 = async e => {
                             </article>
                             </div>
 
-                             <button data-toggle="pill" href="#v-pills-messages" class="btn btn-success col-12">Fermer ticket</button>
+                             <button disabled={etatpiece === "Commande confirmée"? false : true} data-toggle="pill" href="#v-pills-messages" class="btn btn-success col-12">Ajouter Offre</button>
                          </form>
                      </div>
                      </div>
                 
                      <div className="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
                     <div className="media">
-                    <div className="forms-sample col-lg-12">
+                    <form onSubmit={submitOffre} className="forms-sample col-lg-12" method="post" enctype="multipart/form-data">
                             <div class="form-group">
-                                <label style={{fontSize : "15px"}} >Signature Numerique</label>
-                                
+                                <label style={{fontSize : "15px"}} >Offre </label>
+                                <input name="uploaded_pdf" onChange={e => setOffre(e.target.files[0])} type="file" class="form-control"></input>
                             </div>
-                            <button class="btn btn-success mr-2">Valider</button>
-                        </div>
+                            <button type="submit" class="btn btn-success mr-2">Valider</button>
+                    </form>
                        
                     </div>
                     </div>

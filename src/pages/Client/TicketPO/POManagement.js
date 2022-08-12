@@ -46,7 +46,7 @@ export default function POManagement() {
             e.preventDefault();
             e.target.reset();
             try{
-            await axios.post(`http://localhost:5000/ticket/createNewTicket/${id}`, ticket);
+            await axios.post(`http://localhost:5000/ticket/createpartOrder/${id}`, ticket);
             Swal.fire(
                 'Good job!',
                 'ticket inserted!',
@@ -159,7 +159,7 @@ export default function POManagement() {
                 
                 <div className='table-responsive'>
                 <table style={{marginTop : "15px"}} class="table table-hover">
-                        <thead>
+                        <thead className='thead-light'>
                             <tr>
                             <th scope="col">#</th>
                             <th scope="col">Nom Commande</th>
@@ -273,27 +273,18 @@ export default function POManagement() {
                     </div>
                 <div className="modal-body">
                     <form onSubmit={submitTicket}>
-                    <div className="form-group">
-                        <label className="col-form-label">Dossier:</label>
-                        <select class="form-control">
-                            <option>Orange</option>
-                            <option>topnet</option>
-                        </select>
+                        <div className="form-group">
+                            <label htmlFor="taches">Nom Commande</label>
+                            <input type="text" name="nomCommande" id='taches' onChange={e => onInputChange(e)} className="form-control" />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="sla" className="col-form-label">Description:</label>
+                            <input id='sla' name='description' onChange={e => onInputChange(e)} type="text" class="form-control"/>           
+                        </div>                    
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal" aria-label="Close">Quiter</button>
+                        <button type="submit" className="btn btn-primary">Valider</button>
                     </div>
-
-                    <div className="form-group">
-                        <label htmlFor="sla" className="col-form-label">Description:</label>
-                        <input id='sla' name='sla' onChange={e => onInputChange(e)} type="text" class="form-control"/>           
-                    </div>
-                    
-                    <div className="form-group">
-                        <label htmlFor="taches">Exigence</label>
-                        <input type="file" name="taches" id='taches' onChange={e => onInputChange(e)} className="form-control" />
-                  </div>
-                  <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" data-dismiss="modal" aria-label="Close">Quiter</button>
-                    <button type="submit" className="btn btn-primary">Valider</button>
-                </div>
                     </form>
                 </div>
                 

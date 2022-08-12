@@ -172,7 +172,7 @@ export default function ClientManagment() {
                 <button data-toggle="modal" data-target="#AddClient" type="button" class="btn btn-inverse-info btn-fw"><i class="icon-plus text-success"></i></button>
                 <button style={{marginLeft : "15px"}} data-toggle="modal" data-target="#SendEmail" type="button" class="btn btn-inverse-info btn-fw"><i class="icon-user-follow text-success"></i></button>
                 <table style={{marginTop : "15px"}} class="table table-hover">
-                            <thead>
+                            <thead className='thead-light'>
                                 <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Name</th>

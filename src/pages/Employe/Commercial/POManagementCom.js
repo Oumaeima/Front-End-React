@@ -132,7 +132,7 @@ export default function POManagementCom() {
                 
                 <div className='table-responsive'>
                 <table style={{marginTop : "15px"}} class="table table-hover">
-                        <thead>
+                        <thead className='thead-light'>
                             <tr>
                             <th scope="col">#</th>
                             <th scope="col">Nom Commande</th>
