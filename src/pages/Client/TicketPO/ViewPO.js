@@ -3,6 +3,7 @@ import axios from "axios";
 import Swal from 'sweetalert2';
 import {  useNavigate, useParams } from "react-router-dom";
 import style from './style.css'
+import { saveAs } from 'file-saver'
 
 export default function ViewPO() {
 
@@ -50,6 +51,7 @@ export default function ViewPO() {
  
        useEffect(() =>{
         getSignature()
+        loadOffre()
          loadUser();
        },[]);
  
@@ -96,6 +98,77 @@ const updateEtatTicket = async e => {
     history("/dashClient/partOrder");
 };
 
+    const [file, setOffre] = useState({
+        offre : ""
+    })
+    const {offre} = file
+
+    //const fileURL = URL.createObjectURL(offre);
+
+    const loadOffre = async () => {
+        fetch(`http://localhost:5000/offre/getOffre/${id}`,{
+            method: "GET",
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Accept : 'application/pdf'
+            },
+        })
+            .then((response) => response.json() )
+            .then((result) => {
+                console.log(result);
+                setOffre({
+                            id: id,
+                            update: true,
+                            offre: result[0].offre,
+                        });
+                    })
+                    .catch((error) => console.log("error", error));
+                    
+          };
+
+/*     const handleClick=(e)=>{
+            const viewHandler = async () => {
+             axios(`http://localhost:5000/offre/getOffre/${id}`, {
+               method: "GET",
+               responseType: "blob"
+               //Force to receive data in a Blob Format
+             })
+               .then(response => {
+                 //Build a URL from the file
+                 var file = new Blob([response.data], {type: 'application/pdf'});
+                 const fileURL = URL.createObjectURL(file);
+                 //Open the URL on new Window
+                 window.open(fileURL);
+               })
+               .catch(error => {
+                 console.log(error);
+               });
+     
+             }
+              viewHandler();
+           } */
+
+           async function printTickets() {
+            const { data } = await getTicketsPdf()
+            const blob = new Blob([data], { type: 'application/pdf' })
+            console.log("blob : ", 'offres'+data[0].offre)
+            saveAs(blob, "offre.pdf")
+          }
+
+          
+          
+           async function getTicketsPdf() {
+            return axios.get(`http://localhost:5000/offre/getOffre/${id}`, {
+               
+                headers: {
+                    ContentType: 'multipart/form-data',
+                    Accept : 'application/pdf'
+                },
+              
+            })
+            
+          } 
+
    return (
      <>
          <div className="col-md-12 grid-margin stretch-card d-none d-md-flex">
@@ -137,6 +210,7 @@ const updateEtatTicket = async e => {
                                 <article className="card">
                                     <div className="card-body row">
                                     <div className="col"> <strong>Date de commande:</strong> <br /> {date} </div>
+                                    <div className="col"> <strong>Offre:</strong> <br /> <a href="#" onClick={printTickets}>{offre}</a> </div>
                                     <div className="col"> <strong>Commercial:</strong> <br /> {commercial} </div>
                                     <div className="col"> <strong>Etat Piéce:</strong> <br /> {etatpiece} </div>
                                     <div className="col"> <strong>Tracking #:</strong> <br /> {trackingNumber} </div>
@@ -154,7 +228,7 @@ const updateEtatTicket = async e => {
                             </article>
                             </div>
 
-                             <button data-toggle="pill" href="#v-pills-messages" class="btn btn-success col-12">Fermer ticket</button>
+                             <button disabled={status === "Clos" ? true : false} data-toggle="pill" href="#v-pills-messages" class="btn btn-success col-12">Fermer ticket</button>
                          </form>
                      </div>
                      </div>

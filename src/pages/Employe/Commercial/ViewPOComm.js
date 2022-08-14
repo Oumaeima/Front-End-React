@@ -37,7 +37,8 @@ export default function ViewPOComm() {
 
        useEffect(() =>{
         console.log(id);
-         loadUser();
+        loadOffre()
+        loadUser();
        },[]);
  
        const loadUser =  () => {
@@ -99,16 +100,19 @@ const updateState4 = async e => {
 }
 
 /**------------------------------------------------------------------------- */
-    const [uploaded_pdf, setOffre] = useState('')
+    const [uploaded_pdf, setOffre] = useState({
+        offre : ""
+    })
+    const {offre} = uploaded_pdf
 
             // Insert offre 
             const submitOffre = async (e) => {
                 e.preventDefault();
                 e.target.reset();
                 try{
-                    const data = new FormData()
-                    data.append('uploaded_pdf', uploaded_pdf)
-                    await axios.post(`http://localhost:5000/offre/addOffre/${id}`, data);
+                    const formdata = new FormData()
+                    formdata.append('uploaded_pdf', uploaded_pdf)
+                    await axios.post(`http://localhost:5000/offre/addOffre/${id}`, formdata);
                     loadUser()
                     Swal.fire(
                         'Good job!',
@@ -128,6 +132,24 @@ const updateState4 = async e => {
                     }
                     
             };
+
+    const loadOffre =  () => {
+        fetch(`http://localhost:5000/offre/getOffre/${id}`,{
+            method: "GET",
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                console.log(result);
+                setOffre({
+                            id: id,
+                            update: true,
+                            offre: result[0].offre,
+                        });
+                    })
+                    .catch((error) => console.log("error", error));
+                    
+          };
+
 /**------------------------------------------------------------------------- */
    return (
      <>
@@ -170,6 +192,7 @@ const updateState4 = async e => {
                                 <article className="card">
                                     <div className="card-body row">
                                     <div  className="col"> <strong>Date de commande:</strong> <br /> {date} </div>
+                                    <div className="col"> <strong>Offre:</strong> <br /> {offre} </div>
                                     <div className="col"> <strong>Commercial:</strong> <br /> {commercial} </div>
                                     <div className="col"> <strong>Etat Piéce:</strong> <br /> {etatpiece} </div>
                                     <div className="col"> <strong>Tracking #:</strong> <br /> {trackingNumber} </div>
