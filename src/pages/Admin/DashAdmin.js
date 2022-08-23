@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Footer from '../Footer'
 import Navbar from '../Navbar'
 import { Outlet } from 'react-router-dom'
+import avatar from '../../assets/user.png'
 
 export default function DashAdmin() {
     
@@ -82,12 +83,12 @@ export default function DashAdmin() {
            <li className="nav-item nav-profile">
                <div className="nav-link">
                <div className="profile-image">
-                  <a href='/dashAdmin/profileA'> <img src="../../images/faces/face10.jpg" alt=""/></a>
+                  <a href='/dashAdmin/profileA'> <img src={avatar} alt=""/></a>
                    <span className="online-status online"></span>
                </div>
                <div className="profile-name">
                    <p className="name">
-                   {nom} , {prenom}
+                   {nom} {prenom}
                    </p>
                    
                </div>
@@ -115,14 +116,6 @@ export default function DashAdmin() {
 
                </ul>
                </div>
-           </li>
-           
-           <li className="nav-item">
-               <a className="nav-link"  href="index.html" >
-               <i className="icon-location-pin menu-icon"></i>
-               <span className="menu-title">Traking</span>
-               </a>
-              
            </li>
          
            <li className="nav-item">

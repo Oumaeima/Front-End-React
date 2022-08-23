@@ -49,6 +49,13 @@ import DashCom from './pages/Employe/Commercial/DashCom';
 import POManagementCom from './pages/Employe/Commercial/POManagementCom';
 import ViewPOComm from './pages/Employe/Commercial/ViewPOComm';
 import ViewTicketPOAdmin from './pages/Admin/tickets/ViewTicketPOAdmin';
+import StatisticsClient from './pages/Client/StatisticsClient';
+import ProfileClient from './pages/Client/ProfileClient';
+import StatisticsTech from './pages/Employe/Technicien/StatisticsTech';
+import ProfileTech from './pages/Employe/Technicien/ProfileTech';
+import StatisticsComm from './pages/Employe/Commercial/StatisticsComm';
+import ProfileComm from './pages/Employe/Commercial/ProfileComm';
+
 
 
 function App() {
@@ -101,6 +108,8 @@ function App() {
 
        ## dashboard client
        <Route path='/dashClient' exact element={<DashClient/>}>
+         <Route index element={<StatisticsClient/>}/>
+         <Route path='/dashClient/profile' exact element={<ProfileClient/>} />
          <Route path='/dashClient/intervention' exact element={<IntManagement/>} />
          <Route path='/dashClient/partOrder' exact element={<POManagement/>} />
          <Route path='/dashClient/view/:id' exact element={<ViewTicketClient/>} />
@@ -112,6 +121,8 @@ function App() {
 
        ## dashboard Technicien
        <Route path='/dashTech' exact element={<DashTech/>}>
+        <Route index element={<StatisticsTech/>}/>
+        <Route path='/dashTech/profile' exact element={<ProfileTech/>} />
         <Route path="/dashTech/intervention" exact element={<TicketManagement/>} />
         <Route path='/dashTech/view/:id' exact element={<ViewTicket/>} />
        </Route>
@@ -119,6 +130,8 @@ function App() {
 
        ## dashboard Commercial
        <Route path='/dashCommercial' exact element={<DashCom/>}>
+        <Route index element={<StatisticsComm/>}/>
+        <Route path='/dashCommercial/profile' exact element={<ProfileComm/>} />
         <Route path="/dashCommercial/partOrder" exact element={<POManagementCom/>} />
         <Route path='/dashCommercial/view-po/:id' exact element={<ViewPOComm/>} />
        </Route>

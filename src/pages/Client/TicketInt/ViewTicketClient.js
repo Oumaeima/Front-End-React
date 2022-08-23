@@ -25,6 +25,7 @@ const onInputChangeT = x => {
     
     const [ticket, setTicket] = useState({
 
+        type: "",
         sla: "",
         owner: "",
         datedeb: "",
@@ -34,7 +35,7 @@ const onInputChangeT = x => {
         matricule: ""
     });
     //  Object Destructuring 
-    const { sla ,owner, datedeb, dateClos, taches, status } = ticket;
+    const { type, sla ,owner, datedeb, dateClos, taches, status } = ticket;
     const {tache}=Tache;
     const onInputChange = e => {
         setTicket({ ...ticket, [e.target.name]: e.target.value });
@@ -55,6 +56,7 @@ const onInputChangeT = x => {
         setTicket({
                     id: id,
                     update: true,
+                    type: result.response[0].type,
                     sla: result.response[0].sla,
                     owner: result.response[0].owner,
                     datedeb: result.response[0].datedeb,
@@ -114,6 +116,10 @@ const getSignature= async () => {
                     <div className="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                     <div className="media">
                     <form className="forms-sample col-lg-12">
+                            <div className="form-group">
+                                <label style={{fontSize : "15px"}} htmlFor="type">Type</label>
+                                <input  name="type" value={type} onChange={e => onInputChange(e)} disabled={true} className="form-control" id="type"/>
+                            </div>
                             <div className="form-group">
                                 <label style={{fontSize : "15px"}} htmlFor="exampleInputEmail1">SLA</label>
                                 <input  name="sla" value={sla} onChange={e => onInputChange(e)} placeholder="Enter date" disabled={true} className="form-control" id="exampleInputEmail1"/>

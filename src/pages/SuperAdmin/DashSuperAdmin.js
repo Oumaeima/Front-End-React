@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from '../Navbar'
 import Footer from '../Footer'
 import { Outlet } from 'react-router-dom'
+import avatar from '../../assets/user.png'
 
 
 export default function DashSuperAdmin() {
@@ -33,7 +34,7 @@ export default function DashSuperAdmin() {
                 <li className="nav-item nav-profile">
                     <div className="nav-link">
                     <div className="profile-image">
-                       <a href='dashSuperAdmin/profile'> <img src="../../images/faces/face10.jpg" alt=""/></a>
+                       <a href='dashSuperAdmin/profile'> <img src={avatar} alt=""/></a>
                         <span className="online-status online"></span>
                     </div>
                     <div className="profile-name">

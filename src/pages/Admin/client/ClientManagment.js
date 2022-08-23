@@ -170,7 +170,6 @@ export default function ClientManagment() {
                 <div className="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info">
                
                 <button data-toggle="modal" data-target="#AddClient" type="button" class="btn btn-inverse-info btn-fw"><i class="icon-plus text-success"></i></button>
-                <button style={{marginLeft : "15px"}} data-toggle="modal" data-target="#SendEmail" type="button" class="btn btn-inverse-info btn-fw"><i class="icon-user-follow text-success"></i></button>
                 <table style={{marginTop : "15px"}} class="table table-hover">
                             <thead className='thead-light'>
                                 <tr>

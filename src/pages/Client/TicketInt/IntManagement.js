@@ -2,7 +2,7 @@ import React from 'react'
 import Swal from 'sweetalert2';
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ReactPaginate from "react-paginate";
 
 export default function IntManagement() {
@@ -12,6 +12,7 @@ export default function IntManagement() {
     const [record, setRecord] = useState([]);
     const [ticket, setTicket] = useState({
 
+        type: "",
         sla: "",
         owner: "",
         datedeb: "",
@@ -22,7 +23,7 @@ export default function IntManagement() {
         
     });
   
-    const { sla , datedeb, dateClos, taches, status } = ticket;
+    const { type, sla , datedeb, dateClos, taches, status } = ticket;
     
     const onInputChange = e => {
         setTicket({ ...ticket, [e.target.name]: e.target.value });
@@ -101,6 +102,7 @@ export default function IntManagement() {
              }).catch(e => {
                  console.log(e.message);
              });
+             loadTicketDetail();
      }, []);
 /**---------------------------------- PAGINATION -------------------------------------------- */
 
@@ -165,6 +167,7 @@ export default function IntManagement() {
                         <thead className='thead-light'>
                             <tr>
                             <th scope="col">#</th>
+                            <th scope="col">Type</th>
                             <th scope="col">SLA</th>
                             <th scope="col">Owner</th>
                             <th scope="col">Date-début</th>
@@ -186,13 +189,14 @@ export default function IntManagement() {
                     <tbody>
                                 <tr class="bg-blue">
                                 <td class="pt-3">{post.idti}</td>
+                                <td class="pt-3">{post.type}</td>
                                 <td class="pt-3">{post.sla}</td>
                                 <td class="pt-3">{post.owner}</td>
                                 <td class="pt-3">{post.datedeb}</td>
                                 <td class="pt-3">{post.dateClos}</td>
                                 <td class="pt-3">{post.taches}</td>
                                 <td class="pt-3">{post.status}</td>
-                                <td>
+                                <td className='col-2'>
                                     <Link data-toggle="tooltip" data-placement="bottom"title="read" className=" mr-2" to={`/dashClient/view/${post.idti}`}>
                                         <i class="icon-user-female text-primary"></i> 
                                     </Link>
@@ -278,6 +282,14 @@ export default function IntManagement() {
                     </div>
                 <div className="modal-body">
                     <form onSubmit={submitTicket}>
+                    <div className="form-group">
+                        <label htmlFor="sla" className="col-form-label">Type:</label>
+                        <select id='type' name='type' onChange={e => onInputChange(e)} class="form-control">
+                            <option>Choisir un type</option>
+                            <option value="Opération site régulière">Opération site régulière</option>
+                            <option value="Opération et gestion">Opération et gestion</option>
+                        </select>          
+                    </div>
                     <div className="form-group">
                         <label htmlFor="sla" className="col-form-label">SLA:</label>
                         <input id='sla' name='sla' onChange={e => onInputChange(e)} type="text" class="form-control"/>           

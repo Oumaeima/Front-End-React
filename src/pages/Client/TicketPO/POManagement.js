@@ -175,19 +175,19 @@ export default function POManagement() {
                 data.filter(post => {
                     if (query === '') {
                         return post;
-                    } else if (post.nomCommande.toLowerCase().includes(query.toLowerCase()) ) {
+                    } else if (post.nomCommande.toLowerCase().includes(query.toLowerCase()) || post.trackingNumber.toLowerCase().includes(query.toLowerCase())) {
                         return post;
                     }
                 }).map((post, index) => (
                     <tbody>
-                                <tr class="bg-blue">
-                                <td class="pt-3">{post.idti}</td>
-                                <td class="pt-3">{post.nomCommande}</td>
-                                <td class="pt-3">{post.description}</td>
-                                <td class="pt-3">{post.owner}</td>
-                                <td class="pt-3">{post.trackingNumber}</td>
-                                <td class="pt-3">{post.status}</td>
-                                <td>
+                                <tr className="bg-blue">
+                                <td className="pt-3">{post.idti}</td>
+                                <td className="pt-3">{post.nomCommande}</td>
+                                <td className="pt-3">{post.description}</td>
+                                <td className="pt-3">{post.owner}</td>
+                                <td className="pt-3">{post.trackingNumber}</td>
+                                <td className="pt-3">{post.status}</td>
+                                <td className='col-2'>
                                     <Link data-toggle="tooltip" data-placement="bottom"title="read" className=" mr-2" to={`/dashClient/view-po/${post.idti}`}>
                                         <i class="icon-user-female text-primary"></i> 
                                     </Link>

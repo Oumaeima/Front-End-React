@@ -10,6 +10,8 @@ export default function EditTicket() {
 
 
     const [ticket, setTicket] = useState({
+        
+        type: "",
         sla: "",
         owner: "",
         datedeb: "",
@@ -17,11 +19,10 @@ export default function EditTicket() {
         taches: "",
         status: "",
         matricule: ""
-       
     })
 
     const[tech,setListTech]=useState([]);
-    const { sla ,owner, datedeb, dateClos, taches, status} = ticket;
+    const { type, sla ,owner, datedeb, dateClos, taches, status} = ticket;
 
     const onInputChange = e => {
         setTicket({ ...ticket, [e.target.name]: e.target.value });
@@ -70,6 +71,7 @@ export default function EditTicket() {
                 setTicket({
                     id: id,
                     update: true,
+                    type: result.response[0].type,
                     sla: result.response[0].sla,
                     owner: result.response[0].owner,
                     datedeb: result.response[0].datedeb,
@@ -90,80 +92,90 @@ export default function EditTicket() {
                   <h4 class="card-title">Modifier ticket</h4>
                   
                     <form onSubmit={updateTicket}>
-                    <div className="form-group mb-3">
-                    <label htmlFor="sla" className="col-form-label">SLA</label>
-                        <input
-                            id='sla'
-                            type="text"
-                            className="form-control form-control-lg"
-                            placeholder="SLA"
-                            name="sla"
-                            value={sla}
-                            onChange={e => onInputChange(e)}
-                        />
-                    </div>
-                    <div className="form-group mb-3">
-                        <label htmlFor="owner" className="col-form-label">Owner</label>
-                        <input
-                            id='owner'
-                            type="text"
-                            className="form-control form-control-lg"
-                            name="owner"
-                            value={owner}
-                            onChange={e => onInputChange(e)}
-                        />
-                    </div>
-                    <div className="form-group mb-3">
-                        <label htmlFor="datedb" className="col-form-label">Date Début</label>
-                        <input
-                            id='datedb'
-                            type="text"
-                            className="form-control form-control-lg"
-                            placeholder="date debut"
-                            name="datedeb"
-                            value={datedeb}
-                            onChange={e => onInputChange(e)}
-                        />
-                    </div>
-                    <div className="form-group mb-3">
-                        <label htmlFor="dateClos" className="col-form-label">Date Clos</label>
-                        <input
-                            id='dateClos'
-                            type="text"
-                            className="form-control form-control-lg"
-                            placeholder="date debut"
-                            name="dateClos"
-                            value={dateClos}
-                            onChange={e => onInputChange(e)}
-                        />
-                    </div>
-                    <div className="form-group mb-3">
-                        <label htmlFor="status" className="col-form-label">Status</label>
-                        <input
-                            id='status'
-                            type="text"
-                            className="form-control form-control-lg"
-                            placeholder="date debut"
-                            name="status"
-                            value={status}
-                            onChange={e => onInputChange(e)}
+
+                        <div className="form-group mb-3">
+                            <label htmlFor="sla" className="col-form-label">Type:</label>
+                            <select id='type' name='type' onChange={e => onInputChange(e)} class="form-control">
+                                <option value={type}> {type} </option>
+                                <option value="Opération site régulière">Opération site régulière</option>
+                                <option value="Opération et gestion">Opération et gestion</option>
+                            </select>          
+                        </div>
+                        <div className="form-group mb-3">
+                            <label htmlFor="sla" className="col-form-label">SLA</label>
+                                <input
+                                    id='sla'
+                                    type="text"
+                                    className="form-control form-control-lg"
+                                    placeholder="SLA"
+                                    name="sla"
+                                    value={sla}
+                                    onChange={e => onInputChange(e)}
+                                />
+                        </div>
+                        <div className="form-group mb-3">
+                            <label htmlFor="owner" className="col-form-label">Owner</label>
+                            <input
+                                id='owner'
+                                type="text"
+                                className="form-control form-control-lg"
+                                name="owner"
+                                value={owner}
+                                onChange={e => onInputChange(e)}
                             />
-                        
-                    </div>
-                    <div className="form-group mb-3">
-                        <label htmlFor="tache" className="col-form-label">Tache</label>
-                        <input
-                            id='tache'
-                            type="text"
-                            className="form-control form-control-lg"
-                            placeholder="taches"
-                            name="taches"
-                            value={taches}
-                            onChange={e => onInputChange(e)}
-                        />
-                    </div> 
-                   
-                    <button type="submit" className="btn btn-secondary btn-block">Modifier Ticket</button>
+                        </div>
+                        <div className="form-group mb-3">
+                            <label htmlFor="datedb" className="col-form-label">Date Début</label>
+                            <input
+                                id='datedb'
+                                type="text"
+                                className="form-control form-control-lg"
+                                placeholder="date debut"
+                                name="datedeb"
+                                value={datedeb}
+                                onChange={e => onInputChange(e)}
+                            />
+                        </div>
+                        <div className="form-group mb-3">
+                            <label htmlFor="dateClos" className="col-form-label">Date Clos</label>
+                            <input
+                                id='dateClos'
+                                type="text"
+                                className="form-control form-control-lg"
+                                placeholder="date debut"
+                                name="dateClos"
+                                value={dateClos}
+                                onChange={e => onInputChange(e)}
+                            />
+                        </div>
+                        <div className="form-group mb-3">
+                            <label htmlFor="status" className="col-form-label">Status</label>
+                            <input
+                                id='status'
+                                type="text"
+                                className="form-control form-control-lg"
+                                placeholder="date debut"
+                                name="status"
+                                value={status}
+                                onChange={e => onInputChange(e)}
+                                />
+                            
+                        </div>
+                        <div className="form-group mb-3">
+                            <label htmlFor="tache" className="col-form-label">Tache</label>
+                            <input
+                                id='tache'
+                                type="text"
+                                className="form-control form-control-lg"
+                                placeholder="taches"
+                                name="taches"
+                                value={taches}
+                                onChange={e => onInputChange(e)}
+                            />
+                        </div> 
+                    
+                        <button type="submit" className="btn btn-secondary btn-block">Modifier Ticket</button>
+                    
                     </form>
                   
                 </div>

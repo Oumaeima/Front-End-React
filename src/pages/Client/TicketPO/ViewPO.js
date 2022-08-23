@@ -2,8 +2,11 @@ import React, { useState ,useEffect, useRef} from "react";
 import axios from "axios";
 import Swal from 'sweetalert2';
 import {  useNavigate, useParams } from "react-router-dom";
-import style from './style.css'
+import  './style.css'
 import { saveAs } from 'file-saver'
+import fileDownload from 'js-file-download'
+
+
 
 export default function ViewPO() {
 
@@ -98,10 +101,10 @@ const updateEtatTicket = async e => {
     history("/dashClient/partOrder");
 };
 
-    const [file, setOffre] = useState({
+    const [uploaded_pdf, setOffre] = useState({
         offre : ""
     })
-    const {offre} = file
+    const {offre} = uploaded_pdf
 
     //const fileURL = URL.createObjectURL(offre);
 
@@ -149,25 +152,47 @@ const updateEtatTicket = async e => {
            } */
 
            async function printTickets() {
-            const { data } = await getTicketsPdf()
+             const { data } = await getTicketsPdf()
             const blob = new Blob([data], { type: 'application/pdf' })
-            console.log("blob : ", 'offres'+data[0].offre)
-            saveAs(blob, "offre.pdf")
+            console.log("blob : ", data[0].offre)
+            saveAs(blob, "offre.pdf") 
+        
           }
 
           
           
            async function getTicketsPdf() {
-            return axios.get(`http://localhost:5000/offre/getOffre/${id}`, {
-               
-                headers: {
-                    ContentType: 'multipart/form-data',
-                    Accept : 'application/pdf'
-                },
-              
-            })
+            fetch(`http://localhost:5000/offre/getOffre/${id}`, {
+                    method: 'GET',
+                    headers: {
+                    'Content-Type': 'application/pdf',
+                    },
+                })
+                .then((response) => response.blob())
+                .then((blob) => {
+                    // Create blob link to download
+                    const url = window.URL.createObjectURL(
+                    new Blob([blob]),
+                    );
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute(
+                    'download',
+                    `Offre.pdf`,
+                    );
+
+                    // Append to html link element page
+                    document.body.appendChild(link);
+
+                    // Start download
+                    link.click();
+
+                    // Clean up and remove the link
+                    link.parentNode.removeChild(link);
+                });
             
           } 
+          
 
    return (
      <>
@@ -210,7 +235,7 @@ const updateEtatTicket = async e => {
                                 <article className="card">
                                     <div className="card-body row">
                                     <div className="col"> <strong>Date de commande:</strong> <br /> {date} </div>
-                                    <div className="col"> <strong>Offre:</strong> <br /> <a href="#" onClick={printTickets}>{offre}</a> </div>
+                                    <div className="col"> <strong>Offre:</strong> <br /> <a href="#" onClick={getTicketsPdf}>{offre}</a> </div>
                                     <div className="col"> <strong>Commercial:</strong> <br /> {commercial} </div>
                                     <div className="col"> <strong>Etat Piéce:</strong> <br /> {etatpiece} </div>
                                     <div className="col"> <strong>Tracking #:</strong> <br /> {trackingNumber} </div>

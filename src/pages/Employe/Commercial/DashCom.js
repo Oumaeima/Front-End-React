@@ -2,6 +2,7 @@ import React from 'react'
 import Footer from '../../Footer'
 import Navbar from '../../Navbar'
 import { Outlet } from 'react-router-dom'
+import avatar from '../../../assets/user.png'
 
 export default function DashCom() {
   const nom = JSON.parse(localStorage.getItem('nom'));
@@ -34,7 +35,7 @@ return (
      <li className="nav-item nav-profile">
          <div className="nav-link">
          <div className="profile-image">
-            <a href='dashAdmin/profileA'> <img src="../../images/faces/face10.jpg" alt=""/></a>
+            <a href='dashCommercial/profile'> <img src={avatar} alt=""/></a>
              <span className="online-status online"></span>
          </div>
          <div className="profile-name">
