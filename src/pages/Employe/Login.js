@@ -45,7 +45,9 @@ export default function Login() {
             } else if(res.data.data.users.poste === "Superviseur") {
                 window.location.href = "/DashSup"
             }else if(res.data.data.users.poste === "Commercial") {
-                    window.location.href = "/dashCommercial"}
+                    window.location.href = "/dashCommercial"
+            }else if(res.data.data.users.poste === "Client") {
+                window.location.href = "/dashClient"}
 
             
         

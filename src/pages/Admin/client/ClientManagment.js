@@ -193,7 +193,7 @@ export default function ClientManagment() {
                 }).slice(offset, offset+PER_PAGE).map((post, index) => (
                     <tbody>
                                 <tr class="bg-blue">
-                                <td class="pt-3">{post.idclt}</td>
+                                <td class="pt-3">{post.idu}</td>
                                     <td class="pt-3">{post.nom} {post.prenom}</td>
                                     <td class="pt-3">{post.nomsociete}</td>
                                     <td class="pt-3">{post.activitesociete}</td>
@@ -202,11 +202,11 @@ export default function ClientManagment() {
                                     <td>
                                 
                                 
-                                <Link style={{marginLeft : "8px"}} data-toggle="tooltip" data-placement="bottom" title="mail" className=" mr-2" to={`/dashAdmin/view_client/${post.idclt}`}>
+                                <Link style={{marginLeft : "8px"}} data-toggle="tooltip" data-placement="bottom" title="mail" className=" mr-2" to={`/dashAdmin/view_client/${post.idu}`}>
                                     <i class="icon-eye text-primary"></i> 
                                 </Link>
 
-                                <Link style={{marginLeft : "8px"}} data-toggle="tooltip" data-placement="bottom" title="edit" className=" mr-2" to={`/dashAdmin/Edit_Client/editID/${post.idclt}`}>
+                                <Link style={{marginLeft : "8px"}} data-toggle="tooltip" data-placement="bottom" title="edit" className=" mr-2" to={`/dashAdmin/Edit_Client/editID/${post.idu}`}>
                                     <i class=" icon-cursor-move text-success"></i> 
                                 </Link>
                                 
@@ -224,7 +224,7 @@ export default function ClientManagment() {
                                             }).then((result) => {
                                                 if (result.isConfirmed) 
                                                 {
-                                                   deleteRecord(post.idclt)
+                                                   deleteRecord(post.idu)
                                                  Swal.fire(
                                                         'Supprimer!',
                                                            'Votre Client a été Supprimer.',

@@ -38,12 +38,12 @@ export default function ViewClient() {
         setClient({
                     id: id,
                     update: true,
-                    nom: result.response[0].nom,
-                    prenom: result.response[0].prenom,
-                    nomsociete: result.response[0].nomsociete,
-                    activitesociete: result.response[0].activitesociete,
-                    tel : result.response[0].tel,
-                    email: result.response[0].email
+                    nom: result[0].nom,
+                    prenom: result[0].prenom,
+                    nomsociete: result[0].nomsociete,
+                    activitesociete: result[0].activitesociete,
+                    tel : result[0].tel,
+                    email: result[0].email
                 });
             })
             .catch((error) => console.log("error", error));

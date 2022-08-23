@@ -32,7 +32,7 @@ export default function EditClient() {
 
     const updateClient = async e => {
         e.preventDefault();
-        await axios.put(`http://localhost:5000/client/${id}`, client);
+        await axios.put(`http://localhost:5000/client/updateClient/${id}`, client);
         Swal.fire(
             'Good job!',
             'Client Updated!',
@@ -51,13 +51,11 @@ export default function EditClient() {
                 setClient({
                     id: id,
                     update: true,
-                    nom: result.response[0].nom,
-                    prenom: result.response[0].prenom,
-                    activitesociete: result.response[0].activitesociete,
-                    tel: result.response[0].tel,
-                    email: result.response[0].email,
-                    password: result.response[0].password,
-
+                    nom: result[0].nom,
+                    prenom: result[0].prenom,
+                    activitesociete: result[0].activitesociete,
+                    tel: result[0].tel,
+                    email: result[0].email,
                 });
             })
             .catch((error) => console.log("error", error));
@@ -76,7 +74,6 @@ export default function EditClient() {
                         <input
                             type="text"
                             className="form-control form-control-lg"
-                            placeholder="Nom"
                             name="nom"
                             value={nom}
                             onChange={e => onInputChange(e)}
@@ -86,7 +83,6 @@ export default function EditClient() {
                         <input
                             type="text"
                             className="form-control form-control-lg"
-                            placeholder="Prenom"
                             name=" prenom"
                             value={ prenom}
                             onChange={e => onInputChange(e)}
@@ -96,7 +92,6 @@ export default function EditClient() {
                         <input
                             type="text"
                             className="form-control form-control-lg"
-                            placeholder="activitesociete"
                             name="activitesociete"
                             value={activitesociete}
                             onChange={e => onInputChange(e)}
@@ -106,7 +101,6 @@ export default function EditClient() {
                         <input
                             type="text"
                             className="form-control form-control-lg"
-                            placeholder="Telephone"
                             name="tel"
                             value={tel}
                             onChange={e => onInputChange(e)}
@@ -116,22 +110,12 @@ export default function EditClient() {
                         <input
                             type="text"
                             className="form-control form-control-lg"
-                            placeholder="Email"
                             name="email"
                             value={email}
                             onChange={e => onInputChange(e)}
                         />
                     </div>
-                    
-                    <div className="form-group mb-3">
-                        <input
-                            type="password"
-                            className="form-control form-control-lg"
-                            placeholder="******"
-                            name="password"
-                            onChange={e => onInputChange(e)}
-                        />
-                    </div>
+
                     <button type="submit" className="btn btn-secondary btn-block">Modifier client</button>
 
                     </form>
