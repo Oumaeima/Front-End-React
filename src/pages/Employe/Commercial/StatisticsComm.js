@@ -54,23 +54,44 @@ export default function StatisticsComm() {
     };
 /**---------------------------------------- LIVREE ------------------------------------ */
     const [livree,setLivree] = useState({
-        poL : ""
+            poL : ""
     })
     const { poL } = livree;
 
     const loadTicketLivree = () => {
-      fetch(`http://localhost:5000/ticket/countTicketLivreeByComm/${id}`, {
-          method: "GET",
-      })
-          .then((response) => response.json())
-          .then((result) => {
-              console.log(result);
-              setLivree({
-                  update: true,
-                  poL: result[0].poL,
-              });              
-          })
-          .catch((error) => console.log("error", error));
+        fetch(`http://localhost:5000/ticket/countTicketLivreeByComm/${id}`, {
+            method: "GET",
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                console.log(result);
+                setLivree({
+                    update: true,
+                    poL: result[0].poL,
+                });              
+            })
+            .catch((error) => console.log("error", error));
+    };
+
+    /**---------------------------------------- NOUVEAU ------------------------------------ */
+    const [nouveau,setNouveau] = useState({
+        poN : ""
+    })
+    const { poN } = nouveau;
+
+    const loadTicketNouveau = () => {
+    fetch(`http://localhost:5000/ticket/countTicketNouveauByComm/${id}`, {
+        method: "GET",
+    })
+        .then((response) => response.json())
+        .then((result) => {
+            console.log(result);
+            setNouveau({
+                update: true,
+                poN: result[0].poN,
+            });              
+        })
+        .catch((error) => console.log("error", error));
     };
 
 /**------------------------------------- load user detail ------------------------------- */
@@ -109,10 +130,16 @@ export default function StatisticsComm() {
         loadTicketEnCours();
         loadAllPOTicket()
         loadTicketLivree()
+        loadTicketNouveau()
         loadUser()
       }, []);
 
-    
+      const data = [
+        { name: "Total", value: all.po },
+        { name: "Nouveau", value: nouveau.poN },
+        { name: "en cours", value: encours.poC },
+        { name: "Livrée", value: livree.poL },
+    ];
 
      
   return (
@@ -129,7 +156,7 @@ export default function StatisticsComm() {
         <div className="content-wrapper">
 
             <div style={{marginTop : 20}} className='row col-12'>
-                <div className="col-4 grid-margin">
+                <div className="col-3 grid-margin">
                     <div style={{backgroundColor: "#DBE0F8"}} className="card card-statistics">
                         <div className="row">
                             <div className="card-body">
@@ -147,8 +174,25 @@ export default function StatisticsComm() {
                     </div>
                 </div>
 
+                <div className="col-3 grid-margin">
+                    <div style={{backgroundColor: "#CDD3F1"}} className="card card-statistics">
+                        <div className="row">
+                            <div className="card-body">
+                                <div className="d-flex align-items-center justify-content-center flex-column flex-sm-row">
+                                    <i className="icon-disc text-primary mr-0 mr-sm-4 icon-md"></i>
+                                    <div className="wrapper text-center text-sm-left">
+                                        <p className="card-text mb-0">Ticket PO Nouveau</p>
+                                        <div className="fluid-container">
+                                            <h3 className="card-title mb-0"> {poN} </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                <div className="col-4 grid-margin">
+                <div className="col-3 grid-margin">
                     <div style={{backgroundColor: "#C3CDFC"}} className="card card-statistics">
                         <div className="row">
                             <div className="card-body">
@@ -166,7 +210,7 @@ export default function StatisticsComm() {
                     </div>
                 </div>
 
-                <div className="col-4 grid-margin">
+                <div className="col-3 grid-margin">
                     <div style={{backgroundColor: "#B8C3FB"}} className="card card-statistics">
                         <div className="row">
                             <div className="card-body">
@@ -206,7 +250,26 @@ export default function StatisticsComm() {
                     <div className="col-lg-6 grid-margin grid-margin-lg-0 stretch-card">
                       <div className="card">
                         <div className="card-body">
-                      
+
+                        <PieChart style={{marginTop: -50}} width={1000} height={300}>
+                            <Legend align='left'/>
+                            <Pie
+                              data={data}
+                              cx={240}
+                              cy={160}
+                              innerRadius={60}
+                              outerRadius={90}
+                              fill="#8884d8"
+                              paddingAngle={5}
+                              dataKey="value"
+                              label
+                            >
+                              {data.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                ))}
+                            </Pie>
+                            <Tooltip />
+                          </PieChart>                      
 
                         </div>
                       </div>
