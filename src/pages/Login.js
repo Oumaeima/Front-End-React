@@ -42,12 +42,15 @@ export default function Login() {
         localStorage.setItem("photo", JSON.stringify(res.data.data.users.photo));
        if (res.data.data.users.poste === "Technicien") {
                 window.location.href = "/DashTech"
-            } else if(res.data.data.users.poste === "Superviseur") {
-                window.location.href = "/DashSup"
             }else if(res.data.data.users.poste === "Commercial") {
                     window.location.href = "/dashCommercial"
             }else if(res.data.data.users.poste === "Client") {
-                window.location.href = "/dashClient"}
+                window.location.href = "/dashClient"
+            }else if(res.data.data.users.poste === "superadmin") {
+                window.location.href = "/dashSuperAdmin"
+            }else if(res.data.data.users.poste === "admin") {
+                window.location.href = "/dashAdmin"
+            }
 
             
         

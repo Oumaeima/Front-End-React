@@ -9,7 +9,7 @@ export default function Navbar() {
   let history = useNavigate()
   const logout = () =>{
     localStorage.clear()
-    history("/connexion")
+    history("/Login")
   }
 
   return (

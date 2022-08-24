@@ -34,7 +34,7 @@ import ViewTicketInt from './pages/SuperAdmin/tickets/ViewTicketInt';
 import ViewDossier from './pages/Admin/dossier/ViewDossier';
 import IntManagement from './pages/Client/TicketInt/IntManagement';
 import DashTech from './pages/Employe/Technicien/DashTech';
-import Login from './pages/Employe/Login';
+import Login from './pages/Login';
 import TicketManagement from './pages/Employe/Technicien/TicketManagement';
 import ViewTicket from './pages/Employe/Technicien/ViewTicket';
 import EditTicket from './pages/Client/TicketInt/EditTicket';
@@ -67,7 +67,7 @@ function App() {
        <Route path='/LoginSuperAdmin' exact element={<LoginSuperAdmin/>}/>
        <Route path='/LoginAdmin' exact element={<LoginAdmin/>}/>
        <Route path='/LoginClient' exact element={<LoginClient/>}/>
-       <Route path='/LoginUser' exact element={<Login/>}/>
+       <Route path='/Login' exact element={<Login/>}/>
 
 
        ## dashboard SuperAdmin

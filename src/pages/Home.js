@@ -22,7 +22,7 @@ export default function Home() {
                
                 <li><a className="nav-link scrollto" href="#contact">Contact</a></li>
                 
-                <li><a className="nav-link scrollto" href="/Connexion">Connexion</a></li>
+                <li><a className="nav-link scrollto" href="/Login">Connexion</a></li>
             </ul>
             <i className="bi bi-list mobile-nav-toggle" />
             </nav>{/* .navbar1 */}
