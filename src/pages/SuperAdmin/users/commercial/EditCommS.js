@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 
-export default function EditCommercial() {
+export default function EditCommS() {
     let history = useNavigate();
     const { id } = useParams();
 
@@ -74,7 +74,6 @@ export default function EditCommercial() {
           <div class="card shadow p-5">
             <div class="card-body">
               <h4 class="card-title">Modifier ticket</h4>
-              <h5 className="text-success">Employer ID : {user.id}</h5>
               <form onSubmit={e => onSubmit(e)}>
         
         <div className="form-group mb-3">

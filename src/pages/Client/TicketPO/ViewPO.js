@@ -129,7 +129,7 @@ const updateEtatTicket = async e => {
                     
           };
 
-/*     const handleClick=(e)=>{
+    const handleClick=(e)=>{
             const viewHandler = async () => {
              axios(`http://localhost:5000/offre/getOffre/${id}`, {
                method: "GET",
@@ -138,7 +138,7 @@ const updateEtatTicket = async e => {
              })
                .then(response => {
                  //Build a URL from the file
-                 var file = new Blob([response.data], {type: 'application/pdf'});
+                 var file = new Blob([response], {type: 'application/pdf'});
                  const fileURL = URL.createObjectURL(file);
                  //Open the URL on new Window
                  window.open(fileURL);
@@ -149,19 +149,19 @@ const updateEtatTicket = async e => {
      
              }
               viewHandler();
-           } */
+           } 
 
-           async function printTickets() {
+          /*  async function printTickets() {
              const { data } = await getTicketsPdf()
             const blob = new Blob([data], { type: 'application/pdf' })
             console.log("blob : ", data[0].offre)
             saveAs(blob, "offre.pdf") 
         
-          }
+          } */
 
           
           
-           async function getTicketsPdf() {
+        /*    async function getTicketsPdf() {
             fetch(`http://localhost:5000/offre/getOffre/${id}`, {
                     method: 'GET',
                     headers: {
@@ -191,7 +191,7 @@ const updateEtatTicket = async e => {
                     link.parentNode.removeChild(link);
                 });
             
-          } 
+          }  */
           
 
    return (
@@ -235,7 +235,7 @@ const updateEtatTicket = async e => {
                                 <article className="card">
                                     <div className="card-body row">
                                     <div className="col"> <strong>Date de commande:</strong> <br /> {date} </div>
-                                    <div className="col"> <strong>Offre:</strong> <br /> <a href="#" onClick={getTicketsPdf}>{offre}</a> </div>
+                                    <div className="col"> <strong>Offre:</strong> <br /> <a href="#" onClick={handleClick}>{offre}</a> </div>
                                     <div className="col"> <strong>Commercial:</strong> <br /> {commercial} </div>
                                     <div className="col"> <strong>Etat Piéce:</strong> <br /> {etatpiece} </div>
                                     <div className="col"> <strong>Tracking #:</strong> <br /> {trackingNumber} </div>
@@ -253,7 +253,7 @@ const updateEtatTicket = async e => {
                             </article>
                             </div>
 
-                             <button disabled={status === "Clos" ? true : false} data-toggle="pill" href="#v-pills-messages" class="btn btn-success col-12">Fermer ticket</button>
+                             <button disabled={etatpiece === "Livrée" ? false : true} data-toggle="pill" href="#v-pills-messages" class="btn btn-success col-12">Fermer ticket</button>
                          </form>
                      </div>
                      </div>

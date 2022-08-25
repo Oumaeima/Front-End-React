@@ -1,27 +1,27 @@
 import React from 'react'
 import Swal from 'sweetalert2';
 import { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
 import axios from "axios";
-import { BsCheckLg} from "react-icons/bs";
 import { useParams, useNavigate } from "react-router-dom";
 
-
-export default function EditTicketsInt() {
+export default function EditTicketS() {
     let history = useNavigate();
     const { id } = useParams();  //The useParams() hook helps us to access the URL parameters from a current route. 
 
 
     const [ticket, setTicket] = useState({
         sla: "",
+        owner: "",
         datedeb: "",
+        dateClos: "",
         taches: "",
-        urgence: "",
+        status: "",
+        matricule: ""
        
     })
 
     const[tech,setListTech]=useState([]);
-    const { sla, datedeb,  taches, urgence } = ticket;
+    const { sla ,owner, datedeb, dateClos, taches, status} = ticket;
 
     const onInputChange = e => {
         setTicket({ ...ticket, [e.target.name]: e.target.value });
@@ -42,7 +42,7 @@ export default function EditTicketsInt() {
     const deleteRecord = (idti,idu) => {
         axios.delete(`http://localhost:5000/ticket/ticketPO/${idti}/${idu}`)
             .then((result) => {
-                history("/dashSuperAdmin/gerer_ticketint");
+                history("/dashAdmin/gerer_ticketint");
             })
             .catch(() => {
                 alert('Error in the Code');
@@ -56,8 +56,8 @@ export default function EditTicketsInt() {
             'Good job!',
             'ticket Updated!',
             'success'
-        )
-        history("/dashSuperAdmin/gerer_ticketint");
+          )
+        history(`/dashAdmin/gerer_dossier`);
     };
 
     const loadTicket = () => {
@@ -71,9 +71,12 @@ export default function EditTicketsInt() {
                     id: id,
                     update: true,
                     sla: result.response[0].sla,
+                    owner: result.response[0].owner,
                     datedeb: result.response[0].datedeb,
-                    urgence: result.response[0].urgence,
-                    taches: result.response[0].taches
+                    dateClos: result.response[0].dateClos,
+                    taches: result.response[0].taches,
+                    status: result.response[0].status,
+                    
 
                 });
             })
@@ -85,7 +88,6 @@ export default function EditTicketsInt() {
               <div class="card shadow p-5">
                 <div class="card-body">
                   <h4 class="card-title">Modifier ticket</h4>
-                  <h5 className="text-success">Ticket ID : {ticket.id} </h5>
                     <form onSubmit={updateTicket}>
                     <div className="form-group mb-3">
                         <input
@@ -101,6 +103,15 @@ export default function EditTicketsInt() {
                         <input
                             type="text"
                             className="form-control form-control-lg"
+                            name="owner"
+                            value={owner}
+                            onChange={e => onInputChange(e)}
+                        />
+                    </div>
+                    <div className="form-group mb-3">
+                        <input
+                            type="text"
+                            className="form-control form-control-lg"
                             placeholder="date debut"
                             name="datedeb"
                             value={datedeb}
@@ -108,14 +119,25 @@ export default function EditTicketsInt() {
                         />
                     </div>
                     <div className="form-group mb-3">
+                        <input
+                            type="text"
+                            className="form-control form-control-lg"
+                            placeholder="date debut"
+                            name="dateClos"
+                            value={dateClos}
+                            onChange={e => onInputChange(e)}
+                        />
+                    </div>
+                    <div className="form-group mb-3">
+                    <input
+                            type="text"
+                            className="form-control form-control-lg"
+                            placeholder="date debut"
+                            name="dateClos"
+                            value={status}
+                            onChange={e => onInputChange(e)}
+                        />
                         
-                        <select value={urgence} name="urgence" class="form-control" onChange={e => onInputChange(e)}>
-                            <option value="">---------- Urgence ---------- </option>
-                            <option value="Faible">Faible</option>
-                            <option value="Moyenne">Moyenne</option>
-                            <option value="Haute">Haute</option>
-                            <option value="Tres Haute">Trés Haute</option>
-                        </select> 
                     </div>
                     <div className="form-group mb-3">
                         <input

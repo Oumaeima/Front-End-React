@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import Swal from 'sweetalert2';
 
-export default function EditDossier() {
-
+export default function EditDossierS() {
     let history = useNavigate(); //The useHistory hook gives you access to the history instance that you may use to navigate.
     const { id } = useParams();  //The useParams() hook helps us to access the URL parameters from a current route. 
 
@@ -23,6 +23,7 @@ export default function EditDossier() {
 
     useEffect(() => {
         loadDossier();
+        console.log("id : "+id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -30,7 +31,12 @@ export default function EditDossier() {
     const updateDossier = async e => {
         e.preventDefault();
         await axios.put(`http://localhost:5000/dossier/${id}`, dossier);
-        history("/dashSuperAdmin/gerer_dossier");
+        Swal.fire(
+            'Good job!',
+            'Dossier Updated!',
+            'success'
+          )
+        history("/dashAdmin/gerer_dossier");
     };
 
     const loadDossier = () => {
@@ -43,10 +49,10 @@ export default function EditDossier() {
                 setDossier({
                     id: id,
                     update: true,
-                    nomsociete: result.response[0].nomsociete,
-                    categorie: result.response[0].categorie,
-                    type: result.response[0].type,
-                    matricule:result.response[0].matricule
+                    nomsociete: result[0].nomsociete,
+                    categorie: result[0].categorie,
+                    type: result[0].type,
+                    matricule:result[0].matricule
 
                 });
             })
@@ -61,7 +67,7 @@ export default function EditDossier() {
           <div class="card shadow p-5">
             <div class="card-body">
               <h4 class="card-title">Modifier Dossier</h4>
-              <h5 className="text-success">Dossier ID : {dossier.id} </h5>
+              
               <form onSubmit={updateDossier}>
                     <div className="form-group mb-3">
                         <label>Nom Societe :</label>

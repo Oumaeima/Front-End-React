@@ -60,23 +60,13 @@ export default function DashSuperAdmin() {
                     </a>
                     <div className="collapse" id="tables">
                     <ul className="nav flex-column sub-menu">
-                        <li className="nav-item"> <a className="nav-link" href="/dashSuperAdmin/gerer_client">Gestion Client</a></li>
-                        <li className="nav-item"> <a className="nav-link" href="/dashSuperAdmin/gerer_admin">Gestion Admin</a></li>
-                        <li className="nav-item"> <a className="nav-link" href="/dashSuperAdmin/gerer_employee">Gestion Employer</a></li>
-                        <li className="nav-item"> <a className="nav-link" href="/dashSuperAdmin/gerer_dossier">Gestion Dossier</a></li>
-                        <li className="nav-item"> <a className="nav-link" href="/dashSuperAdmin/gerer_ticketint">Gestion Ticket Intervention</a></li>
-                        <li className="nav-item"> <a className="nav-link" href="pages/tables/js-grid.html">Gestion Ticket Offsite</a></li>
-                        <li className="nav-item"> <a className="nav-link" href="pages/tables/js-grid.html">Gestion Ticket Par Order</a></li>
+                        <li className="nav-item"> <a className="nav-link" href="/dashSuperAdmin/admin">Gestion Admin</a></li>
+                        <li className="nav-item"> <a className="nav-link" href="/dashSuperAdmin/clients">Gestion Client</a></li>
+                        <li className="nav-item"> <a className="nav-link" href="/dashSuperAdmin/techniciens">Gestion Technicen</a></li>
+                        <li className="nav-item"> <a className="nav-link" href="/dashSuperAdmin/dossiers">Gestion Dossier</a></li>
+                        <li className="nav-item"> <a className="nav-link" href="/dashSuperAdmin/commercials">Gestion Commercial</a></li>
                     </ul>
                     </div>
-                </li>
-                
-                <li className="nav-item">
-                    <a className="nav-link"  href="index.html" >
-                    <i className="icon-location-pin menu-icon"></i>
-                    <span className="menu-title">Traking</span>
-                    </a>
-                   
                 </li>
               
                 <li className="nav-item">

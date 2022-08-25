@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
+import ReactPaginate from "react-paginate";
 
-export default function EmployeeManagment() {
+export default function EmployeeManagementS() {
 
     const [search, setSearch] = useState('');
     const [record, setRecord] = useState([]);
@@ -11,15 +12,13 @@ export default function EmployeeManagment() {
     const [user, setUser] = useState({
         nom: "",
         prenom: "",
-        poste: "",
-        photo:"",
         tel: "",
         email: "",
         password: ""
     });
 
     //  Object Destructuring 
-    const { nom, prenom, poste,photo, tel, email, password } = user;
+    const { nom, prenom, tel, email, password } = user;
     const onInputChange = e => {
         setUser({ ...user, [e.target.name]: e.target.value });
     };
@@ -84,88 +83,98 @@ export default function EmployeeManagment() {
             });
     };
 
+            /**--------------------------- search record -------------------------- */
+            const [query, setQuery] = useState("")
+
+            const [posts, setPost] = useState(null);
+            useEffect(() => {
+                fetch('http://localhost:5000/api/AllUser')
+                    .then(response => {
+                        console.log(response.ok)
+                        if (!response.ok) {
+                            throw Error('Can not connect to the server!.');
+                        }
+                        return response.json();
+                    }).then(data => {
+                        console.log(data); 
+                        setPost(data)
+                    }).catch(e => {
+                        console.log(e.message);
+                    });
+            }, []);
+    /**---------------------------------- PAGINATION -------------------------------------------- */
+    
+            const PER_PAGE = 5
+            const [currentPage, setCurrentPage] = useState(0)
+            const [data, setData] = useState([])
+    
+            useEffect(()=>{
+                fetch('http://localhost:5000/api/AllUser')
+                .then((res) => res.json())
+                .then((data) => {
+                    setData(data)
+                })
+            }, [])
+    
+            const hundelPageClick= ({selected : selectedPage}) => {
+                console.log("selectedPage", selectedPage)
+                setCurrentPage(selectedPage)
+            };
+    
+            const offset = currentPage * PER_PAGE
+            const pageCount = Math.ceil(data.length / PER_PAGE)
+
 
   return (
     <>
     
-        <div class="row grid-margin">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <button className="btn"  data-toggle="modal" data-target="#AddEmployee">+ Create new</button>
-                            
-                            <form style={{paddingBottom : "50px"}} className="form-inline my-2 my-lg-0">
-                                <input onChange={(e) => setSearch(e.target.value)} style={{marginLeft : "850px"}} className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-                                <button onClick={searchRecords} className="btn btn-outline-success my-2 my-sm-0" type="submit" data-bs-dismiss="modal">Search</button>
-                            </form>
-
-                            <table class="table">
-                                <thead>
+    <div className="col-lg-12 side-right stretch-card">
+        <div className="card shadow p-5">
+            <div className="card-body">
+            <div className="wrapper d-block d-sm-flex align-items-center justify-content-between">
+                <h4 className="card-title mb-0">Details</h4>
+                
+                <form className="form-inline my-2 my-lg-0">
+                            <input onChange={event => setQuery(event.target.value)}  className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+                        </form>
+            </div>
+            <div className="wrapper">
+                <hr />
+                <div className="tab-content" id="myTabContent">
+                <div className="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info">
+               
+                <button data-toggle="modal" data-target="#AddEmployee" type="button" class="btn btn-inverse-info btn-fw"><i class="icon-plus text-success"></i></button>
+                <table style={{marginTop : "15px"}} class="table table-hover">
+                                <thead className='thead-light'>
                                     <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">FirstName</th>
                                     <th scope="col">LastName</th>
-                                    <th scope="col">Post</th>
                                     <th scope="col">Tel</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Action</th>
                                     </tr>
                                 </thead>
-    {/*                             <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Oumaima abidi</td>
-                                        <td>Varmeg</td>
-                                        <td>Commerce</td>
-                                        <td>97894763</td>
-                                        <td>oumaabidi40@gmail.com</td>
-                                        <td>
-                                            <button type="button" class="btn  btn-primary"><i class="icon-cursor-move"></i></button>
-                                            <button style={{marginLeft : "5px"}} type="button" class="btn  btn-danger"><i class=" icon-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                    <th scope="row">2</th>
-                                        <td>Oumaima abidi</td>
-                                        <td>Varmeg</td>
-                                        <td>Commerce</td>
-                                        <td>97894763</td>
-                                        <td>oumaabidi40@gmail.com</td>
-                                        <td>
-                                            <button type="button" class="btn  btn-primary"><i class="icon-cursor-move"></i></button>
-                                            <button style={{marginLeft : "5px"}} type="button" class="btn  btn-danger"><i class=" icon-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                    <th scope="row">3</th>
-                                        <td>Oumaima abidi</td>
-                                        <td>Varmeg</td>
-                                        <td>Commerce</td>
-                                        <td>97894763</td>
-                                        <td>oumaabidi40@gmail.com</td>
-                                        <td>
-                                            <button type="button" class="btn  btn-primary"><i class="icon-cursor-move"></i></button>
-                                            <button style={{marginLeft : "5px"}} type="button" class="btn  btn-danger"><i class=" icon-trash"></i></button>
-                                        </td>
-                                    </tr>
-
-                                    
-
-                                </tbody> */}
 
 
-                            {record.map((name) =>
-                                <tbody>
-                                    <tr class="bg-blue">
-                                    <td class="pt-3">{name.idu}</td>
-                                        <td class="pt-3">{name.nom}</td>
-                                        <td class="pt-3">{name.prenom}</td>
-                                        <td class="pt-3">{name.poste}</td>
-                                        <td class="pt-3">{name.tel}</td>
-                                        <td class="pt-3">{name.email}</td>
+                                { data &&
+                data.filter(post => {
+                    if (query === '') {
+                        return post;
+                    } else if (post.nom.toLowerCase().includes(query.toLowerCase())|| post.prenom.toLowerCase().includes(query.toLowerCase()) ) {
+                        return post;
+                    }
+                }).slice(offset, offset+PER_PAGE).map((post, index) => (
+                    <tbody>
+                                <tr class="bg-blue">
+                                    <td class="pt-3">{post.idu}</td>
+                                        <td class="pt-3">{post.nom}</td>
+                                        <td class="pt-3">{post.prenom}</td>
+                                        <td class="pt-3">{post.tel}</td>
+                                        <td class="pt-3">{post.email}</td>
                                         <td>
                                 
-                                <Link style={{marginLeft : "8px"}} data-toggle="tooltip" data-placement="bottom" title="edit" className=" mr-2" to={`/dashSuperAdmin/Edit_Dossier/editID/${name.idd}`}>
+                                <Link style={{marginLeft : "8px"}} data-toggle="tooltip" data-placement="bottom" title="edit" className=" mr-2" to={`/dashSuperAdmin/Edit_tech/${post.idu}`}>
                                     <i class=" icon-cursor-move text-success"></i> 
                                 </Link>
                                 
@@ -174,7 +183,7 @@ export default function EmployeeManagment() {
                                                 
                                         Swal.fire({
                                             title: 'Vous été Sur ?',
-                                            text: "Sur Pour supprimer l'utilisateur : " + name.nom,
+                                            text: "Sur Pour supprimer l'utilisateur : " + post.nom,
                                             icon: 'warning',
                                             showCancelButton: true,
                                                 confirmButtonColor: '#3085d6',
@@ -183,7 +192,7 @@ export default function EmployeeManagment() {
                                             }).then((result) => {
                                                 if (result.isConfirmed) 
                                                 {
-                                                deleteRecord(name.idu)
+                                                deleteRecord(post.idu)
                                                 Swal.fire(
                                                         'Supprimer!',
                                                         'Votre Client a été Supprimer.',
@@ -195,31 +204,32 @@ export default function EmployeeManagment() {
                                 ><i class="icon-trash text-danger"></i></a>
                                         </td>
                                     </tr>    
-                                </tbody>
-                            )}
+                            </tbody>
+
+                ) )
+            }
 
                             </table>
+                            <ReactPaginate
+                                previousLabel={"Previous"}
+                                nextLabel={"Next"}
+                                pageCount={pageCount}
+                                onPageChange={hundelPageClick}
+                                containerClassName={"pagination"}
+                                previousLinkClassName={"pagination__link"}
+                                
+                                disabledClassName = {"pagination__link--disabled"}
+                                activeClassName={"pagination__link--active"}
+                                
+                        ></ReactPaginate>
 
-                            <div className="col-md-4 col-sm-6 grid-margin stretch-card">
-                                <div className="card">
-                                    <div className="card-body">
-                                        <nav>
-                                        <ul className="pagination rounded-flat pagination-success">
-                                            <li className="page-item"><a className="page-link" href="#"><i className="mdi mdi-chevron-left" /></a></li>
-                                            <li className="page-item active"><a className="page-link" href="#">1</a></li>
-                                            <li className="page-item"><a className="page-link" href="#">2</a></li>
-                                            <li className="page-item"><a className="page-link" href="#">3</a></li>
-                                            <li className="page-item"><a className="page-link" href="#">4</a></li>
-                                            <li className="page-item"><a className="page-link" href="#"><i className="mdi mdi-chevron-right" /></a></li>
-                                        </ul>
-                                        </nav>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
+                </div>{/* tab content ends */}
+               
+                
                 </div>
+            </div>
+            </div>
+        </div>
         </div>
 
 
@@ -244,18 +254,7 @@ export default function EmployeeManagment() {
                             <label htmlFor="prenom" className="col-form-label">Prenom:</label>
                             <input type="text" className="form-control" id="prenom" name="prenom" value={prenom} onChange={e => onInputChange(e)}  minlength='3'pattern='[a-zA-Z]*'required/>
                         </div>
-                        <div className="form-group">
-                            <label  className="col-form-label">Post:</label>
-                                <select name="poste" class="form-control" value={poste} onChange={e => onInputChange(e)}>
-                                    <option value="">---------- Choisir Poste ---------- </option>
-                                    <option value="Technicien">Technicien</option>
-                                    <option value="Superviseur">Superviseur</option>
-                                    <option value="Commerciale">Commerciale</option>
-                                </select>
-                        </div>
-                        <div className="form-group">
-                            <label className="col-form-label">Photo:</label>
-                            <input type="file" class="form-control" name="photo" value={photo} onChange={e => onInputChange(e)} accept="image/*" multiple />                        </div>
+                      
                         <div className="form-group">
                             <label htmlFor="telephone" className="col-form-label">Telephone:</label>
                             <input type="number" className="form-control" id="telephone" name="tel" value={tel}  onChange={e => onInputChange(e)} minlength='8' required  pattern='[0-9]*'/>

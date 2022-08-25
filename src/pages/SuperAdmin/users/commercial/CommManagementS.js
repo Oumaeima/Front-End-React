@@ -4,31 +4,31 @@ import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 import ReactPaginate from "react-paginate";
 
-export default function EmployeeManagementS() {
+export default function CommManagementS() {
 
-
+    const[ListeDossier,setListDossier] = useState([]);
     const [search, setSearch] = useState('');
     const [record, setRecord] = useState([]);
-   
 
-    const [admin, setAdmin] = useState({
-        nom:"",
-        prenom:"",
+    const [user, setUser] = useState({
+        nom: "",
+        prenom: "",
+        nomsociete: "",
+        tel: "",
         email: "",
-        password: "" 
+        password: ""
     });
 
     //  Object Destructuring 
-    const {nom,prenom,email, password } = admin;
-
+    const { nom, prenom, tel, nomsociete, email, password } = user;
     const onInputChange = e => {
-        setAdmin({ ...admin, [e.target.name]: e.target.value });
+        setUser({ ...user, [e.target.name]: e.target.value });
     };
 
     // On Page load display all records 
-    const loadAdminDetail = async () => {
+    const loadUserDetail = async () => {
         // eslint-disable-next-line no-unused-vars
-        var response = fetch('http://localhost:5000/admin/AllAdmin')
+        var response = fetch('http://localhost:5000/api/AllCommercial')
             .then(function (response) {
                 return response.json();
             })
@@ -37,35 +37,62 @@ export default function EmployeeManagementS() {
             });
     }
     useEffect(() => {
-        loadAdminDetail();
+        loadUserDetail();
     }, []);
 
-    const deleteRecord = (adminId) => {
-        axios.delete(`http://localhost:5000/admin/${adminId}`)
+    // Insert Employee Records 
+    const submitUserRecord = async (e) => {
+        e.preventDefault();
+        e.target.reset();
+        try {
+        await axios.post("http://localhost:5000/authentification/createCommercial", user);
+        Swal.fire(
+            'Good job!',
+            'User inserted!',
+            'success'
+          )
+
+        loadUserDetail();
+        }
+            catch (err) {
+                Swal.fire({
+                    title: "Error",
+                    text: err.response.data.msg,
+                    icon: "error",
+                    button: "OK",
+    
+                });
+        }
+    };
+
+ 
+
+    // Delete Employee Record
+    const deleteRecord = (userId) => {
+        axios.delete(`http://localhost:5000/api/delete/${userId}`)
             .then((result) => {
-                loadAdminDetail();
+                loadUserDetail();
             })
             .catch(() => {
                 alert('Error in the Code');
             });
     };
 
-            // Insert Admin Records 
-    const submitAdminRecord = async (e) => {
-        e.preventDefault();
-        e.target.reset();
-        await axios.post("http://localhost:5000/authentification/createAdmin", admin);
-        alert('Data Inserted');
-
-        loadAdminDetail();
-    };
+    useEffect(() => {
+        const getDossier = async () => {
+            const res = await fetch('http://localhost:5000/dossier/getDossier');
+            const getdata = await res.json();
+            setListDossier(getdata);
+        }
+        getDossier();
+      }, []);
 
             /**--------------------------- search record -------------------------- */
             const [query, setQuery] = useState("")
 
             const [posts, setPost] = useState(null);
             useEffect(() => {
-                fetch('http://localhost:5000/admin/AllAdmin')
+                fetch('http://localhost:5000/api/AllCommercial')
                     .then(response => {
                         console.log(response.ok)
                         if (!response.ok) {
@@ -86,7 +113,7 @@ export default function EmployeeManagementS() {
             const [data, setData] = useState([])
     
             useEffect(()=>{
-                fetch('http://localhost:5000/admin/AllAdmin')
+                fetch('http://localhost:5000/api/AllCommercial')
                 .then((res) => res.json())
                 .then((data) => {
                     setData(data)
@@ -120,13 +147,15 @@ export default function EmployeeManagementS() {
                 <div className="tab-content" id="myTabContent">
                 <div className="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info">
                
-                <button data-toggle="modal" data-target="#AddAdmin" type="button" class="btn btn-inverse-info btn-fw"><i class="icon-plus text-success"></i></button>
+                <button data-toggle="modal" data-target="#AddEmployee" type="button" class="btn btn-inverse-info btn-fw"><i class="icon-plus text-success"></i></button>
                 <table style={{marginTop : "15px"}} class="table table-hover">
                                 <thead className='thead-light'>
                                     <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">FirstName</th>
                                     <th scope="col">LastName</th>
+                                    <th scope="col">Société</th>
+                                    <th scope="col">Tel</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Action</th>
                                     </tr>
@@ -142,14 +171,16 @@ export default function EmployeeManagementS() {
                     }
                 }).slice(offset, offset+PER_PAGE).map((post, index) => (
                     <tbody>
-                    <tr class="bg-blue">
-                        <td class="pt-3">{post.idu}</td>
-                        <td class="pt-3">{post.nom}</td>
-                        <td class="pt-3">{post.prenom}</td>
-                        <td class="pt-3">{post.email}</td>
-                        <td>
+                                <tr class="bg-blue">
+                                    <td class="pt-3">{post.idu}</td>
+                                        <td class="pt-3">{post.nom}</td>
+                                        <td class="pt-3">{post.prenom}</td>
+                                        <td class="pt-3">{post.nomsociete}</td>
+                                        <td class="pt-3">{post.tel}</td>
+                                        <td class="pt-3">{post.email}</td>
+                                        <td>
                                 
-                                <Link style={{marginLeft : "8px"}} data-toggle="tooltip" data-placement="bottom" title="edit" className=" mr-2" to={`/dashSuperAdmin/Edit_admin/${post.idu}`}>
+                                <Link style={{marginLeft : "8px"}} data-toggle="tooltip" data-placement="bottom" title="edit" className=" mr-2" to={`/dashSuperAdmin/Edit_commercial/${post.idu}`}>
                                     <i class=" icon-cursor-move text-success"></i> 
                                 </Link>
                                 
@@ -178,8 +209,8 @@ export default function EmployeeManagementS() {
                                     }
                                 ><i class="icon-trash text-danger"></i></a>
                                         </td>
-                    </tr>    
-                </tbody>
+                                    </tr>    
+                            </tbody>
 
                 ) )
             }
@@ -208,19 +239,19 @@ export default function EmployeeManagementS() {
         </div>
 
 
-            {/* CREATE ADMIN ACCOUNT POPUP */}   
+        {/* CREATE EMPLOYEE ACCOUNT POPUP */}   
 
-            <div className="modal fade" id="AddAdmin" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal fade" id="AddEmployee" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div  className="modal-dialog" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Ajouter Client</h5>
+                            <h5 className="modal-title" id="exampleModalLabel">Ajouter Employee</h5>
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                             </button>
                         </div>
                     <div className="modal-body">
-                        <form onSubmit={submitAdminRecord}>
+                        <form onSubmit={submitUserRecord}>
                         <div className="form-group">
                             <label htmlFor="recipient-name" className="col-form-label">Nom:</label>
                             <input type="text" className="form-control" id="recipient-name" name="nom" value={nom} onChange={e => onInputChange(e)}  minlength='3'pattern='[a-zA-Z]*' required />
@@ -229,7 +260,19 @@ export default function EmployeeManagementS() {
                             <label htmlFor="prenom" className="col-form-label">Prenom:</label>
                             <input type="text" className="form-control" id="prenom" name="prenom" value={prenom} onChange={e => onInputChange(e)}  minlength='3'pattern='[a-zA-Z]*'required/>
                         </div>
- 
+                        <div className="form-group">
+                            <label htmlFor="nomsociete" className="col-form-label">Société:</label>
+                            <select id="nomsociete" name="nomsociete" class="form-control" value={nomsociete} onChange={e => onInputChange(e)}>
+                                    <option value="">---------- Choisir un Dossier ---------- </option>
+                                    {ListeDossier.map ((res)=>(
+                                      <option value={res.idd}>{res.nomsociete}</option>
+                                    ))}
+                            </select> 
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="telephone" className="col-form-label">Telephone:</label>
+                            <input type="number" className="form-control" id="telephone" name="tel" value={tel}  onChange={e => onInputChange(e)} minlength='8' required  pattern='[0-9]*'/>
+                        </div>
                         <div className="form-group">
                             <label htmlFor="email" className="col-form-label">Email:</label>
                             <input type="email" className="form-control" id="email" name="email" value={email} onChange={e => onInputChange(e)} required/>
@@ -249,7 +292,7 @@ export default function EmployeeManagementS() {
                 </div>
             </div>
 
-            {/* END CREATE ADMIN ACCOUNT POPUP */}
+        {/* END CREATE EMPLOYEE ACCOUNT POPUP */}
     
     </>
   )
