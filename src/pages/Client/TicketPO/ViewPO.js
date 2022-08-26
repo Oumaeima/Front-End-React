@@ -4,8 +4,6 @@ import Swal from 'sweetalert2';
 import {  useNavigate, useParams } from "react-router-dom";
 import  './style.css'
 import { saveAs } from 'file-saver'
-import fileDownload from 'js-file-download'
-
 
 
 export default function ViewPO() {
@@ -90,16 +88,16 @@ export default function ViewPO() {
         //console.log("signature : "+signature);
 };
 
-const updateEtatTicket = async e => {
-    e.preventDefault();
-    await axios.put(`http://localhost:5000/ticket/fermerTicketPO/${id}`,ticket);
-    Swal.fire(
-        'Good job!',
-        'ticket Updated!',
-        'success'
-      )
-    history("/dashClient/partOrder");
-};
+    const updateEtatTicket = async e => {
+        e.preventDefault();
+        await axios.put(`http://localhost:5000/ticket/fermerTicketPO/${id}`,ticket);
+        Swal.fire(
+            'Good job!',
+            'ticket Updated!',
+            'success'
+        )
+        history("/dashClient/partOrder");
+    };
 
     const [uploaded_pdf, setOffre] = useState({
         offre : ""
@@ -111,10 +109,7 @@ const updateEtatTicket = async e => {
     const loadOffre = async () => {
         fetch(`http://localhost:5000/offre/getOffre/${id}`,{
             method: "GET",
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                Accept : 'application/pdf'
-            },
+            
         })
             .then((response) => response.json() )
             .then((result) => {
@@ -129,11 +124,11 @@ const updateEtatTicket = async e => {
                     
           };
 
-    const handleClick=(e)=>{
+     const handleClick=(e)=>{
             const viewHandler = async () => {
-             axios(`http://localhost:5000/offre/getOffre/${id}`, {
+             axios(`http://localhost:5000/offre/downloadOffre/${id}`, {
                method: "GET",
-               responseType: "blob"
+               responseType: "application/pdf"
                //Force to receive data in a Blob Format
              })
                .then(response => {
@@ -149,51 +144,30 @@ const updateEtatTicket = async e => {
      
              }
               viewHandler();
-           } 
+           }  
 
-          /*  async function printTickets() {
-             const { data } = await getTicketsPdf()
-            const blob = new Blob([data], { type: 'application/pdf' })
-            console.log("blob : ", data[0].offre)
-            saveAs(blob, "offre.pdf") 
-        
-          } */
+            async function printTickets() {
+                const { data } = await getTicketsPdf()
+                const blob = new Blob([data[0].offre], { type: 'application/pdf' })
+                console.log("blob : ", data[0].offre)
+                saveAs(blob, "offre.pdf") 
+          } 
 
           
           
-        /*    async function getTicketsPdf() {
-            fetch(`http://localhost:5000/offre/getOffre/${id}`, {
+            async function getTicketsPdf() {
+                fetch(`http://localhost:5000/offre/downloadOffre/${id}`, {
                     method: 'GET',
-                    headers: {
-                    'Content-Type': 'application/pdf',
-                    },
+                    responseType: "application/pdf"
                 })
                 .then((response) => response.blob())
                 .then((blob) => {
                     // Create blob link to download
-                    const url = window.URL.createObjectURL(
-                    new Blob([blob]),
-                    );
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.setAttribute(
-                    'download',
-                    `Offre.pdf`,
-                    );
-
-                    // Append to html link element page
-                    document.body.appendChild(link);
-
-                    // Start download
-                    link.click();
-
-                    // Clean up and remove the link
-                    link.parentNode.removeChild(link);
+                    const url = URL.createObjectURL(new Blob([blob], { type: 'application/pdf' }));
+                    saveAs(url, "offre.pdf") 
                 });
-            
-          }  */
-          
-
+          }  
+      
    return (
      <>
          <div className="col-md-12 grid-margin stretch-card d-none d-md-flex">
@@ -226,7 +200,7 @@ const updateEtatTicket = async e => {
                                  <label style={{fontSize : "15px"}}>Status</label>  
                                  <input type="text"  class="form-control"  name="status" value={status} onChange={e => onInputChange(e)} readOnly={true}/>
                              </div>
-          
+                    
                             <div className="container">
                             <article className="card">
                                 <header className="card-header"> My Orders / Tracking </header>
@@ -235,7 +209,7 @@ const updateEtatTicket = async e => {
                                 <article className="card">
                                     <div className="card-body row">
                                     <div className="col"> <strong>Date de commande:</strong> <br /> {date} </div>
-                                    <div className="col"> <strong>Offre:</strong> <br /> <a href="#" onClick={handleClick}>{offre}</a> </div>
+                                    <div className="col"> <strong>Offre:</strong> <br /> <a href="#" onClick={printTickets}>{offre}</a> </div>
                                     <div className="col"> <strong>Commercial:</strong> <br /> {commercial} </div>
                                     <div className="col"> <strong>Etat Piéce:</strong> <br /> {etatpiece} </div>
                                     <div className="col"> <strong>Tracking #:</strong> <br /> {trackingNumber} </div>

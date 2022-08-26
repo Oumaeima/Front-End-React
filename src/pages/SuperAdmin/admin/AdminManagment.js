@@ -55,7 +55,11 @@ export default function EmployeeManagementS() {
         e.preventDefault();
         e.target.reset();
         await axios.post("http://localhost:5000/authentification/createAdmin", admin);
-        alert('Data Inserted');
+        Swal.fire(
+            'Good job!',
+            'ticket Updated!',
+            'success'
+          )
 
         loadAdminDetail();
     };

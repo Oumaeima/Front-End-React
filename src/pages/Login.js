@@ -19,6 +19,8 @@ export default function Login() {
         email: "", password: "",poste:"",photo:""
     })
 
+    const [authenticated, setauthenticated] = useState(localStorage.getItem("authenticated")|| false);
+
     const handleChange = (event) => {
         const { name, value } = event.target
        
@@ -31,6 +33,10 @@ export default function Login() {
         try{
         const res = await axios.post("http://localhost:5000/authentification/login", user );
 
+        setauthenticated(true)
+        localStorage.setItem("authenticated", true);
+
+        console.log("authentification", authenticated);
             // set the state of the user
        setUser(res.data);
          // store the user in localStorage

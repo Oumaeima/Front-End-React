@@ -1,14 +1,14 @@
 import React, { useState ,useEffect, useRef} from "react";
 import axios from "axios";
 import Swal from 'sweetalert2';
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import  './style.css'
 import "react-step-progress-bar/styles.css";
 
 
 export default function ViewPOComm() {
         
-        
+    let history = useNavigate();
     const { id } = useParams();
 
     const Ref1 = useRef([])
@@ -109,27 +109,18 @@ const updateState4 = async e => {
             const submitOffre = async (e) => {
                 e.preventDefault();
                 e.target.reset();
-                try{
-                    const formdata = new FormData()
-                    formdata.append('uploaded_pdf', uploaded_pdf)
-                    await axios.post(`http://localhost:5000/offre/addOffre/${id}`, formdata);
-                    loadUser()
-                    Swal.fire(
-                        'Good job!',
-                        'ticket inserted!',
-                        'success'
-                    )
-                    
-                    }
-                        catch (err) {
-                            Swal.fire({
-                                title: "Error",
-                                text: err.response.data.msg,
-                                icon: "error",
-                                button: "OK",
                 
-                            });
-                    }
+                const formdata = new FormData()
+                formdata.append('uploaded_pdf', uploaded_pdf)
+                await axios.post(`http://localhost:5000/offre/addOffre/${id}`, formdata);
+                loadUser();
+                Swal.fire(
+                    'Good job!',
+                    'ticket inserted!',
+                    'success'
+                )
+                
+                history("/dashCommercial/partOrder");
                     
             };
 
@@ -220,7 +211,7 @@ const updateState4 = async e => {
                     <form onSubmit={submitOffre} className="forms-sample col-lg-12" method="post" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label style={{fontSize : "15px"}} >Offre </label>
-                                <input name="uploaded_pdf" onChange={e => setOffre(e.target.files[0])} type="file" class="form-control"></input>
+                                <input name="uploaded_pdf" onChange={e => setOffre(e.target.files[0])} type="file" class="form-control" required></input>
                             </div>
                             <button type="submit" class="btn btn-success mr-2">Valider</button>
                     </form>

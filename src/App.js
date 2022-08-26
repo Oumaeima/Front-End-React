@@ -63,6 +63,8 @@ import EmployeeManagementS from './pages/SuperAdmin/users/technicien/EmployeeMan
 import EditEmployeeS from './pages/SuperAdmin/users/technicien/EditEmployeeS';
 import AdminManagment from './pages/SuperAdmin/admin/AdminManagment';
 import EditAdmin from './pages/SuperAdmin/admin/EditAdmin';
+import PrivateRoute from './PrivateRoute';
+import ErrorPage from './pages/ErrorPage';
 
 
 
@@ -76,6 +78,7 @@ function App() {
        <Route path='/LoginAdmin' exact element={<LoginAdmin/>}/>
        <Route path='/LoginClient' exact element={<LoginClient/>}/>
        <Route path='/Login' exact element={<Login/>}/>
+       <Route path='/*' exact element={<ErrorPage/>}/>
 
 
        ## dashboard SuperAdmin
@@ -102,38 +105,42 @@ function App() {
 
 
        ## dashboard admin
-       <Route path='/dashAdmin' exact element={<DashAdmin/>}>
-          <Route index element={<StatisticsAdmin/>}/>
-          <Route path='/dashAdmin/profileA' exact element={<ProfileA/>}/>
-          <Route path='/dashAdmin/gerer_client' exact element={<ClientManagmentA/>}/>
-          <Route path='/dashAdmin/gerer_technicien' exact element={<EmployeeManagmentA/>}/>
-          <Route path='/dashAdmin/gerer_commercial' exact element={<CommercialManagment/>}/>
-          <Route path='/dashAdmin/gerer_dossier' exact element={<DossierManagmentA/>}/>
-          <Route path='/dashAdmin/gerer_ticketint' exact  element={<TicketsManagmentIntA/>}/>
-          <Route path='/dashAdmin/Edit_Client/editID/:id' exact element={<EditClient/>}/>
-          <Route path='/dashAdmin/view_dossier/:id' exact element={<ViewDossier/>}/>
-          <Route path="/dashAdmin/Edit_Dossier/editID/:id" element={<EditDossierAdmin/>} />
-          <Route path="/dashAdmin/Edit_ticket/editID/:id"  element={<EditTicketIntAdmin/>}/>
-          <Route path="/dashAdmin/Edit_User/editID/:id"  element={<EditEmployeeAdmin/>}/>
-          <Route path="/dashAdmin/Edit_commercial/:id"  element={<EditCommercial/>}/>
-          <Route path='/dashAdmin/view_ticketint/ticketID/:id' element={<ViewTicketIntAdmin/>}/>
-          <Route path='/dashAdmin/view_client/:id' element={<ViewClient/>}/>
-          <Route path='/dashAdmin/view_ticketPO/:id' element={<ViewTicketPOAdmin/>}/>
-       </Route>
+       
+          <Route path='/dashAdmin' exact element={<DashAdmin/>}>
+              <Route index element={<StatisticsAdmin/>}/>
+              <Route path='/dashAdmin/profileA' exact element={<ProfileA/>}/>
+              <Route path='/dashAdmin/gerer_client' exact element={<ClientManagmentA/>}/>
+              <Route path='/dashAdmin/gerer_technicien' exact element={<EmployeeManagmentA/>}/>
+              <Route path='/dashAdmin/gerer_commercial' exact element={<CommercialManagment/>}/>
+              <Route path='/dashAdmin/gerer_dossier' exact element={<DossierManagmentA/>}/>
+              <Route path='/dashAdmin/gerer_ticketint' exact  element={<TicketsManagmentIntA/>}/>
+              <Route path='/dashAdmin/Edit_Client/editID/:id' exact element={<EditClient/>}/>
+              <Route path='/dashAdmin/view_dossier/:id' exact element={<ViewDossier/>}/>
+              <Route path="/dashAdmin/Edit_Dossier/editID/:id" element={<EditDossierAdmin/>} />
+              <Route path="/dashAdmin/Edit_ticket/editID/:id"  element={<EditTicketIntAdmin/>}/>
+              <Route path="/dashAdmin/Edit_User/editID/:id"  element={<EditEmployeeAdmin/>}/>
+              <Route path="/dashAdmin/Edit_commercial/:id"  element={<EditCommercial/>}/>
+              <Route path='/dashAdmin/view_ticketint/ticketID/:id' element={<ViewTicketIntAdmin/>}/>
+              <Route path='/dashAdmin/view_client/:id' element={<ViewClient/>}/>
+              <Route path='/dashAdmin/view_ticketPO/:id' element={<ViewTicketPOAdmin/>}/>
+          </Route>
+      
+       
 
 
        ## dashboard client
-       <Route path='/dashClient' exact element={<DashClient/>}>
-         <Route index element={<StatisticsClient/>}/>
-         <Route path='/dashClient/profile' exact element={<ProfileClient/>} />
-         <Route path='/dashClient/intervention' exact element={<IntManagement/>} />
-         <Route path='/dashClient/partOrder' exact element={<POManagement/>} />
-         <Route path='/dashClient/view/:id' exact element={<ViewTicketClient/>} />
-         <Route path='/dashClient/view-po/:id' exact element={<ViewPO/>} />
-         <Route path='/dashClient/edit/:id' exact element={<EditTicket/>} />
-         <Route path='/dashClient/edit-po/:id' exact element={<EditPO/>} />
-       </Route>
-
+        
+          <Route path='/dashClient' exact element={<DashClient/>}>
+            <Route index element={<StatisticsClient/>}/>
+            <Route path='/dashClient/profile' exact element={<ProfileClient/>} />
+            <Route path='/dashClient/intervention' exact element={<IntManagement/>} />
+            <Route path='/dashClient/partOrder' exact element={<POManagement/>} />
+            <Route path='/dashClient/view/:id' exact element={<ViewTicketClient/>} />
+            <Route path='/dashClient/view-po/:id' exact element={<ViewPO/>} />
+            <Route path='/dashClient/edit/:id' exact element={<EditTicket/>} />
+            <Route path='/dashClient/edit-po/:id' exact element={<EditPO/>} />
+          </Route>
+       
 
        ## dashboard Technicien
        <Route path='/dashTech' exact element={<DashTech/>}>
