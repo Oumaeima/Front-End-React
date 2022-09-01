@@ -1,8 +1,14 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState ,useEffect, useRef} from "react";
 import { useParams } from "react-router-dom";
 import  './style.css'
+import { saveAs } from 'file-saver'
 
 export default function ViewTicketPOAdmin() {
+
+    const Ref1 = useRef([])
+    const Ref2 = useRef([])
+    const Ref3 = useRef([])
+    const Ref4 = useRef([])
 
      const { id } = useParams();
      
@@ -26,7 +32,8 @@ export default function ViewTicketPOAdmin() {
    
  
        useEffect(() =>{
-         loadUser();
+        loadOffre()
+        loadUser();
        },[]);
  
        const loadUser =  () => {
@@ -53,6 +60,50 @@ export default function ViewTicketPOAdmin() {
              
    };
  
+   const [uploaded_pdf, setOffre] = useState({
+    offre : ""
+})
+const {offre} = uploaded_pdf
+
+//const fileURL = URL.createObjectURL(offre);
+
+const loadOffre = async () => {
+    fetch(`http://localhost:5000/offre/getOffre/${id}`,{
+        method: "GET",
+        
+    })
+        .then((response) => response.json() )
+        .then((result) => {
+            console.log(result);
+            setOffre({
+                        id: id,
+                        update: true,
+                        offre: result[0].offre,
+                    });
+                })
+                .catch((error) => console.log("error", error));
+                
+      };
+
+      async function printTickets() {
+        const { data } = await getTicketsPdf()
+        const blob = new Blob([data[0].offre], { type: 'application/pdf' })
+        console.log("blob : ", data[0].offre)
+        saveAs(blob, "offre.pdf") 
+  } 
+
+    async function getTicketsPdf() {
+        fetch(`http://localhost:5000/offre/downloadOffre/${id}`, {
+            method: 'GET',
+            responseType: "application/pdf"
+        })
+        .then((response) => response.blob())
+        .then((blob) => {
+            // Create blob link to download
+            const url = URL.createObjectURL(new Blob([blob], { type: 'application/pdf' }));
+            saveAs(url, "offre.pdf") 
+        });
+  } 
 
    return (
      <>
@@ -95,16 +146,17 @@ export default function ViewTicketPOAdmin() {
                                 <article className="card">
                                     <div className="card-body row">
                                     <div className="col"> <strong>Date de commande:</strong> <br /> {date} </div>
+                                    <div className="col"> <strong>Offre:</strong> <br /> <a href="#" onClick={printTickets}>{offre}</a> </div>
                                     <div className="col"> <strong>Commercial:</strong> <br /> {commercial} </div>
                                     <div className="col"> <strong>Etat Piéce:</strong> <br /> {etatpiece} </div>
                                     <div className="col"> <strong>Tracking #:</strong> <br /> {trackingNumber} </div>
                                     </div>
                                 </article>
                                 <div className="track">
-                                    <div className="step"> <span className="icon"> <i className="icon-check" /> </span> <span className="text">Commande confirmée</span> </div>
-                                    <div className="step"> <span className="icon"> <i className="icon-control-end" /> </span> <span className="text">Chez l'expéditeur</span> </div>
-                                    <div className="step"> <span className="icon"> <i className="icon-map" /> </span> <span className="text"> En route </span> </div>
-                                    <div className="step"> <span className="icon"> <i className="icon-user-unfollow" /> </span> <span className="text">Livrée</span> </div>
+                                    <div ref={Ref1} className={etatpiece === "Commande confirmée"? "step active" : "step"}> <span className="icon"> <i className="icon-check" /> </span> <span className="text">Commande confirmée</span> </div>
+                                    <div ref={Ref2} className={etatpiece === "Chez l'expéditeur"? "step active" : "step"}> <span className="icon"> <i className="icon-control-end" /> </span> <span className="text">Chez l'expéditeur</span> </div>
+                                    <div ref={Ref3} className={etatpiece === "En route"? "step active" : "step"}> <span className="icon"> <i className="icon-map" /> </span> <span className="text"> En route </span> </div>
+                                    <div ref={Ref4} className={etatpiece === "Livrée"? "step active" : "step"}> <span className="icon"> <i className="icon-user-unfollow" /> </span> <span className="text">Livrée</span> </div>
                                 </div>
                                 
                             

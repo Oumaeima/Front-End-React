@@ -65,6 +65,7 @@ import AdminManagment from './pages/SuperAdmin/admin/AdminManagment';
 import EditAdmin from './pages/SuperAdmin/admin/EditAdmin';
 import PrivateRoute from './PrivateRoute';
 import ErrorPage from './pages/ErrorPage';
+import EditOffre from './pages/Employe/Commercial/EditOffre';
 
 
 
@@ -157,6 +158,7 @@ function App() {
         <Route path='/dashCommercial/profile' exact element={<ProfileComm/>} />
         <Route path="/dashCommercial/partOrder" exact element={<POManagementCom/>} />
         <Route path='/dashCommercial/view-po/:id' exact element={<ViewPOComm/>} />
+        <Route path='/dashCommercial/edit-offre/:id' exact element={<EditOffre/>} />
        </Route>
 
        

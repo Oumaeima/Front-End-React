@@ -124,7 +124,7 @@ export default function ViewPO() {
                     
           };
 
-     const handleClick=(e)=>{
+    /*  const handleClick=(e)=>{
             const viewHandler = async () => {
              axios(`http://localhost:5000/offre/downloadOffre/${id}`, {
                method: "GET",
@@ -144,7 +144,7 @@ export default function ViewPO() {
      
              }
               viewHandler();
-           }  
+           }  */ 
 
             async function printTickets() {
                 const { data } = await getTicketsPdf()
@@ -153,8 +153,6 @@ export default function ViewPO() {
                 saveAs(blob, "offre.pdf") 
           } 
 
-          
-          
             async function getTicketsPdf() {
                 fetch(`http://localhost:5000/offre/downloadOffre/${id}`, {
                     method: 'GET',

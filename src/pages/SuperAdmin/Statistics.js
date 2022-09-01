@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { PieChart, Pie, Legend, Tooltip, Cell } from "recharts";
+import NbUsersS from './NbUsersS';
 
 
 
@@ -269,8 +270,8 @@ export default function Statistics() {
                               label
                             >
                               {data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
+                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                              ))}
                             </Pie>
                             <Tooltip />
                           </PieChart>
@@ -280,7 +281,7 @@ export default function Statistics() {
                     <div className="col-lg-6 grid-margin grid-margin-lg-0 stretch-card">
                       <div className="card">
                         <div className="card-body">
-                                
+                                <NbUsersS/>
                         </div>
                       </div>
                     </div>

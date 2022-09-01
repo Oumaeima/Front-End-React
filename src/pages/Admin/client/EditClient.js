@@ -68,7 +68,7 @@ export default function EditClient() {
               <div class="card shadow p-5">
                 <div class="card-body">
                   <h4 class="card-title">Modifier Client</h4>
-                  <h5 className="text-success">Client ID : {client.id}</h5>
+                
                     <form onSubmit={updateClient}>
                     <div className="form-group mb-3">
                         <input

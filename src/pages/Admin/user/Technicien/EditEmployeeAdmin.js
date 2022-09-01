@@ -40,7 +40,7 @@ export default function EditEmployeeAdmin() {
     };
    
     const loadUser =  () => {
-      fetch(`http://localhost:5000/api/${id}`,{
+      fetch(`http://localhost:5000/api/getUserByID/${id}`,{
               method: "GET",
             })
              .then((response) => response.json())
@@ -49,10 +49,10 @@ export default function EditEmployeeAdmin() {
           setUser({
                       id: id,
                       update: true,
-                      nom: result.response[0].nom,
-                      prenom: result.response[0].prenom,
-                      tel:result.response[0].tel,
-                      email: result.response[0].email,
+                      nom: result[0].nom,
+                      prenom: result[0].prenom,
+                      tel:result[0].tel,
+                      email: result[0].email,
                   });
               })
               .catch((error) => console.log("error", error));
@@ -64,53 +64,53 @@ export default function EditEmployeeAdmin() {
           <div class="card shadow p-5">
             <div class="card-body">
               <h4 class="card-title">Modifier ticket</h4>
-              <h5 className="text-success">Employer ID : {user.id}</h5>
+             
               <form onSubmit={e => onSubmit(e)}>
         
-        <div className="form-group mb-3">
-          <input
-            type="text"
-            className="form-control form-control-lg"
-            placeholder="nom"
-            name="nom"
-            value={nom}
-            onChange={e => onInputChange(e)}
-          />
-        </div>
-        <div className="form-group mb-3">
-          <input
-            type="text"
-            className="form-control form-control-lg"
-            placeholder="Entrer prenom"
-            name="prenom"
-            value={prenom}
-            onChange={e => onInputChange(e)}
-          />
-        </div>
+                <div className="form-group mb-3">
+                  <input
+                    type="text"
+                    className="form-control form-control-lg"
+                    placeholder="nom"
+                    name="nom"
+                    value={nom}
+                    onChange={e => onInputChange(e)}
+                  />
+                </div>
+                <div className="form-group mb-3">
+                  <input
+                    type="text"
+                    className="form-control form-control-lg"
+                    placeholder="Entrer prenom"
+                    name="prenom"
+                    value={prenom}
+                    onChange={e => onInputChange(e)}
+                  />
+                </div>
         
-        <div className="form-group mb-3">
-          <input
-            type="text"
-            className="form-control form-control-lg"
-            placeholder="Enter tel"
-            name="tel"
-            value={tel}
-            onChange={e => onInputChange(e)}
-          />
-        </div>
+                <div className="form-group mb-3">
+                  <input
+                    type="text"
+                    className="form-control form-control-lg"
+                    placeholder="Enter tel"
+                    name="tel"
+                    value={tel}
+                    onChange={e => onInputChange(e)}
+                  />
+                </div>
 
-        <div className="form-group mb-3">
-          <input
-            type="email"
-            className="form-control form-control-lg"
-            placeholder="Enter email"
-            name="emil"
-            value={email}
-            onChange={e => onInputChange(e)}
-          />
-        </div>
-        <button type="submit" className="btn btn-secondary btn-block">Modifier</button>
-     </form>
+                <div className="form-group mb-3">
+                  <input
+                    type="email"
+                    className="form-control form-control-lg"
+                    placeholder="Enter email"
+                    name="emil"
+                    value={email}
+                    onChange={e => onInputChange(e)}
+                  />
+                </div>
+                <button type="submit" className="btn btn-secondary btn-block">Modifier</button>
+              </form>
               
             </div>
           </div>

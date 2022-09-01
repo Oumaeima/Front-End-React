@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { useNavigate, useParams } from "react-router-dom";
 import  './style.css'
 import "react-step-progress-bar/styles.css";
+import { saveAs } from "file-saver";
 
 
 export default function ViewPOComm() {
@@ -142,6 +143,26 @@ const updateState4 = async e => {
           };
 
 /**------------------------------------------------------------------------- */
+
+        async function printTickets() {
+            const { data } = await getTicketsPdf()
+            const blob = new Blob([data[0].offre], { type: 'application/pdf' })
+            console.log("blob : ", data[0].offre)
+            saveAs(blob, "offre.pdf") 
+        } 
+
+        async function getTicketsPdf() {
+            fetch(`http://localhost:5000/offre/downloadOffre/${id}`, {
+                method: 'GET',
+                responseType: "application/pdf"
+            })
+            .then((response) => response.blob())
+            .then((blob) => {
+                // Create blob link to download
+                const url = URL.createObjectURL(new Blob([blob], { type: 'application/pdf' }));
+                saveAs(url, "offre.pdf") 
+            });
+        } 
    return (
      <>
          <div className="col-md-12 grid-margin stretch-card d-none d-md-flex">
@@ -177,13 +198,13 @@ const updateState4 = async e => {
                              
                             <div className="container">
                             <article className="card">
-                                <header className="card-header"> My Orders / Tracking </header>
+                                <header className="card-header"> Tracking </header>
                                 <div className="card-body">
                                 
                                 <article className="card">
                                     <div className="card-body row">
                                     <div  className="col"> <strong>Date de commande:</strong> <br /> {date} </div>
-                                    <div className="col"> <strong>Offre:</strong> <br /> {offre} </div>
+                                    <div className="col"> <strong>Offre:</strong> <br /> <a href="#" onClick={printTickets}>{offre}</a> </div>
                                     <div className="col"> <strong>Commercial:</strong> <br /> {commercial} </div>
                                     <div className="col"> <strong>Etat Piéce:</strong> <br /> {etatpiece} </div>
                                     <div className="col"> <strong>Tracking #:</strong> <br /> {trackingNumber} </div>

@@ -409,7 +409,7 @@ export default function ViewDossier() {
                 dataPO.filter(postPO => {
                     if (query === '') {
                         return postPO;
-                    } else if (postPO.nomCommande.toLowerCase().includes(query.toLowerCase()) ) {
+                    } else if (postPO.nomCommande.toLowerCase().includes(query.toLowerCase()) || postPO.trackingNumber.toLowerCase().includes(query.toLowerCase()) ) {
                         return postPO;
                     }
                 }).map((postPO, index) => (

@@ -130,15 +130,6 @@ export default function DashAdmin() {
                     </div>
                 </li>
                 
-                <li className="nav-item">
-                    <a className="nav-link" href="pages/apps/todo.html">
-                    <i className="icon-clock menu-icon"></i>
-                    <span className="menu-title">Todo List</span>
-                    </a>
-                </li>
-            
-
-
             </ul>
         </nav>
 

@@ -164,7 +164,7 @@ export default function POManagementCom() {
                                     <Link data-toggle="tooltip" data-placement="bottom"title="read" className=" mr-2" to={`/dashCommercial/view-po/${post.idti}`}>
                                         <i class="icon-user-female text-primary"></i> 
                                     </Link>
-                                    <Link data-toggle="tooltip" data-placement="bottom" title="edit" className=" mr-2" to={`/dashClient/edit-po/${post.idti}`}>
+                                    <Link data-toggle="tooltip" data-placement="bottom" title="edit" className=" mr-2" to={`/dashCommercial/edit-offre/${post.idti}`}>
                                         <i class=" icon-cursor-move text-success"></i> 
                                     </Link>
                                     
