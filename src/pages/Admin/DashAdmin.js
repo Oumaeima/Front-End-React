@@ -53,12 +53,10 @@ export default function DashAdmin() {
                 setClient({
                     id: id,
                     update: true,
-                    nom: result.response[0].nom,
-                    prenom: result.response[0].prenom,
-                    
-                    email: result.response[0].email,
-                    
-                    password: result.response[0].password,
+                    nom: result[0].nom,
+                    prenom: result[0].prenom,
+                    email: result[0].email,
+                    password: result[0].password,
 
                 });
             })

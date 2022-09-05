@@ -16,7 +16,6 @@ export default function Profile() {
       prenom: "",
       email: "",
       password: "",
-    
   })
 
   const { nom, prenom,email, password } = client;
@@ -51,12 +50,10 @@ export default function Profile() {
               setClient({
                   id: id,
                   update: true,
-                  nom: result.response[0].nom,
-                  prenom: result.response[0].prenom,
-                  
-                  email: result.response[0].email,
-                  
-                  password: result.response[0].password,
+                  nom: result[0].nom,
+                  prenom: result[0].prenom,
+                  email: result[0].email,
+                  password: result[0].password,
 
               });
           })
@@ -85,36 +82,8 @@ export default function Profile() {
   
         <div className="content-wrapper">
           <div className="row user-profile">
-            <div className="col-lg-4 side-left d-flex align-items-stretch">
-              <div className="row">
-                <div className="col-12 grid-margin stretch-card">
-                  <div className="card">
-                    <div className="card-body avatar">
-                     
-                      <img src="../../images/faces/face10.jpg" alt="" />
-                      <p className="name"> {nom} {prenom} </p>
-                      <p className="designation">-  Admin  -</p>
-                
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12 stretch-card">
-                  <div className="card">
-                    <div className="card-body overview">
-                      
-                      <div className="wrapper about-user">
-                        <h3 className="card-title mt-4 mb-3">About</h3>
-                        <h6>Email : {email} </h6>
-                        <h6>Nom : {nom} </h6>
-                        <h6>Prenom : {prenom} </h6>
-                      </div>
-                      
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-8 side-right stretch-card">
+            
+            <div className="col-lg-12 side-right stretch-card">
               <div className="card">
                 <div className="card-body">
                   <div className="wrapper d-block d-sm-flex align-items-center justify-content-between">
@@ -167,19 +136,7 @@ export default function Profile() {
                           </div>
                         </form>
                       </div>{/* tab content ends */}
-                      <div className="tab-pane fade" id="avatar" role="tabpanel" aria-labelledby="avatar-tab">
-                        <div className="wrapper mb-5 mt-4">
-                          <span className="badge badge-warning text-white">Note : </span>
-                          <p className="d-inline ml-3 text-muted">Image size is limited to not greater than 1MB .</p>
-                        </div>
-                        <form action="#">
-                          <input type="file" className="dropify" data-max-file-size="1mb" data-default-file="../../../../images/faces/face6.jpg" />
-                          <div className="form-group mt-5">
-                            <button type="submit" className="btn btn-success mr-2">Update</button>
-                            <button className="btn btn-outline-danger">Cancel</button>
-                          </div>
-                        </form>
-                      </div>
+                    
                       <div className="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
                         <form onSubmit={updateClientPass}>
                           <div className="form-group">

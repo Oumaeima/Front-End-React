@@ -67,44 +67,44 @@ export default function ViewPOComm() {
    };
 
 
-const updateState1 = async e => {
-    e.preventDefault();
-    await axios.put(`http://localhost:5000/ticket/updateEtatTicket/${id}`,ticket);
-    
-      loadUser()
-      //Ref1.current.className = "step active"    
-}
+    const updateState1 = async e => {
+        e.preventDefault();
+        await axios.put(`http://localhost:5000/ticket/updateEtatTicket/${id}`,ticket);
+        
+        loadUser()
+       // Ref1.current.className = "step active"    
+    }
 
-const updateState2 = async e => {
-    e.preventDefault();
-    await axios.put(`http://localhost:5000/ticket/updateState2TicketPO/${id}`,ticket);
-   
-      loadUser()
-      //Ref2.current.className = "step active"
-      
-}
-
-const updateState3 = async e => {
-    e.preventDefault();
-    await axios.put(`http://localhost:5000/ticket/updateState3TicketPO/${id}`,ticket);
+    const updateState2 = async e => {
+        e.preventDefault();
+        await axios.put(`http://localhost:5000/ticket/updateState2TicketPO/${id}`,ticket);
     
-      loadUser()
-      //Ref3.current.className = "step active"
-}
+        loadUser()
+        //Ref2.current.className = "step active"
+        
+    }
 
-const updateState4 = async e => {
-    e.preventDefault();
-    await axios.put(`http://localhost:5000/ticket/updateState4TicketPO/${id}`,ticket);
-    
-      loadUser()
-      //Ref4.current.className = "step active"
-}
+    const updateState3 = async e => {
+        e.preventDefault();
+        await axios.put(`http://localhost:5000/ticket/updateState3TicketPO/${id}`,ticket);
+        
+        loadUser()
+        //Ref3.current.className = "step active"
+    }
+
+    const updateState4 = async e => {
+        e.preventDefault();
+        await axios.put(`http://localhost:5000/ticket/updateState4TicketPO/${id}`,ticket);
+        
+        loadUser()
+        //Ref4.current.className = "step active"
+    }
 
 /**------------------------------------------------------------------------- */
-    const [uploaded_pdf, setOffre] = useState({
-        offre : ""
-    })
-    const {offre} = uploaded_pdf
+            const [uploaded_pdf, setOffre] = useState({
+                offre : ""
+            })
+            const {offre} = uploaded_pdf
 
             // Insert offre 
             const submitOffre = async (e) => {
@@ -125,22 +125,22 @@ const updateState4 = async e => {
                     
             };
 
-    const loadOffre =  () => {
-        fetch(`http://localhost:5000/offre/getOffre/${id}`,{
-            method: "GET",
-        })
-            .then((response) => response.json())
-            .then((result) => {
-                console.log(result);
-                setOffre({
-                            id: id,
-                            update: true,
-                            offre: result[0].offre,
-                        });
-                    })
-                    .catch((error) => console.log("error", error));
-                    
-          };
+            const loadOffre =  () => {
+                fetch(`http://localhost:5000/offre/getOffre/${id}`,{
+                    method: "GET",
+                })
+                    .then((response) => response.json())
+                    .then((result) => {
+                        console.log(result);
+                        setOffre({
+                                    id: id,
+                                    update: true,
+                                    offre: result[0].offre,
+                                });
+                            })
+                            .catch((error) => console.log("error", error));
+                            
+                };
 
 /**------------------------------------------------------------------------- */
 

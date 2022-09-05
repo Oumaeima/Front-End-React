@@ -154,9 +154,9 @@ const loadOffre = async () => {
                                     </article>
                                     <div className="track">
                                         <div ref={Ref1} className={etatpiece === "Commande confirmée"? "step active" : "step"}> <span className="icon"> <i className="icon-check" /> </span> <span className="text">Commande confirmée</span> </div>
-                                        <div ref={Ref2} className={etatpiece === "Chez l'expéditeur"? "step active" : "step"}> <span className="icon"> <i className="icon-control-end" /> </span> <span className="text">Chez l'expéditeur</span> </div>
-                                        <div ref={Ref3} className={etatpiece === "En route"? "step active" : "step"}> <span className="icon"> <i className="icon-map" /> </span> <span className="text"> En route </span> </div>
-                                        <div ref={Ref4} className={etatpiece === "Livrée"? "step active" : "step"}> <span className="icon"> <i className="icon-user-unfollow" /> </span> <span className="text">Livrée</span> </div>
+                                        <div ref={Ref2} className={etatpiece === "Chez l'expéditeur"? ("step active" && (Ref1.current.className = "step active")) : "step"}> <span className="icon"> <i className="icon-control-end" /> </span> <span className="text">Chez l'expéditeur</span> </div>
+                                        <div ref={Ref3} className={etatpiece === "En route"? ("step active" && (Ref2.current.className = "step active") && (Ref1.current.className = "step active")) : "step"}> <span className="icon"> <i className="icon-map" /> </span> <span className="text"> En route </span> </div>
+                                        <div ref={Ref4} className={etatpiece === "Livrée"? ("step active" && (Ref3.current.className = "step active") && (Ref2.current.className = "step active") && (Ref1.current.className = "step active")) : "step"}> <span className="icon"> <i className="icon-user-unfollow" /> </span> <span className="text">Livrée</span> </div>
                                     </div>
                             
                                 </div>
